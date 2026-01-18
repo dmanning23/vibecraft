@@ -4,6 +4,8 @@
 
 Manage Claude Code in style!
 
+**[Try it instantly at vibecraft.sh](https://vibecraft.sh)** — still connects to your local Claude Code instances!
+
 **New:**
 - **Spatial Audio** — Claude behind you? Claude on your left? No claublem!
 - **Animations** — What's Claude up to? Watch him! ◕ ‿ ◕
