@@ -1,6 +1,6 @@
 # Vibecraft
 
-![Vibecraft Screenshot](public/og-image.png)
+![Vibecraft Screenshot](public/Screenshot 2026-02-20 at 4.30.41 PM.png)
 
 Manage Claude Code in style!
 

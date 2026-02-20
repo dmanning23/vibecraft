@@ -1,0 +1,212 @@
+/**
+ * ClaudeCharacter CSS Animations
+ *
+ * CSS animations for the 2D character sprite.
+ */
+
+/* ============================================================================
+   Walking Animation
+   ============================================================================ */
+
+.claude-character.moving .character-head {
+  animation: head-bob 0.4s ease-in-out infinite;
+}
+
+.claude-character.moving .character-leg.left {
+  animation: leg-walk-left 0.4s ease-in-out infinite;
+}
+
+.claude-character.moving .character-leg.right {
+  animation: leg-walk-right 0.4s ease-in-out infinite;
+}
+
+.claude-character.moving .character-arm.left {
+  animation: arm-swing-left 0.4s ease-in-out infinite;
+}
+
+.claude-character.moving .character-arm.right {
+  animation: arm-swing-right 0.4s ease-in-out infinite;
+}
+
+@keyframes head-bob {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-3px); }
+}
+
+@keyframes leg-walk-left {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  75% { transform: rotate(15deg); }
+}
+
+@keyframes leg-walk-right {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  75% { transform: rotate(-15deg); }
+}
+
+@keyframes arm-swing-left {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+}
+
+@keyframes arm-swing-right {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-20deg); }
+}
+
+/* ============================================================================
+   Working Animation
+   ============================================================================ */
+
+.claude-character.working .character-arm.left.working {
+  animation: arm-work 0.5s ease-in-out infinite;
+}
+
+.claude-character.working .character-arm.right.working {
+  animation: arm-work 0.5s ease-in-out infinite 0.25s;
+}
+
+@keyframes arm-work {
+  0%, 100% { transform: rotate(-45deg); }
+  50% { transform: rotate(-30deg); }
+}
+
+/* ============================================================================
+   Thinking Animation
+   ============================================================================ */
+
+.claude-character.thinking .character-head {
+  animation: think-tilt 2s ease-in-out infinite;
+}
+
+.eye.thinking {
+  animation: blink 2s infinite !important;
+}
+
+@keyframes think-tilt {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(-5deg); }
+  75% { transform: translateX(-50%) rotate(5deg); }
+}
+
+@keyframes blink {
+  0%, 45%, 55%, 100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.1);
+  }
+}
+
+/* ============================================================================
+   Idle Animation
+   ============================================================================ */
+
+.claude-character.idle .character-body {
+  animation: idle-breathe 3s ease-in-out infinite;
+}
+
+@keyframes idle-breathe {
+  0%, 100% { transform: translateX(-50%) scaleY(1); }
+  50% { transform: translateX(-50%) scaleY(1.02); }
+}
+
+/* ============================================================================
+   State Indicators
+   ============================================================================ */
+
+.state-indicator {
+  pointer-events: none;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+}
+
+.state-indicator.thinking {
+  animation: float 1.5s ease-in-out infinite;
+}
+
+.state-indicator.working {
+  animation: pulse-glow 0.8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+  }
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+  }
+}
+
+/* ============================================================================
+   Subagent Animations
+   ============================================================================ */
+
+.subagent-character {
+  animation: subagent-appear 0.5s ease-out;
+}
+
+@keyframes subagent-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(20px);
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* ============================================================================
+   Village Location Pulse
+   ============================================================================ */
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.8);
+  }
+}
+
+.village-location.active {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ============================================================================
+   Signal Wave Animation
+   ============================================================================ */
+
+@keyframes signal-wave {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ============================================================================
+   Fountain Animation
+   ============================================================================ */
+
+@keyframes fountain {
+  0%, 100% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-15px) scaleY(1.5);
+    opacity: 0.7;
+  }
+}

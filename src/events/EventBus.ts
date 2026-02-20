@@ -23,9 +23,6 @@ import type {
   StopEvent,
   UserPromptSubmitEvent,
 } from '../../shared/types'
-import type { WorkshopScene } from '../scene/WorkshopScene'
-import type { FeedManager } from '../ui/FeedManager'
-import type { TimelineManager } from '../ui/TimelineManager'
 
 // ============================================================================
 // Types
@@ -33,12 +30,12 @@ import type { TimelineManager } from '../ui/TimelineManager'
 
 /** Context passed to all event handlers */
 export interface EventContext {
-  /** The workshop scene */
-  scene: WorkshopScene | null
-  /** Feed manager */
-  feedManager: FeedManager | null
-  /** Timeline manager */
-  timelineManager: TimelineManager | null
+  /** The scene (now unused in village mode, kept for compatibility) */
+  scene: any | null
+  /** Feed manager (now unused in village mode, kept for compatibility) */
+  feedManager: any | null
+  /** Timeline manager (now unused in village mode, kept for compatibility) */
+  timelineManager: any | null
   /** Session state for the event's session */
   session: SessionContext | null
   /** Sound enabled flag */

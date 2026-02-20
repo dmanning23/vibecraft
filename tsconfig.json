@@ -11,6 +11,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"],
@@ -18,5 +19,18 @@
     }
   },
   "include": ["src/**/*", "server/**/*", "shared/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.bak",
+    "**/*.bak/**",
+    "src/main.ts.bak",
+    "src/scene.bak",
+    "src/entities.bak",
+    "src/ui/DrawMode.ts",
+    "src/ui/ZoneCommandModal.ts",
+    "src/ui/KeyboardShortcuts.ts",
+    "src/ui/PermissionModal.ts",
+    "src/ui/QuestionModal.ts"
+  ]
 }

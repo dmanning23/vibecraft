@@ -1,33 +1,15 @@
 /**
  * Subagent Event Handlers
  *
- * Handles spawning and removing subagent visualizations
- * when Task tools start and complete.
+ * In village mode, subagent visualizations are handled by React via useEventSubscription.
+ * This file is a no-op placeholder for compatibility.
  */
-
-import { eventBus } from '../EventBus'
-import type { PreToolUseEvent, PostToolUseEvent } from '../../../shared/types'
 
 /**
  * Register subagent-related event handlers
+ * In village mode, subagent spawning is handled by React's useEventSubscription.
  */
 export function registerSubagentHandlers(): void {
-  // Spawn subagent when Task tool starts
-  eventBus.on('pre_tool_use', (event: PreToolUseEvent, ctx) => {
-    if (!ctx.session) return
-    if (event.tool !== 'Task') return
-
-    const description = (event.toolInput as { description?: string }).description
-    ctx.session.subagents.spawn(event.toolUseId, description)
-    ctx.session.stats.activeSubagents = ctx.session.subagents.count
-  })
-
-  // Remove subagent when Task tool completes
-  eventBus.on('post_tool_use', (event: PostToolUseEvent, ctx) => {
-    if (!ctx.session) return
-    if (event.tool !== 'Task') return
-
-    ctx.session.subagents.remove(event.toolUseId)
-    ctx.session.stats.activeSubagents = ctx.session.subagents.count
-  })
+  // In village mode, subagent management is handled by React via VillageContext.
+  // See src/hooks/useEventSubscription.ts for the implementation.
 }

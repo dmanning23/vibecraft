@@ -27,6 +27,27 @@ export function getToolIcon(tool: string): string {
 }
 
 /**
+ * Get color for a tool name
+ */
+export function getToolColor(tool: string): string {
+  const colors: Record<string, string> = {
+    Read: '#3498DB',     // Blue
+    Edit: '#E67E22',     // Orange
+    Write: '#27AE60',    // Green
+    Bash: '#2C3E50',     // Dark gray
+    Grep: '#9B59B6',     // Purple
+    Glob: '#1ABC9C',     // Teal
+    WebFetch: '#3498DB', // Blue
+    WebSearch: '#E74C3C', // Red
+    Task: '#F1C40F',     // Yellow
+    TodoWrite: '#95A5A6', // Gray
+    NotebookEdit: '#27AE60', // Green
+    AskFollowupQuestion: '#E74C3C', // Red
+  }
+  return colors[tool] ?? '#7F8C8D'
+}
+
+/**
  * Extract context string from tool input for display
  * Returns a short, human-readable summary of what the tool is operating on
  */

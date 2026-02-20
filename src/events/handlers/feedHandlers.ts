@@ -1,28 +1,15 @@
 /**
  * Feed/UI Event Handlers
  *
- * Handles thinking indicator visibility in the activity feed.
+ * In village mode, the activity feed is a React component (ActivityFeed).
+ * This file is a no-op placeholder for compatibility.
  */
-
-import { eventBus } from '../EventBus'
-import type { PreToolUseEvent, StopEvent } from '../../../shared/types'
 
 /**
  * Register feed-related event handlers
+ * In village mode, the feed is handled by React's ActivityFeed component.
  */
 export function registerFeedHandlers(): void {
-  // Hide thinking indicator when tool starts
-  eventBus.on('pre_tool_use', (_event: PreToolUseEvent, ctx) => {
-    if (!ctx.session || !ctx.feedManager) return
-    ctx.feedManager.hideThinking(_event.sessionId)
-  })
-
-  // Hide thinking indicator on stop
-  eventBus.on('stop', (event: StopEvent, ctx) => {
-    if (!ctx.feedManager) return
-    ctx.feedManager.hideThinking(event.sessionId)
-  })
-
-  // NOTE: showThinking for user_prompt_submit is handled in main.ts
-  // AFTER feedManager.add() to ensure correct ordering in the feed
+  // In village mode, the activity feed is managed by React's ActivityFeed component.
+  // See src/components/Feed/ActivityFeed.tsx
 }
