@@ -103,6 +103,8 @@ export const App: React.FC = () => {
             sessions={sessions}
             selectedSessionId={selectedSessionId}
             onSessionSelect={handleSessionSelect}
+            soundEnabled={soundEnabled}
+            onSoundToggle={() => setSoundEnabled(!soundEnabled)}
           />
 
           {/* Scene HUD */}
@@ -115,15 +117,6 @@ export const App: React.FC = () => {
               <span id="token-counter" className="hud-tokens" title="Sessions active">
                 {sessions.length} sessions
               </span>
-              <span className="hud-sep">|</span>
-              <button
-                id="settings-btn"
-                className="hud-btn"
-                title="Settings"
-                onClick={() => setSoundEnabled(!soundEnabled)}
-              >
-                {soundEnabled ? '🔊' : '🔇'}
-              </button>
             </div>
           </div>
 

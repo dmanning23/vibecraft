@@ -5,7 +5,7 @@
  * Orchestrates background, locations, and character.
  */
 
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { useVillage } from '../../state/VillageContext'
 import { useGameWindowSize } from '../../hooks/useGameWindowSize'
 import { useEventSubscription } from '../../hooks/useEventSubscription'
@@ -13,6 +13,7 @@ import { useScenario } from '../../hooks/useScenario'
 import { VillageBackground } from './VillageBackground'
 import { VillageLocations } from './VillageLocations'
 import { ClaudeCharacter } from '../Character/ClaudeCharacter'
+import { ConfigPanel } from '../Config/ConfigPanel'
 import type { ClaudeEvent, ManagedSession } from '@shared/types'
 
 interface VillageViewProps {
@@ -20,6 +21,8 @@ interface VillageViewProps {
   sessions: ManagedSession[]
   selectedSessionId: string | null
   onSessionSelect: (sessionId: string | null) => void
+  soundEnabled: boolean
+  onSoundToggle: () => void
 }
 
 export const VillageView: React.FC<VillageViewProps> = ({
@@ -27,8 +30,11 @@ export const VillageView: React.FC<VillageViewProps> = ({
   sessions,
   selectedSessionId,
   onSessionSelect,
+  soundEnabled,
+  onSoundToggle,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [configOpen, setConfigOpen] = useState(false)
   const { state } = useVillage()
   const gameSize = useGameWindowSize({
     defaultWidth: 2048,
@@ -51,6 +57,26 @@ export const VillageView: React.FC<VillageViewProps> = ({
         backgroundColor: '#87CEEB',
       }}
     >
+      {/* Hamburger — always visible */}
+      <button
+        className="config-hamburger"
+        onClick={() => setConfigOpen(true)}
+        aria-label="Open settings"
+      >
+        ☰
+      </button>
+
+      {/* Config drawer */}
+      <ConfigPanel
+        isOpen={configOpen}
+        onClose={() => setConfigOpen(false)}
+        scenarios={scenarios}
+        scenarioId={scenarioId}
+        onScenarioChange={(id) => { setScenario(id); setConfigOpen(false) }}
+        soundEnabled={soundEnabled}
+        onSoundToggle={onSoundToggle}
+      />
+
       {scenario && (
         <>
           {/* Background layer - z-index: 10 */}
@@ -92,40 +118,6 @@ export const VillageView: React.FC<VillageViewProps> = ({
             {state.character.state === 'working' && !state.character.isMoving && `Working at ${state.character.location}`}
             {state.character.state === 'thinking' && !state.character.isMoving && 'Thinking...'}
             {state.subagents.length > 0 && ` (${state.subagents.length} subagent${state.subagents.length > 1 ? 's' : ''})`}
-          </div>
-
-          {/* Scenario picker */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 10,
-              right: 10,
-              display: 'flex',
-              gap: 6,
-              zIndex: 50,
-            }}
-          >
-            {scenarios.map((s) => (
-              <button
-                key={s.id}
-                onClick={() => setScenario(s.id)}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 4,
-                  border: '1px solid rgba(255,255,255,0.4)',
-                  background: s.id === scenarioId
-                    ? 'rgba(255,255,255,0.35)'
-                    : 'rgba(0,0,0,0.45)',
-                  color: '#fff',
-                  fontSize: 12,
-                  fontFamily: 'monospace',
-                  cursor: 'pointer',
-                  fontWeight: s.id === scenarioId ? 'bold' : 'normal',
-                }}
-              >
-                {s.name}
-              </button>
-            ))}
           </div>
         </>
       )}

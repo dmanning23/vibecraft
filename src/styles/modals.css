@@ -1789,3 +1789,243 @@
 .zone-command-input::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.25);
 }
+
+/* ============================================================================
+   Config Panel — slide-out settings drawer
+   ============================================================================ */
+
+/* Backdrop */
+.config-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.config-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Drawer */
+.config-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 100%;
+  background: rgba(14, 16, 22, 0.97);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 0 32px rgba(0, 0, 0, 0.5);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+}
+
+.config-panel.open {
+  transform: translateX(0);
+}
+
+/* Header */
+.config-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.config-panel-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
+}
+
+.config-panel-close {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.config-panel-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+/* Body */
+.config-panel-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Sections */
+.config-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.config-section-title {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Scenario grid */
+.config-scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.config-scenario-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.15s;
+  text-align: left;
+}
+
+.config-scenario-btn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.config-scenario-btn.active {
+  border-color: rgba(167, 139, 250, 0.6);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.3);
+}
+
+.config-scenario-thumb {
+  width: 100%;
+  height: 72px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 6px 6px 0 0;
+}
+
+.config-scenario-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  padding: 0 8px 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.config-scenario-btn.active .config-scenario-name {
+  color: #c4b5fd;
+}
+
+/* Toggle rows */
+.config-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.config-toggle-label {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.config-toggle {
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  position: relative;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.config-toggle.on {
+  background: #a78bfa;
+}
+
+.config-toggle.off {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.config-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: left 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.config-toggle.on .config-toggle-thumb {
+  left: 18px;
+}
+
+.config-toggle.off .config-toggle-thumb {
+  left: 2px;
+}
+
+/* Hamburger button (rendered in VillageView) */
+.config-hamburger {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(14, 16, 22, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  transition: all 0.15s;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.config-hamburger:hover {
+  background: rgba(30, 32, 44, 0.95);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}
