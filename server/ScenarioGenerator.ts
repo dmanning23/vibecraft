@@ -143,6 +143,17 @@ async function generateImage(
 // Main generation flow
 // ============================================================================
 
+/** State-specific prompt suffixes appended to the base agent portrait prompt */
+const AGENT_STATE_SUFFIXES: Record<string, string> = {
+  idle:     'standing relaxed, neutral expression, calm natural pose',
+  walking:  'mid-stride, walking motion, dynamic movement pose',
+  working:  'focused and determined, leaning forward, actively working',
+  thinking: 'contemplative expression, hand on chin, lost in thought',
+  finished: 'happy and triumphant, satisfied smile, celebratory pose',
+}
+
+const AGENT_STATES = Object.keys(AGENT_STATE_SUFFIXES) as Array<keyof typeof AGENT_STATE_SUFFIXES>
+
 export async function generateScenario(
   request: GenerationRequest,
   broadcast: ProgressBroadcast,
@@ -151,8 +162,8 @@ export async function generateScenario(
   const publicDir = getPublicDir()
   const scenariosFile = join(publicDir, 'scenarios.json')
 
-  // Total steps: 1 plan + 1 background + 6 locations + 7 agents + 1 save = 16
-  const TOTAL = 16
+  // Total steps: 1 plan + 1 background + 6 locations + (7 agents × 5 states) + 1 save = 44
+  const TOTAL = 44
   let step = 0
 
   try {
@@ -166,15 +177,16 @@ export async function generateScenario(
 
     mkdirSync(join(assetBase, 'scenario'), { recursive: true })
     mkdirSync(join(assetBase, 'locations'), { recursive: true })
-    mkdirSync(join(assetBase, 'agents'), { recursive: true })
+    for (let i = 0; i < plan.agents.length; i++) {
+      mkdirSync(join(assetBase, 'agents', String(i)), { recursive: true })
+    }
 
     const relBase = `assets/generated/${id}`
 
     // ── Step 2: Background ────────────────────────────────────────────────────
-    broadcast(++step, TOTAL, `Generating background...`, 'generating')
+    broadcast(++step, TOTAL, 'Generating background...', 'generating')
     const bgImage = await generateImage(sdUrl, plan.backgroundPrompt, 1024, 512)
-    const bgPath = join(assetBase, 'scenario', 'background.png')
-    writeFileSync(bgPath, bgImage)
+    writeFileSync(join(assetBase, 'scenario', 'background.png'), bgImage)
     const backgroundRel = `${relBase}/scenario/background.png`
 
     // ── Steps 3–8: Locations ──────────────────────────────────────────────────
@@ -183,23 +195,27 @@ export async function generateScenario(
       const loc = plan.locations[i]
       broadcast(++step, TOTAL, `Generating location: ${loc.name}...`, 'generating')
       const img = await generateImage(sdUrl, loc.prompt, 512, 341)
-      const imgPath = join(assetBase, 'locations', `${i}.png`)
-      writeFileSync(imgPath, img)
+      writeFileSync(join(assetBase, 'locations', `${i}.png`), img)
       locationPaths.push(`${relBase}/locations/${i}.png`)
     }
 
-    // ── Steps 9–15: Agents ────────────────────────────────────────────────────
-    const agentPaths: string[] = []
+    // ── Steps 9–43: Agents (5 states each) ────────────────────────────────────
+    const agentConfigs: Array<{ states: Record<string, string> }> = []
     for (let i = 0; i < plan.agents.length; i++) {
       const agent = plan.agents[i]
-      broadcast(++step, TOTAL, `Generating character: ${agent.name}...`, 'generating')
-      const img = await generateImage(sdUrl, agent.prompt, 256, 256)
-      const imgPath = join(assetBase, 'agents', `${i}.png`)
-      writeFileSync(imgPath, img)
-      agentPaths.push(`${relBase}/agents/${i}.png`)
+      const states: Record<string, string> = {}
+      for (const stateName of AGENT_STATES) {
+        const statePrompt = `${agent.prompt}, ${AGENT_STATE_SUFFIXES[stateName]}`
+        broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
+        const img = await generateImage(sdUrl, statePrompt, 256, 256)
+        const imgPath = join(assetBase, 'agents', String(i), `${stateName}.png`)
+        writeFileSync(imgPath, img)
+        states[stateName] = `${relBase}/agents/${i}/${stateName}.png`
+      }
+      agentConfigs.push({ states })
     }
 
-    // ── Step 16: Save ─────────────────────────────────────────────────────────
+    // ── Step 44: Save ─────────────────────────────────────────────────────────
     broadcast(++step, TOTAL, 'Saving scenario...', 'saving')
 
     const newScenario = {
@@ -207,7 +223,7 @@ export async function generateScenario(
       name: plan.name,
       background: backgroundRel,
       locations: locationPaths,
-      agents: agentPaths,
+      agents: agentConfigs,
     }
 
     let scenariosData: { defaultScenarioId: string; scenarios: unknown[] } = {

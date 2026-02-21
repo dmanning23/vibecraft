@@ -6,6 +6,17 @@
  * Agent images follow the same cycling pattern for subagents.
  */
 
+/** Per-state image paths for a single agent */
+export interface AgentConfig {
+  states: {
+    idle: string
+    walking: string
+    working: string
+    thinking: string
+    finished: string
+  }
+}
+
 export interface ScenarioConfig {
   id: string
   name: string
@@ -13,6 +24,6 @@ export interface ScenarioConfig {
   background: string
   /** Location images, cycled across the 9 village locations */
   locations: string[]
-  /** Agent icon images — index 0 = main character, rest = subagents (cycled) */
-  agents: string[]
+  /** Agent configs — index 0 = main character, rest = subagents (cycled) */
+  agents: AgentConfig[]
 }

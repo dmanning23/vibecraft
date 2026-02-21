@@ -11,7 +11,7 @@ import { useVillage, villageActions, type CharacterState, type SubagentState } f
 import { getAllLocations } from '../../config/locations'
 import { getComputedPosition } from '../../utils/villageLayout'
 import type { GameWindowSize } from '../../hooks/useGameWindowSize'
-import type { ScenarioConfig } from '../../config/scenarios'
+import type { ScenarioConfig, AgentConfig } from '../../config/scenarios'
 import './ClaudeCharacter.css'
 
 interface ClaudeCharacterProps {
@@ -80,7 +80,7 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                     isMoving={character.isMoving}
                     size={characterSize}
                     scale={gameSize.scale}
-                    imageUrl={scenario.agents[0]}
+                    agent={scenario.agents[0]}
                 />
 
                 <StateIndicator state={character.state} scale={gameSize.scale} />
@@ -113,7 +113,7 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                     subagent={subagent}
                     index={index}
                     gameSize={gameSize}
-                    imageUrl={scenario.agents[(index + 1) % scenario.agents.length]}
+                    agent={scenario.agents[(index + 1) % scenario.agents.length]}
                 />
             ))}
         </div>
@@ -129,17 +129,19 @@ interface CharacterSpriteProps {
     isMoving: boolean
     size: number
     scale: number
-    imageUrl: string
+    agent: AgentConfig
 }
 
-const CharacterSprite: React.FC<CharacterSpriteProps> = ({ state, isMoving, scale, imageUrl }) => {
+const CharacterSprite: React.FC<CharacterSpriteProps> = ({ state, isMoving, scale, agent }) => {
+    const stateKey = isMoving ? 'walking' : state
+    const imageUrl = agent.states[stateKey] ?? agent.states.idle
     return (
         <img
             src={imageUrl}
             className="character-sprite"
             width={192 * scale}
             height={336 * scale}
-            alt={`Claude ${isMoving ? 'walking' : state}`}
+            alt={`Claude ${stateKey}`}
             draggable={false}
         />
     )
@@ -191,10 +193,11 @@ interface SubagentCharacterProps {
     subagent: SubagentState
     index: number
     gameSize: GameWindowSize
-    imageUrl: string
+    agent: AgentConfig
 }
 
-const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, gameSize, imageUrl }) => {
+const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, gameSize, agent }) => {
+    const imageUrl = agent.states[subagent.state] ?? agent.states.idle
     const pos = getComputedPosition(subagent.location, getAllLocations(), gameSize)
     if (!pos) return null
 

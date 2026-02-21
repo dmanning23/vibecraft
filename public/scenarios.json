@@ -14,13 +14,69 @@
         "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Zenith_Plaza/image/0e22b393-d113-40bb-b9c7-bdae2d185c3c.png"
       ],
       "agents": [
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png"
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
+            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
+            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
+            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
+            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png"
+          }
+        }
       ]
     },
     {
@@ -36,13 +92,69 @@
         "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Rosings_Park/image/d5ae6ad3-7765-4c67-89cf-f9b29391717a.png"
       ],
       "agents": [
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png"
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
+            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
+            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
+            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
+            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png"
+          }
+        }
       ]
     },
     {
@@ -58,13 +170,69 @@
         "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/The_Pirate_s_Cove/image/f4e5b106-b69f-4926-9277-83f4b980ca86.png"
       ],
       "agents": [
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png"
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png"
+          }
+        },
+        {
+          "states": {
+            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
+            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
+            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
+            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
+            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png"
+          }
+        }
       ]
     }
   ]
