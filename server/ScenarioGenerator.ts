@@ -174,6 +174,9 @@ function buildLocationPrompt(userInput: string): string {
   return `(((isometric))),(Isometric_Setting),(building exterior),((black background)),<lora:Stylized_Setting_SDXL:4>,bright colors,${userInput}`
 }
 
+const AGENT_MODEL = 'dreamshaperXL_v21TurboDPMSDE.safetensors [4496b36d48]'
+const AGENT_NEGATIVE = 'BadDream, UnrealisticDream'
+
 // ============================================================================
 // Main generation flow
 // ============================================================================
@@ -254,7 +257,13 @@ export async function generateScenario(
       for (const stateName of AGENT_STATES) {
         const statePrompt = `${agent.prompt}, ${AGENT_STATE_SUFFIXES[stateName]}`
         broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
-        const img = await generateImage(sdUrl, statePrompt, 256, 256)
+        const img = await generateImage(
+          sdUrl,
+          statePrompt,
+          768,
+          1344,
+          { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 40, cfgScale: 7 },
+        )
         const imgPath = join(assetBase, 'agents', String(i), `${stateName}.png`)
         writeFileSync(imgPath, img)
         states[stateName] = `${relBase}/agents/${i}/${stateName}.png`
