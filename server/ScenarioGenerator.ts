@@ -109,25 +109,39 @@ Respond with ONLY valid JSON, no markdown fences.`
 // Stable Diffusion — generate one image
 // ============================================================================
 
+interface ImageOptions {
+  negativePrompt?: string
+  model?: string
+}
+
 async function generateImage(
   sdUrl: string,
   prompt: string,
   width: number,
   height: number,
+  options: ImageOptions = {},
 ): Promise<Buffer> {
   const baseUrl = sdUrl.replace(/\/$/, '')
+
+  const body: Record<string, unknown> = {
+    prompt,
+    negative_prompt: options.negativePrompt ?? 'blurry, low quality, distorted, text, watermark',
+    width,
+    height,
+    steps: 25,
+    cfg_scale: 7,
+    sampler_name: 'DPM++ 2M Karras',
+  }
+
+  if (options.model) {
+    body.override_settings = { sd_model_checkpoint: options.model }
+    body.override_settings_restore_afterwards = true
+  }
+
   const response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      prompt,
-      negative_prompt: 'blurry, low quality, distorted, text, watermark',
-      width,
-      height,
-      steps: 25,
-      cfg_scale: 7,
-      sampler_name: 'DPM++ 2M Karras',
-    }),
+    body: JSON.stringify(body),
   })
 
   if (!response.ok) {
@@ -137,6 +151,17 @@ async function generateImage(
 
   const data = await response.json() as { images: string[] }
   return Buffer.from(data.images[0], 'base64')
+}
+
+// ============================================================================
+// Image preset configs
+// ============================================================================
+
+const BACKGROUND_NEGATIVE = '1girl,text,cropped,word,low quality,normal quality,soft line username,(watermark),(signature),blurry,soft,curved line,sketch,ugly,logo,pixelated,lowres,buildings,(building),'
+const BACKGROUND_MODEL = 'fantasyWorld_v10.safetensors [524882ba22]'
+
+function buildBackgroundPrompt(userInput: string): string {
+  return `(landscape),((nature)),(isometric),Isometric_Setting,<lora:Stylized_Setting_SDXL:1>,${userInput}`
 }
 
 // ============================================================================
@@ -185,7 +210,13 @@ export async function generateScenario(
 
     // ── Step 2: Background ────────────────────────────────────────────────────
     broadcast(++step, TOTAL, 'Generating background...', 'generating')
-    const bgImage = await generateImage(sdUrl, plan.backgroundPrompt, 1024, 512)
+    const bgImage = await generateImage(
+      sdUrl,
+      buildBackgroundPrompt(plan.backgroundPrompt),
+      1024,
+      512,
+      { negativePrompt: BACKGROUND_NEGATIVE, model: BACKGROUND_MODEL },
+    )
     writeFileSync(join(assetBase, 'scenario', 'background.png'), bgImage)
     const backgroundRel = `${relBase}/scenario/background.png`
 
