@@ -112,6 +112,8 @@ Respond with ONLY valid JSON, no markdown fences.`
 interface ImageOptions {
   negativePrompt?: string
   model?: string
+  steps?: number
+  cfgScale?: number
 }
 
 async function generateImage(
@@ -128,8 +130,8 @@ async function generateImage(
     negative_prompt: options.negativePrompt ?? 'blurry, low quality, distorted, text, watermark',
     width,
     height,
-    steps: 25,
-    cfg_scale: 7,
+    steps: options.steps ?? 25,
+    cfg_scale: options.cfgScale ?? 7,
     sampler_name: 'DPM++ 2M Karras',
   }
 
@@ -213,9 +215,9 @@ export async function generateScenario(
     const bgImage = await generateImage(
       sdUrl,
       buildBackgroundPrompt(plan.backgroundPrompt),
+      2048,
       1024,
-      512,
-      { negativePrompt: BACKGROUND_NEGATIVE, model: BACKGROUND_MODEL },
+      { negativePrompt: BACKGROUND_NEGATIVE, model: BACKGROUND_MODEL, steps: 40, cfgScale: 7 },
     )
     writeFileSync(join(assetBase, 'scenario', 'background.png'), bgImage)
     const backgroundRel = `${relBase}/scenario/background.png`
