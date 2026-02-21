@@ -180,6 +180,10 @@ function buildLocationPrompt(userInput: string): string {
 const AGENT_MODEL = 'dreamshaperXL_v21TurboDPMSDE.safetensors [4496b36d48]'
 const AGENT_NEGATIVE = 'BadDream, UnrealisticDream'
 
+function buildAgentPrompt(physicalDescription: string, stateSuffix: string): string {
+  return `(one person),(painterly),(full body),feet,black background,${physicalDescription},${stateSuffix}`
+}
+
 // ============================================================================
 // Main generation flow
 // ============================================================================
@@ -258,7 +262,7 @@ export async function generateScenario(
       const agent = plan.agents[i]
       const states: Record<string, string> = {}
       for (const stateName of AGENT_STATES) {
-        const statePrompt = `${agent.physicalDescription}, ${AGENT_STATE_SUFFIXES[stateName]}`
+        const statePrompt = buildAgentPrompt(agent.physicalDescription, AGENT_STATE_SUFFIXES[stateName])
         broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
         const img = await generateImage(
           sdUrl,
