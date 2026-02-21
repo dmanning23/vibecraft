@@ -1,0 +1,95 @@
+/**
+ * Scenario Configuration
+ *
+ * Defines all available scenarios with their asset paths.
+ * Location images are cycled (mod) if a scenario has fewer than the number of village locations.
+ * Agent images follow the same cycling pattern for subagents.
+ */
+
+const BASE = 'assets/downloaded_assets'
+
+export interface ScenarioConfig {
+  id: string
+  name: string
+  /** Background image path (relative to public/) */
+  background: string
+  /** Location images, cycled across the 9 village locations */
+  locations: string[]
+  /** Agent icon images — index 0 = main character, rest = subagents (cycled) */
+  agents: string[]
+}
+
+export const SCENARIOS: ScenarioConfig[] = [
+  {
+    id: 'neo_tokyo',
+    name: 'Neo Tokyo',
+    background: `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/scenario/e87c184b-9253-499d-8521-2bd92c5be22a.png`,
+    locations: [
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Cyber_Ninja_Dojo/image/e3b0db9d-31b8-4472-b8f6-f7d3d6c9337d.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Genesis_Tower/image/cac4f9ff-8e98-4a00-8c40-06b8937dea22.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Nexus_Arcade/image/70914736-12a2-4229-8199-40f9511bf266.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Sakura_Gardens/image/74e8385c-8703-423e-ba47-1ab29cdab641.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Tech_Syndicate_Headquarters/image/219bb24e-9517-47a1-860d-5d406027b8e2.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Zenith_Plaza/image/0e22b393-d113-40bb-b9c7-bdae2d185c3c.png`,
+    ],
+    agents: [
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png`,
+      `${BASE}/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png`,
+    ],
+  },
+  {
+    id: 'pemberley',
+    name: 'Pemberley',
+    background: `${BASE}/Pemberley_66004b13006cd24fff3ea55a/scenario/ac38d3ae-2241-4fc2-becc-6e9df52ef7c0.png`,
+    locations: [
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Longbourn_Manor/image/35f0a846-995f-4eb1-b36d-5b0d2a421a30.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Lucas_Lodge/image/be92de8d-caae-4e67-8bd9-26ce7e2f0135.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Meryton_Assembly_Rooms/image/ed0dff8c-cf61-4734-8a8c-69b7e450b79e.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Netherfield_Park/image/516ff1b5-336a-472b-a7c1-2e26bc372af9.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Pemberley_Estate/image/acaed013-2fe4-4cfe-88aa-41b5762fa524.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/locations/Rosings_Park/image/d5ae6ad3-7765-4c67-89cf-f9b29391717a.png`,
+    ],
+    agents: [
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png`,
+      `${BASE}/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png`,
+    ],
+  },
+  {
+    id: 'tortuga',
+    name: 'Tortuga',
+    background: `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/scenario/3fd57a0e-58cb-4655-bce3-e10c6368c736.png`,
+    locations: [
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/Captain_s_Quarters/image/23b5d6ed-e931-4462-bc46-9b2405aa75db.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/Jolly_Roger_Shipyard/image/c162ea47-4cf7-4449-a43e-aabcb14e23b8.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/Rum_Runner_s_Tavern/image/7c86a333-f09f-4cd3-a28b-b4377bab36ed.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/Smuggler_s_Den/image/734c9805-5e1f-460b-9759-cd426c613c9c.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/The_Black_Market/image/d595b77b-0814-447a-b307-c1fc05f616a1.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/locations/The_Pirate_s_Cove/image/f4e5b106-b69f-4926-9277-83f4b980ca86.png`,
+    ],
+    agents: [
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png`,
+      `${BASE}/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png`,
+    ],
+  },
+]
+
+export const DEFAULT_SCENARIO_ID = 'neo_tokyo'
+
+export function getScenario(id: string): ScenarioConfig {
+  return SCENARIOS.find((s) => s.id === id) ?? SCENARIOS[0]
+}

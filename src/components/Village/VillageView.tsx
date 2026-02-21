@@ -5,10 +5,11 @@
  * Orchestrates background, locations, and character.
  */
 
-import React, { useRef, useEffect } from 'react'
+import React, { useRef } from 'react'
 import { useVillage } from '../../state/VillageContext'
 import { useGameWindowSize } from '../../hooks/useGameWindowSize'
 import { useEventSubscription } from '../../hooks/useEventSubscription'
+import { useScenario } from '../../hooks/useScenario'
 import { VillageBackground } from './VillageBackground'
 import { VillageLocations } from './VillageLocations'
 import { ClaudeCharacter } from '../Character/ClaudeCharacter'
@@ -34,8 +35,8 @@ export const VillageView: React.FC<VillageViewProps> = ({
     defaultHeight: 1024,
     containerRef,
   })
+  const { scenario, scenarioId, setScenario, scenarios } = useScenario()
 
-  // Subscribe to events and update village state
   useEventSubscription()
 
   return (
@@ -47,17 +48,18 @@ export const VillageView: React.FC<VillageViewProps> = ({
         width: '100%',
         height: '100%',
         overflow: 'hidden',
-        backgroundColor: '#87CEEB', // Sky blue fallback
+        backgroundColor: '#87CEEB',
       }}
     >
       {/* Background layer - z-index: 10 */}
-      <VillageBackground gameSize={gameSize} />
+      <VillageBackground gameSize={gameSize} scenario={scenario} />
 
       {/* Locations layer - z-index: 20 */}
       <VillageLocations
         gameSize={gameSize}
         activeLocation={state.activeLocation}
         showLabels={state.showLabels}
+        scenario={scenario}
       />
 
       {/* Character layer - z-index: 30 */}
@@ -65,6 +67,7 @@ export const VillageView: React.FC<VillageViewProps> = ({
         gameSize={gameSize}
         character={state.character}
         subagents={state.subagents}
+        scenario={scenario}
       />
 
       {/* Status overlay */}
@@ -87,6 +90,40 @@ export const VillageView: React.FC<VillageViewProps> = ({
         {state.character.state === 'working' && !state.character.isMoving && `Working at ${state.character.location}`}
         {state.character.state === 'thinking' && !state.character.isMoving && 'Thinking...'}
         {state.subagents.length > 0 && ` (${state.subagents.length} subagent${state.subagents.length > 1 ? 's' : ''})`}
+      </div>
+
+      {/* Scenario picker */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          display: 'flex',
+          gap: 6,
+          zIndex: 50,
+        }}
+      >
+        {scenarios.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => setScenario(s.id)}
+            style={{
+              padding: '4px 10px',
+              borderRadius: 4,
+              border: '1px solid rgba(255,255,255,0.4)',
+              background: s.id === scenarioId
+                ? 'rgba(255,255,255,0.35)'
+                : 'rgba(0,0,0,0.45)',
+              color: '#fff',
+              fontSize: 12,
+              fontFamily: 'monospace',
+              cursor: 'pointer',
+              fontWeight: s.id === scenarioId ? 'bold' : 'normal',
+            }}
+          >
+            {s.name}
+          </button>
+        ))}
       </div>
     </div>
   )

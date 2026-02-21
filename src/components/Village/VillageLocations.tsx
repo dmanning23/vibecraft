@@ -10,17 +10,20 @@ import { VillageLocation } from './VillageLocation'
 import { getAllLocations, type VillageLocationType } from '../../config/locations'
 import { computeVillageLayout } from '../../utils/villageLayout'
 import type { GameWindowSize } from '../../hooks/useGameWindowSize'
+import type { ScenarioConfig } from '../../config/scenarios'
 
 interface VillageLocationsProps {
   gameSize: GameWindowSize
   activeLocation: VillageLocationType | null
   showLabels: boolean
+  scenario: ScenarioConfig
 }
 
 export const VillageLocations: React.FC<VillageLocationsProps> = ({
   gameSize,
   activeLocation,
   showLabels,
+  scenario,
 }) => {
   const positioned = computeVillageLayout(getAllLocations(), gameSize)
 
@@ -37,7 +40,7 @@ export const VillageLocations: React.FC<VillageLocationsProps> = ({
         pointerEvents: 'none',
       }}
     >
-      {positioned.map(({ location, x, y }) => (
+      {positioned.map(({ location, x, y }, index) => (
         <VillageLocation
           key={location.id}
           location={location}
@@ -46,6 +49,7 @@ export const VillageLocations: React.FC<VillageLocationsProps> = ({
           showLabel={showLabels}
           x={x}
           y={y}
+          imageUrl={scenario.locations[index % scenario.locations.length]}
         />
       ))}
     </div>

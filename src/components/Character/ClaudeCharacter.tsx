@@ -3,11 +3,7 @@
  *
  * 2D sprite-based character that moves between village locations.
  * Uses CSS transitions for smooth movement animation.
- *
- * Character images are loaded per-state. To add a new state image:
- *  1. Generate the sprite with Stable Diffusion (see TODO comments below)
- *  2. Place it in public/assets/characters/claude/<state>.png
- *  3. Update CLAUDE_IMAGES below
+ * Character and subagent images come from the active ScenarioConfig.
  */
 
 import React, { useEffect, useState, useCallback } from 'react'
@@ -15,47 +11,21 @@ import { useVillage, villageActions, type CharacterState, type SubagentState } f
 import { getAllLocations } from '../../config/locations'
 import { getComputedPosition } from '../../utils/villageLayout'
 import type { GameWindowSize } from '../../hooks/useGameWindowSize'
+import type { ScenarioConfig } from '../../config/scenarios'
 import './ClaudeCharacter.css'
-
-// ---------------------------------------------------------------------------
-// Image paths
-// TODO: Generate these sprites with Stable Diffusion and drop them here.
-// ---------------------------------------------------------------------------
-
-const DEFAULT_CHARACTER_IMAGE = 'assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png'
-
-const CLAUDE_IMAGES: Record<CharacterState['state'] | 'walking', string> = {
-    // TODO: create assets/characters/claude/idle.png  — character standing relaxed
-    idle: DEFAULT_CHARACTER_IMAGE,
-
-    // TODO: create assets/characters/claude/walking.png — character mid-stride
-    walking: DEFAULT_CHARACTER_IMAGE,
-
-    // TODO: create assets/characters/claude/working.png — character hunched over desk/tool
-    working: DEFAULT_CHARACTER_IMAGE,
-
-    // TODO: create assets/characters/claude/thinking.png — character with hand on chin, thought bubble
-    thinking: DEFAULT_CHARACTER_IMAGE,
-
-    // TODO: create assets/characters/claude/finished.png — character arms up, celebratory
-    finished: DEFAULT_CHARACTER_IMAGE,
-}
-
-// TODO: create assets/characters/subagent/default.png — smaller, simpler subagent sprite
-const SUBAGENT_DEFAULT_IMAGE = DEFAULT_CHARACTER_IMAGE
-
-// ---------------------------------------------------------------------------
 
 interface ClaudeCharacterProps {
     gameSize: GameWindowSize
     character: CharacterState
     subagents: SubagentState[]
+    scenario: ScenarioConfig
 }
 
 export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
     gameSize,
     character,
     subagents,
+    scenario,
 }) => {
     const { dispatch } = useVillage()
     const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -110,6 +80,7 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                     isMoving={character.isMoving}
                     size={characterSize}
                     scale={gameSize.scale}
+                    imageUrl={scenario.agents[0]}
                 />
 
                 <StateIndicator state={character.state} scale={gameSize.scale} />
@@ -142,6 +113,7 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                     subagent={subagent}
                     index={index}
                     gameSize={gameSize}
+                    imageUrl={scenario.agents[(index + 1) % scenario.agents.length]}
                 />
             ))}
         </div>
@@ -157,19 +129,17 @@ interface CharacterSpriteProps {
     isMoving: boolean
     size: number
     scale: number
+    imageUrl: string
 }
 
-const CharacterSprite: React.FC<CharacterSpriteProps> = ({ state, isMoving, size, scale }) => {
-    const imageKey = isMoving ? 'walking' : state
-    const src = CLAUDE_IMAGES[imageKey] ?? DEFAULT_CHARACTER_IMAGE
-
+const CharacterSprite: React.FC<CharacterSpriteProps> = ({ state, isMoving, scale, imageUrl }) => {
     return (
         <img
-            src={src}
+            src={imageUrl}
             className="character-sprite"
             width={192 * scale}
             height={336 * scale}
-            alt={`Claude ${imageKey}`}
+            alt={`Claude ${isMoving ? 'walking' : state}`}
             draggable={false}
         />
     )
@@ -221,9 +191,10 @@ interface SubagentCharacterProps {
     subagent: SubagentState
     index: number
     gameSize: GameWindowSize
+    imageUrl: string
 }
 
-const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, gameSize }) => {
+const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, gameSize, imageUrl }) => {
     const pos = getComputedPosition(subagent.location, getAllLocations(), gameSize)
     if (!pos) return null
 
@@ -252,9 +223,8 @@ const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, 
                 opacity: 0.9,
             }}
         >
-            {/* TODO: replace with per-subagent colored sprite variants once generated */}
             <img
-                src={SUBAGENT_DEFAULT_IMAGE}
+                src={imageUrl}
                 width={characterSize}
                 height={characterSize * 1.2}
                 alt="subagent"
