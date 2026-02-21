@@ -48,7 +48,10 @@ export interface VillageLocation {
 // Location Definitions
 // ============================================================================
 
+// Order determines grid position: 3-3-3 staggered layout (indices 0-2 = top row,
+// 3-5 = middle row staggered, 6-8 = bottom row). Index 4 = visual center.
 export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
+  // Row 1 (top): file operations
   library: {
     id: 'library',
     name: 'The Library',
@@ -58,16 +61,6 @@ export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
     color: '#8B4513',  // Saddle brown
     icon: '📚',
     asset: 'library.png',
-  },
-  cottage: {
-    id: 'cottage',
-    name: "Writer's Cottage",
-    description: 'Where Claude writes new files',
-    position: { x: 35, y: 20 },
-    size: { width: 100, height: 120 },
-    color: '#DEB887',  // Burlywood
-    icon: '🏠',
-    asset: 'cottage.png',
   },
   workshop: {
     id: 'workshop',
@@ -79,6 +72,17 @@ export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
     icon: '🔧',
     asset: 'workshop.png',
   },
+  cottage: {
+    id: 'cottage',
+    name: "Writer's Cottage",
+    description: 'Where Claude writes new files',
+    position: { x: 35, y: 20 },
+    size: { width: 100, height: 120 },
+    color: '#DEB887',  // Burlywood
+    icon: '🏠',
+    asset: 'cottage.png',
+  },
+  // Row 2 (middle, staggered): square is center (index 4)
   terminal: {
     id: 'terminal',
     name: 'Terminal Tower',
@@ -89,15 +93,15 @@ export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
     icon: '💻',
     asset: 'terminal.png',
   },
-  observatory: {
-    id: 'observatory',
-    name: 'The Observatory',
-    description: 'Where Claude searches files',
-    position: { x: 65, y: 15 },
-    size: { width: 110, height: 150 },
-    color: '#4682B4',  // Steel blue
-    icon: '🔭',
-    asset: 'observatory.png',
+  square: {
+    id: 'square',
+    name: 'Village Square',
+    description: 'Where Claude idles',
+    position: { x: 50, y: 75 },
+    size: { width: 200, height: 100 },
+    color: '#F5DEB3',  // Wheat
+    icon: '🏘️',
+    asset: 'square.png',
   },
   signal_tower: {
     id: 'signal_tower',
@@ -108,6 +112,17 @@ export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
     color: '#6A5ACD',  // Slate blue
     icon: '📡',
     asset: 'antenna.png',
+  },
+  // Row 3 (bottom): research & coordination
+  observatory: {
+    id: 'observatory',
+    name: 'The Observatory',
+    description: 'Where Claude searches files',
+    position: { x: 65, y: 15 },
+    size: { width: 110, height: 150 },
+    color: '#4682B4',  // Steel blue
+    icon: '🔭',
+    asset: 'observatory.png',
   },
   town_hall: {
     id: 'town_hall',
@@ -128,16 +143,6 @@ export const VILLAGE_LOCATIONS: Record<VillageLocationType, VillageLocation> = {
     color: '#8FBC8F',  // Dark sea green
     icon: '📋',
     asset: 'noticeboard.png',
-  },
-  square: {
-    id: 'square',
-    name: 'Village Square',
-    description: 'Where Claude idles',
-    position: { x: 50, y: 75 },
-    size: { width: 200, height: 100 },
-    color: '#F5DEB3',  // Wheat
-    icon: '🏘️',
-    asset: 'square.png',
   },
 }
 
