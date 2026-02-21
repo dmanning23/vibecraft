@@ -5,8 +5,9 @@
  * Contains scenario selection and other configurable options.
  */
 
-import React from 'react'
+import React, { useState } from 'react'
 import type { ScenarioConfig } from '../../config/scenarios'
+import { CreateScenarioDialog } from './CreateScenarioDialog'
 
 interface ConfigPanelProps {
   isOpen: boolean
@@ -27,8 +28,16 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
   soundEnabled,
   onSoundToggle,
 }) => {
+  const [createOpen, setCreateOpen] = useState(false)
+
   return (
     <>
+      {/* Create Scenario dialog — rendered at fixed position above everything */}
+      <CreateScenarioDialog
+        isOpen={createOpen}
+        onClose={() => setCreateOpen(false)}
+      />
+
       {/* Backdrop */}
       <div
         className={`config-backdrop ${isOpen ? 'open' : ''}`}
@@ -63,6 +72,15 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
                   <span className="config-scenario-name">{s.name}</span>
                 </button>
               ))}
+
+              {/* Create New tile */}
+              <button
+                className="config-scenario-btn create-new"
+                onClick={() => setCreateOpen(true)}
+              >
+                <span className="create-new-icon">+</span>
+                <span className="config-scenario-name">Create New</span>
+              </button>
             </div>
           </section>
 
