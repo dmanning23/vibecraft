@@ -5,16 +5,18 @@
  * Connects to the EventBus and WebSocket client for real-time updates.
  */
 
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { VillageProvider } from './state/VillageContext'
 import { VillageView } from './components/Village/VillageView'
 import { ActivityFeed } from './components/Feed/ActivityFeed'
 import { SessionPanel } from './components/Sessions/SessionPanel'
 import { PromptForm } from './components/Prompt/PromptForm'
+import { GenerationProgress } from './components/Config/GenerationProgress'
 import { EventClient } from './events/EventClient'
 import { eventBus } from './events/EventBus'
 import { soundManager } from './audio/SoundManager'
-import type { ClaudeEvent, ManagedSession } from '@shared/types'
+import { reloadScenarios } from './hooks/useScenario'
+import type { ClaudeEvent, ManagedSession, ScenarioGenerationUpdate } from '@shared/types'
 
 // Port injected at build time
 declare const __VIBECRAFT_DEFAULT_PORT__: number
@@ -25,6 +27,8 @@ export const App: React.FC = () => {
   const [sessions, setSessions] = useState<ManagedSession[]>([])
   const [selectedSessionId, setSelectedSessionId] = useState<string | null>(null)
   const [soundEnabled, setSoundEnabled] = useState(true)
+  const [generationUpdate, setGenerationUpdate] = useState<ScenarioGenerationUpdate | null>(null)
+  const generationTimerRef = useRef<number | null>(null)
 
   // Initialize event client
   useEffect(() => {
@@ -66,6 +70,35 @@ export const App: React.FC = () => {
       setSessions(managedSessions)
     })
 
+    // Scenario generation progress
+    const unsubRaw = client.onRawMessage((msg) => {
+      if (msg.type !== 'scenario_generation') return
+      const update = msg.payload as ScenarioGenerationUpdate
+      setGenerationUpdate(update)
+
+      // Clear any pending auto-hide timer
+      if (generationTimerRef.current !== null) {
+        window.clearTimeout(generationTimerRef.current)
+        generationTimerRef.current = null
+      }
+
+      if (update.status === 'complete') {
+        // Reload the scenario list so the new scenario appears in the picker
+        reloadScenarios()
+        // Auto-hide after 4 seconds
+        generationTimerRef.current = window.setTimeout(() => {
+          setGenerationUpdate(null)
+          generationTimerRef.current = null
+        }, 4000)
+      } else if (update.status === 'error') {
+        // Auto-hide after 8 seconds on error
+        generationTimerRef.current = window.setTimeout(() => {
+          setGenerationUpdate(null)
+          generationTimerRef.current = null
+        }, 8000)
+      }
+    })
+
     // Connect
     client.connect()
 
@@ -84,6 +117,10 @@ export const App: React.FC = () => {
       unsubEvent()
       unsubHistory()
       unsubSessions()
+      unsubRaw()
+      if (generationTimerRef.current !== null) {
+        window.clearTimeout(generationTimerRef.current)
+      }
       client.disconnect()
     }
   }, [soundEnabled])
@@ -106,6 +143,9 @@ export const App: React.FC = () => {
             soundEnabled={soundEnabled}
             onSoundToggle={() => setSoundEnabled(!soundEnabled)}
           />
+
+          {/* Scenario generation progress banner */}
+          <GenerationProgress update={generationUpdate} />
 
           {/* Scene HUD */}
           <div id="scene-hud">

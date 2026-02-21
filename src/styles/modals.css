@@ -2212,3 +2212,101 @@
   opacity: 0.35;
   cursor: not-allowed;
 }
+
+/* ============================================================
+   Generation Progress Banner
+   ============================================================ */
+
+.generation-progress {
+  position: absolute;
+  bottom: 56px; /* above the HUD keybind strip */
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(420px, 90%);
+  background: rgba(10, 12, 20, 0.92);
+  border: 1px solid rgba(99, 179, 237, 0.5);
+  border-radius: 10px;
+  padding: 12px 16px;
+  z-index: 120;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
+  animation: slide-up 0.3s ease;
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.generation-progress.error {
+  border-color: rgba(245, 101, 101, 0.6);
+}
+
+.generation-progress.done {
+  border-color: rgba(72, 187, 120, 0.6);
+}
+
+.generation-progress-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.generation-progress-icon {
+  font-size: 14px;
+  color: #63b3ed;
+  animation: spin-slow 3s linear infinite;
+}
+
+.generation-progress.error .generation-progress-icon { color: #f56565; animation: none; }
+.generation-progress.done  .generation-progress-icon { color: #48bb78; animation: none; }
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.generation-progress-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.generation-progress-pct {
+  font-size: 12px;
+  color: #a0aec0;
+  font-variant-numeric: tabular-nums;
+}
+
+.generation-progress-bar-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.generation-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #63b3ed, #9f7aea);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.generation-progress.error .generation-progress-bar-fill {
+  background: #f56565;
+}
+
+.generation-progress.done .generation-progress-bar-fill {
+  background: #48bb78;
+}
+
+.generation-progress-message {
+  font-size: 11px;
+  color: #718096;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

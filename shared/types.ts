@@ -154,6 +154,15 @@ export interface PermissionOption {
   label: string    // "Yes", "Yes, and always allow...", "No"
 }
 
+/** Scenario generation progress update */
+export interface ScenarioGenerationUpdate {
+  status: 'planning' | 'generating' | 'saving' | 'complete' | 'error'
+  step: number
+  total: number
+  message: string
+  error?: string
+}
+
 /** Server -> Client messages */
 export type ServerMessage =
   | { type: 'event'; payload: ClaudeEvent }
@@ -166,6 +175,7 @@ export type ServerMessage =
   | { type: 'permission_prompt'; payload: { sessionId: string; tool: string; context: string; options: PermissionOption[] } }
   | { type: 'permission_resolved'; payload: { sessionId: string } }
   | { type: 'text_tiles'; payload: TextTile[] }
+  | { type: 'scenario_generation'; payload: ScenarioGenerationUpdate }
 
 /** Client -> Server messages */
 export type ClientMessage =

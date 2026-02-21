@@ -8,6 +8,9 @@
 
 import React, { useState } from 'react'
 
+// Port injected at build time
+declare const __VIBECRAFT_DEFAULT_PORT__: number
+
 interface CreateScenarioDialogProps {
   isOpen: boolean
   onClose: () => void
@@ -20,13 +23,26 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
   const [openaiKey, setOpenaiKey] = useState('')
   const [sdUrl, setSdUrl] = useState('')
   const [description, setDescription] = useState('')
+  const [submitting, setSubmitting] = useState(false)
 
-  const canCreate = openaiKey.trim() !== '' && sdUrl.trim() !== '' && description.trim() !== ''
+  const canCreate = !submitting && openaiKey.trim() !== '' && sdUrl.trim() !== '' && description.trim() !== ''
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (!canCreate) return
-    // TODO: wire up generation
-    console.log('Generate scenario', { openaiKey, sdUrl, description })
+    setSubmitting(true)
+    try {
+      const port = __VIBECRAFT_DEFAULT_PORT__ || 4003
+      const base = `${window.location.protocol}//${window.location.hostname}:${port}`
+      await fetch(`${base}/generate-scenario`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ openaiKey, sdUrl, description }),
+      })
+      // Server responds 202 immediately; progress arrives via WebSocket
+      onClose()
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -93,7 +109,7 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
             onClick={handleCreate}
             disabled={!canCreate}
           >
-            Create!
+            {submitting ? 'Starting…' : 'Create!'}
           </button>
         </div>
 

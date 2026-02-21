@@ -37,6 +37,7 @@ import type {
 import { DEFAULTS } from '../shared/defaults.js'
 import { GitStatusManager } from './GitStatusManager.js'
 import { ProjectsManager } from './ProjectsManager.js'
+import { generateScenario } from './ScenarioGenerator.js'
 import { fileURLToPath } from 'url'
 
 // ============================================================================
@@ -2130,6 +2131,36 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
       res.end(JSON.stringify({ ok: true }))
       return
     }
+  }
+
+  // POST /generate-scenario — generate a new scenario in the background
+  if (req.method === 'POST' && req.url === '/generate-scenario') {
+    collectRequestBody(req).then(body => {
+      try {
+        const { openaiKey, sdUrl, description } = JSON.parse(body)
+        if (!openaiKey || !sdUrl || !description) {
+          res.writeHead(400, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ ok: false, error: 'Missing required fields' }))
+          return
+        }
+
+        // Respond immediately — generation happens in the background
+        res.writeHead(202, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ ok: true, message: 'Generation started' }))
+
+        generateScenario({ openaiKey, sdUrl, description }, (step, total, message, status = 'generating', error) => {
+          log(`Scenario generation [${step}/${total}]: ${message}`)
+          broadcast({
+            type: 'scenario_generation',
+            payload: { status, step, total, message, error },
+          })
+        })
+      } catch {
+        res.writeHead(400, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ ok: false, error: 'Invalid JSON' }))
+      }
+    })
+    return
   }
 
   // Static file serving for frontend (production mode)

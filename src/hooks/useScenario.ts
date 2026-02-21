@@ -19,6 +19,9 @@ interface ScenariosData {
 let cache: ScenariosData | null = null
 let fetchPromise: Promise<ScenariosData> | null = null
 
+// Listeners notified when reloadScenarios() is called
+const reloadListeners: Set<() => void> = new Set()
+
 function fetchScenarios(): Promise<ScenariosData> {
   if (cache) return Promise.resolve(cache)
   if (!fetchPromise) {
@@ -30,6 +33,13 @@ function fetchScenarios(): Promise<ScenariosData> {
       })
   }
   return fetchPromise
+}
+
+/** Force-reload scenarios.json and notify all active hooks. */
+export function reloadScenarios(): void {
+  cache = null
+  fetchPromise = null
+  for (const cb of reloadListeners) cb()
 }
 
 export interface UseScenarioReturn {
@@ -48,14 +58,21 @@ export function useScenario(): UseScenarioReturn {
   })
 
   useEffect(() => {
-    if (cache) return
-    fetchScenarios().then((loaded) => {
-      setData(loaded)
-      // If localStorage has no preference, switch to the JSON's default
-      if (!localStorage.getItem(STORAGE_KEY)) {
-        setScenarioIdState(loaded.defaultScenarioId)
-      }
-    })
+    const load = () => {
+      fetchScenarios().then((loaded) => {
+        setData(loaded)
+        // If localStorage has no preference, switch to the JSON's default
+        if (!localStorage.getItem(STORAGE_KEY)) {
+          setScenarioIdState(loaded.defaultScenarioId)
+        }
+      })
+    }
+
+    if (!cache) load()
+
+    // Register so reloadScenarios() triggers a fresh fetch
+    reloadListeners.add(load)
+    return () => { reloadListeners.delete(load) }
   }, [])
 
   const setScenario = useCallback((id: string) => {
