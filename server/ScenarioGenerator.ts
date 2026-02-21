@@ -133,6 +133,7 @@ async function generateImage(
     steps: options.steps ?? 25,
     cfg_scale: options.cfgScale ?? 7,
     sampler_name: 'DPM++ 2M Karras',
+    save_images: true,
   }
 
   if (options.model) {
@@ -159,11 +160,18 @@ async function generateImage(
 // Image preset configs
 // ============================================================================
 
+const SHARED_MODEL = 'fantasyWorld_v10.safetensors [524882ba22]'
+
 const BACKGROUND_NEGATIVE = '1girl,text,cropped,word,low quality,normal quality,soft line username,(watermark),(signature),blurry,soft,curved line,sketch,ugly,logo,pixelated,lowres,buildings,(building),'
-const BACKGROUND_MODEL = 'fantasyWorld_v10.safetensors [524882ba22]'
 
 function buildBackgroundPrompt(userInput: string): string {
   return `(landscape),((nature)),(isometric),Isometric_Setting,<lora:Stylized_Setting_SDXL:1>,${userInput}`
+}
+
+const LOCATION_NEGATIVE = 'text,word,monochrome,cropped,low quality,normal quality,soft line,username,(watermark),(signature),blurry,soft,sketch,ugly,logo,pixelated,lowres,out of frame,cut off,blurry,foggy,reflection'
+
+function buildLocationPrompt(userInput: string): string {
+  return `(((isometric))),(Isometric_Setting),(building exterior),((black background)),<lora:Stylized_Setting_SDXL:4>,bright colors,${userInput}`
 }
 
 // ============================================================================
@@ -217,7 +225,7 @@ export async function generateScenario(
       buildBackgroundPrompt(plan.backgroundPrompt),
       2048,
       1024,
-      { negativePrompt: BACKGROUND_NEGATIVE, model: BACKGROUND_MODEL, steps: 40, cfgScale: 7 },
+      { negativePrompt: BACKGROUND_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
     )
     writeFileSync(join(assetBase, 'scenario', 'background.png'), bgImage)
     const backgroundRel = `${relBase}/scenario/background.png`
@@ -227,7 +235,13 @@ export async function generateScenario(
     for (let i = 0; i < plan.locations.length; i++) {
       const loc = plan.locations[i]
       broadcast(++step, TOTAL, `Generating location: ${loc.name}...`, 'generating')
-      const img = await generateImage(sdUrl, loc.prompt, 512, 341)
+      const img = await generateImage(
+        sdUrl,
+        buildLocationPrompt(loc.prompt),
+        768,
+        512,
+        { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
+      )
       writeFileSync(join(assetBase, 'locations', `${i}.png`), img)
       locationPaths.push(`${relBase}/locations/${i}.png`)
     }
