@@ -1,119 +1,16 @@
 /**
- * ClaudeCharacter CSS Animations
+ * ClaudeCharacter CSS
  *
- * CSS animations for the 2D character sprite.
+ * Animations for sprite-based character display.
+ * Walking/working/thinking/idle animations are handled by swapping
+ * the image src in CharacterSprite — these rules cover UI overlays only.
+ *
+ * Keyframe animation stubs are left here as reference for when
+ * CSS-layer sprite sheet animation is wired up in future.
  */
 
 /* ============================================================================
-   Walking Animation
-   ============================================================================ */
-
-.claude-character.moving .character-head {
-  animation: head-bob 0.4s ease-in-out infinite;
-}
-
-.claude-character.moving .character-leg.left {
-  animation: leg-walk-left 0.4s ease-in-out infinite;
-}
-
-.claude-character.moving .character-leg.right {
-  animation: leg-walk-right 0.4s ease-in-out infinite;
-}
-
-.claude-character.moving .character-arm.left {
-  animation: arm-swing-left 0.4s ease-in-out infinite;
-}
-
-.claude-character.moving .character-arm.right {
-  animation: arm-swing-right 0.4s ease-in-out infinite;
-}
-
-@keyframes head-bob {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-3px); }
-}
-
-@keyframes leg-walk-left {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(-15deg); }
-  75% { transform: rotate(15deg); }
-}
-
-@keyframes leg-walk-right {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(15deg); }
-  75% { transform: rotate(-15deg); }
-}
-
-@keyframes arm-swing-left {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(20deg); }
-}
-
-@keyframes arm-swing-right {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-20deg); }
-}
-
-/* ============================================================================
-   Working Animation
-   ============================================================================ */
-
-.claude-character.working .character-arm.left.working {
-  animation: arm-work 0.5s ease-in-out infinite;
-}
-
-.claude-character.working .character-arm.right.working {
-  animation: arm-work 0.5s ease-in-out infinite 0.25s;
-}
-
-@keyframes arm-work {
-  0%, 100% { transform: rotate(-45deg); }
-  50% { transform: rotate(-30deg); }
-}
-
-/* ============================================================================
-   Thinking Animation
-   ============================================================================ */
-
-.claude-character.thinking .character-head {
-  animation: think-tilt 2s ease-in-out infinite;
-}
-
-.eye.thinking {
-  animation: blink 2s infinite !important;
-}
-
-@keyframes think-tilt {
-  0%, 100% { transform: translateX(-50%) rotate(0deg); }
-  25% { transform: translateX(-50%) rotate(-5deg); }
-  75% { transform: translateX(-50%) rotate(5deg); }
-}
-
-@keyframes blink {
-  0%, 45%, 55%, 100% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(0.1);
-  }
-}
-
-/* ============================================================================
-   Idle Animation
-   ============================================================================ */
-
-.claude-character.idle .character-body {
-  animation: idle-breathe 3s ease-in-out infinite;
-}
-
-@keyframes idle-breathe {
-  0%, 100% { transform: translateX(-50%) scaleY(1); }
-  50% { transform: translateX(-50%) scaleY(1.02); }
-}
-
-/* ============================================================================
-   State Indicators
+   State Indicators (emoji overlay)
    ============================================================================ */
 
 .state-indicator {
@@ -146,7 +43,7 @@
 }
 
 /* ============================================================================
-   Subagent Animations
+   Subagents
    ============================================================================ */
 
 .subagent-character {
@@ -165,7 +62,7 @@
 }
 
 /* ============================================================================
-   Village Location Pulse
+   Village Location Pulse (used by VillageLocation)
    ============================================================================ */
 
 @keyframes pulse {
@@ -182,7 +79,7 @@
 }
 
 /* ============================================================================
-   Signal Wave Animation
+   Signal Wave / Fountain (used by location decorations)
    ============================================================================ */
 
 @keyframes signal-wave {
@@ -195,10 +92,6 @@
     opacity: 0;
   }
 }
-
-/* ============================================================================
-   Fountain Animation
-   ============================================================================ */
 
 @keyframes fountain {
   0%, 100% {

@@ -3,13 +3,48 @@
  *
  * 2D sprite-based character that moves between village locations.
  * Uses CSS transitions for smooth movement animation.
+ *
+ * Character images are loaded per-state. To add a new state image:
+ *  1. Generate the sprite with Stable Diffusion (see TODO comments below)
+ *  2. Place it in public/assets/characters/claude/<state>.png
+ *  3. Update CLAUDE_IMAGES below
  */
 
 import React, { useEffect, useState, useCallback } from 'react'
 import { useVillage, villageActions, type CharacterState, type SubagentState } from '../../state/VillageContext'
-import { VILLAGE_LOCATIONS, type VillageLocationType } from '../../config/locations'
+import { getAllLocations } from '../../config/locations'
+import { getComputedPosition } from '../../utils/villageLayout'
 import type { GameWindowSize } from '../../hooks/useGameWindowSize'
 import './ClaudeCharacter.css'
+
+// ---------------------------------------------------------------------------
+// Image paths
+// TODO: Generate these sprites with Stable Diffusion and drop them here.
+// ---------------------------------------------------------------------------
+
+const DEFAULT_CHARACTER_IMAGE = 'assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png'
+
+const CLAUDE_IMAGES: Record<CharacterState['state'] | 'walking', string> = {
+    // TODO: create assets/characters/claude/idle.png  — character standing relaxed
+    idle: DEFAULT_CHARACTER_IMAGE,
+
+    // TODO: create assets/characters/claude/walking.png — character mid-stride
+    walking: DEFAULT_CHARACTER_IMAGE,
+
+    // TODO: create assets/characters/claude/working.png — character hunched over desk/tool
+    working: DEFAULT_CHARACTER_IMAGE,
+
+    // TODO: create assets/characters/claude/thinking.png — character with hand on chin, thought bubble
+    thinking: DEFAULT_CHARACTER_IMAGE,
+
+    // TODO: create assets/characters/claude/finished.png — character arms up, celebratory
+    finished: DEFAULT_CHARACTER_IMAGE,
+}
+
+// TODO: create assets/characters/subagent/default.png — smaller, simpler subagent sprite
+const SUBAGENT_DEFAULT_IMAGE = DEFAULT_CHARACTER_IMAGE
+
+// ---------------------------------------------------------------------------
 
 interface ClaudeCharacterProps {
     gameSize: GameWindowSize
@@ -27,22 +62,22 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
 
     // Calculate character position based on current location
     useEffect(() => {
-        const location = VILLAGE_LOCATIONS[character.location]
-        if (location) {
-            const x = (location.position.x / 100) * gameSize.width
-            const y = (location.position.y / 100) * gameSize.height + 50 * gameSize.scale // Offset to stand in front of building
-            setPosition({ x, y })
+        const pos = getComputedPosition(character.location, getAllLocations(), gameSize)
+        if (pos) {
+            // pos is top-left of building (512×341 at scale). Center on the building.
+            const imgW = 512 * gameSize.scale
+            const imgH = 341 * gameSize.scale
+            setPosition({ x: pos.x + imgW / 2, y: pos.y + imgH / 2 })
         }
     }, [character.location, gameSize])
 
-    // Handle transition end
     const handleTransitionEnd = useCallback(() => {
         if (character.isMoving) {
             dispatch(villageActions.finishMoving())
         }
     }, [character.isMoving, dispatch])
 
-    const characterSize = 64 * gameSize.scale
+    const characterSize = 96 * gameSize.scale
 
     return (
         <div
@@ -62,7 +97,7 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                 className={`claude-character ${character.state} ${character.isMoving ? 'moving' : ''}`}
                 style={{
                     position: 'absolute',
-                    left: position.x - characterSize / 2,
+                    left: position.x - characterSize,  // sprite is 192*scale wide; characterSize=96*scale is half
                     top: position.y - characterSize,
                     width: characterSize,
                     height: characterSize * 1.5,
@@ -74,17 +109,11 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                     state={character.state}
                     isMoving={character.isMoving}
                     size={characterSize}
-                    currentTool={character.currentTool}
                     scale={gameSize.scale}
                 />
 
-                {/* State indicator */}
-                <StateIndicator
-                    state={character.state}
-                    scale={gameSize.scale}
-                />
+                <StateIndicator state={character.state} scale={gameSize.scale} />
 
-                {/* Current tool indicator */}
                 {character.currentTool && character.state === 'working' && (
                     <div
                         className="tool-indicator"
@@ -119,58 +148,36 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
     )
 }
 
-// Character sprite component
+// ---------------------------------------------------------------------------
+// CharacterSprite
+// ---------------------------------------------------------------------------
 
 interface CharacterSpriteProps {
     state: CharacterState['state']
     isMoving: boolean
     size: number
-    currentTool: string | null
     scale: number
 }
 
-const CharacterSprite: React.FC<CharacterSpriteProps> = ({
-    state,
-    isMoving,
-    size,
-    currentTool,
-    scale
-}) => {
-    // Color based on state
-    const getBodyColor = () => {
-        if (isMoving) return '#E6C994'        // Light tan (moving)
-        switch (state) {
-            case 'idle': return '#D4A574'       // Warm beige
-            case 'working': return '#FF8C42'    // Orange (active)
-            case 'thinking': return '#9B59B6'   // Purple (thinking)
-            case 'finished': return '#27AE60'   // Green (finished)
-            default: return '#D4A574'
-        }
-    }
-
-    const headSize = size * 0.4
-    const bodyHeight = size * 0.5
-    const bodyWidth = size * 0.5
+const CharacterSprite: React.FC<CharacterSpriteProps> = ({ state, isMoving, size, scale }) => {
+    const imageKey = isMoving ? 'walking' : state
+    const src = CLAUDE_IMAGES[imageKey] ?? DEFAULT_CHARACTER_IMAGE
 
     return (
-        <div
+        <img
+            src={src}
             className="character-sprite"
-            style={{
-                width: size,
-                height: size * 1.5,
-                position: 'relative',
-            }}
-        >
-            <img
-                src={'public/assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png'}
-                width={128 * (scale || 1)}
-                height={224 * (scale || 1)}
-            />
-        </div>
+            width={192 * scale}
+            height={336 * scale}
+            alt={`Claude ${imageKey}`}
+            draggable={false}
+        />
     )
 }
 
-// State indicator component
+// ---------------------------------------------------------------------------
+// StateIndicator
+// ---------------------------------------------------------------------------
 
 interface StateIndicatorProps {
     state: CharacterState['state']
@@ -180,15 +187,15 @@ interface StateIndicatorProps {
 const StateIndicator: React.FC<StateIndicatorProps> = ({ state, scale }) => {
     const getEmoji = () => {
         switch (state) {
-            case 'idle': return '😊'
-            case 'working': return '⚡'
+            case 'working':  return '⚡'
             case 'thinking': return '💭'
             case 'finished': return '✓'
-            default: return ''
+            default: return null
         }
     }
 
-    if (state === 'idle') return null
+    const emoji = getEmoji()
+    if (!emoji) return null
 
     return (
         <div
@@ -201,12 +208,14 @@ const StateIndicator: React.FC<StateIndicatorProps> = ({ state, scale }) => {
                 animation: state === 'thinking' ? 'float 1.5s ease-in-out infinite' : undefined,
             }}
         >
-            {getEmoji()}
+            {emoji}
         </div>
     )
 }
 
-// Subagent character component
+// ---------------------------------------------------------------------------
+// SubagentCharacter
+// ---------------------------------------------------------------------------
 
 interface SubagentCharacterProps {
     subagent: SubagentState
@@ -214,25 +223,22 @@ interface SubagentCharacterProps {
     gameSize: GameWindowSize
 }
 
-const SubagentCharacter: React.FC<SubagentCharacterProps> = ({
-    subagent,
-    index,
-    gameSize,
-}) => {
-    const location = VILLAGE_LOCATIONS[subagent.location]
-    if (!location) return null
+const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, gameSize }) => {
+    const pos = getComputedPosition(subagent.location, getAllLocations(), gameSize)
+    if (!pos) return null
 
-    // Position subagents in a fan around the town hall
+    // pos is top-left of building. Fan subagents around the bottom-center.
+    const imgW = 512 * gameSize.scale
+    const imgH = 341 * gameSize.scale
+    const buildingCenterX = pos.x + imgW / 2
+    const buildingBottom = pos.y + imgH
+
     const angle = (index * 30 - 45) * (Math.PI / 180)
     const distance = 80 * gameSize.scale
-    const x = (location.position.x / 100) * gameSize.width + Math.cos(angle) * distance
-    const y = (location.position.y / 100) * gameSize.height + Math.sin(angle) * distance + 60 * gameSize.scale
+    const x = buildingCenterX + Math.cos(angle) * distance
+    const y = buildingBottom + Math.sin(angle) * distance + 10 * gameSize.scale
 
-    const characterSize = 40 * gameSize.scale
-
-    // Subagent colors
-    const colors = ['#3498DB', '#2ECC71', '#E91E63', '#9B59B6', '#F1C40F', '#00BCD4']
-    const color = colors[index % colors.length]
+    const characterSize = 60 * gameSize.scale
 
     return (
         <div
@@ -246,45 +252,16 @@ const SubagentCharacter: React.FC<SubagentCharacterProps> = ({
                 opacity: 0.9,
             }}
         >
-            {/* Mini character */}
-            <div
-                style={{
-                    width: '100%',
-                    height: '100%',
-                    position: 'relative',
-                }}
-            >
-                {/* Head */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: characterSize * 0.5,
-                        height: characterSize * 0.5,
-                        background: color,
-                        borderRadius: '50%',
-                        border: '2px solid rgba(255,255,255,0.5)',
-                    }}
-                />
-                {/* Body */}
-                <div
-                    style={{
-                        position: 'absolute',
-                        top: characterSize * 0.4,
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        width: characterSize * 0.4,
-                        height: characterSize * 0.5,
-                        background: color,
-                        borderRadius: '30% 30% 20% 20%',
-                        border: '2px solid rgba(255,255,255,0.5)',
-                    }}
-                />
-            </div>
+            {/* TODO: replace with per-subagent colored sprite variants once generated */}
+            <img
+                src={SUBAGENT_DEFAULT_IMAGE}
+                width={characterSize}
+                height={characterSize * 1.2}
+                alt="subagent"
+                draggable={false}
+                style={{ display: 'block' }}
+            />
 
-            {/* Label */}
             <div
                 style={{
                     position: 'absolute',
@@ -306,13 +283,4 @@ const SubagentCharacter: React.FC<SubagentCharacterProps> = ({
             </div>
         </div>
     )
-}
-
-// Utility function to adjust color brightness
-function adjustColor(color: string, amount: number): string {
-    const hex = color.replace('#', '')
-    const r = Math.max(0, Math.min(255, parseInt(hex.substr(0, 2), 16) + amount))
-    const g = Math.max(0, Math.min(255, parseInt(hex.substr(2, 2), 16) + amount))
-    const b = Math.max(0, Math.min(255, parseInt(hex.substr(4, 2), 16) + amount))
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
 }

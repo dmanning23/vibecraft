@@ -1,12 +1,14 @@
 /**
  * VillageLocations Component
  *
- * Renders all village buildings/locations on the map.
+ * Renders all village buildings/locations on the map using a staggered grid
+ * layout (ported from OverworldLocations.js).
  */
 
 import React from 'react'
 import { VillageLocation } from './VillageLocation'
 import { getAllLocations, type VillageLocationType } from '../../config/locations'
+import { computeVillageLayout } from '../../utils/villageLayout'
 import type { GameWindowSize } from '../../hooks/useGameWindowSize'
 
 interface VillageLocationsProps {
@@ -20,7 +22,7 @@ export const VillageLocations: React.FC<VillageLocationsProps> = ({
   activeLocation,
   showLabels,
 }) => {
-  const locations = getAllLocations()
+  const positioned = computeVillageLayout(getAllLocations(), gameSize)
 
   return (
     <div
@@ -35,13 +37,15 @@ export const VillageLocations: React.FC<VillageLocationsProps> = ({
         pointerEvents: 'none',
       }}
     >
-      {locations.map((location) => (
+      {positioned.map(({ location, x, y }) => (
         <VillageLocation
           key={location.id}
           location={location}
           gameSize={gameSize}
           isActive={activeLocation === location.id}
           showLabel={showLabels}
+          x={x}
+          y={y}
         />
       ))}
     </div>

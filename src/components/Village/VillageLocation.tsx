@@ -13,6 +13,10 @@ interface VillageLocationProps {
     gameSize: GameWindowSize
     isActive: boolean
     showLabel: boolean
+    /** Override x position in pixels (from layout algorithm). Falls back to config percentage. */
+    x?: number
+    /** Override y position in pixels (from layout algorithm). Falls back to config percentage. */
+    y?: number
 }
 
 export const VillageLocation: React.FC<VillageLocationProps> = ({
@@ -20,12 +24,21 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
     gameSize,
     isActive,
     showLabel,
+    x: xProp,
+    y: yProp,
 }) => {
-    // Calculate scaled position and size
-    const x = (location.position.x / 100) * gameSize.width
-    const y = (location.position.y / 100) * gameSize.height
-    const width = location.size.width * gameSize.scale
-    const height = location.size.height * gameSize.scale
+    // Image dimensions drive layout — all buildings render at this size
+    const width = 512 * gameSize.scale
+    const height = 341 * gameSize.scale
+
+    // xProp/yProp from the layout algorithm are TOP-LEFT pixel coordinates.
+    // Config percentage positions are CENTER percentages, so offset by half the image.
+    const left = xProp !== undefined
+        ? xProp
+        : (location.position.x / 100) * gameSize.width - width / 2
+    const top = yProp !== undefined
+        ? yProp
+        : (location.position.y / 100) * gameSize.height - height / 2
 
     // Render different building styles based on location type
     const renderBuilding = () => {
@@ -58,8 +71,8 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
             className={`village-location ${isActive ? 'active' : ''}`}
             style={{
                 position: 'absolute',
-                left: x - width / 2,
-                top: y - height / 2,
+                left,
+                top,
                 width,
                 height,
                 pointerEvents: 'auto',
@@ -75,16 +88,18 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
                 <div
                     style={{
                         position: 'absolute',
-                        bottom: -20 * gameSize.scale,
+                        bottom: -28 * gameSize.scale,
                         left: '50%',
                         transform: 'translateX(-50%)',
-                        padding: '2px 8px',
-                        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                        padding: '4px 12px',
+                        backgroundColor: 'rgba(0, 0, 0, 0.75)',
                         color: '#fff',
                         borderRadius: 4,
-                        fontSize: 11 * gameSize.scale,
+                        fontSize: 16 * gameSize.scale,
+                        fontWeight: 600,
                         whiteSpace: 'nowrap',
                         fontFamily: 'monospace',
+                        textShadow: '0 1px 3px rgba(0,0,0,0.8)',
                     }}
                 >
                     {location.icon} {location.name}
@@ -96,13 +111,13 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
                 <div
                     style={{
                         position: 'absolute',
-                        top: -10,
-                        left: -10,
-                        right: -10,
-                        bottom: -10,
-                        borderRadius: 10,
-                        border: '3px solid #FFD700',
-                        boxShadow: '0 0 20px rgba(255, 215, 0, 0.6)',
+                        top: -3,
+                        left: -3,
+                        right: -3,
+                        bottom: -3,
+                        borderRadius: 6,
+                        border: '2px solid rgba(255, 215, 0, 0.9)',
+                        boxShadow: '0 0 8px rgba(255, 215, 0, 0.6)',
                         pointerEvents: 'none',
                         animation: 'pulse 1.5s ease-in-out infinite',
                     }}
