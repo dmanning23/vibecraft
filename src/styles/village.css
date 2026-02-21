@@ -5,38 +5,53 @@
  */
 
 /* ============================================================================
+   Village Location Active Indicator
+   ============================================================================ */
+
+@keyframes location-active {
+    0%, 100% {
+        box-shadow: 0 0 6px rgba(255, 215, 0, 0.5);
+        border-color: rgba(255, 215, 0, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 16px rgba(255, 215, 0, 0.95);
+        border-color: rgba(255, 215, 0, 1.0);
+    }
+}
+
+/* ============================================================================
    Village Container
    ============================================================================ */
 
 .village-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: #87CEEB;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: #87CEEB;
 }
 
 .village-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 10;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
 }
 
 .village-locations {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 20;
-  pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 20;
+    pointer-events: none;
 }
 
 .claude-character-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 30;
-  pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 30;
+    pointer-events: none;
 }
 
 /* ============================================================================
@@ -44,16 +59,16 @@
    ============================================================================ */
 
 .village-status {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  padding: 4px 8px;
-  background-color: rgba(0, 0, 0, 0.5);
-  color: #fff;
-  border-radius: 4px;
-  font-size: 12px;
-  z-index: 50;
-  font-family: monospace;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 50;
+    font-family: monospace;
 }
 
 /* ============================================================================
@@ -61,17 +76,17 @@
    ============================================================================ */
 
 .village-location {
-  pointer-events: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 .village-location:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .village-location.active {
-  transform: scale(1.08);
+    transform: scale(1.08);
 }
 
 /* ============================================================================
@@ -79,26 +94,26 @@
    ============================================================================ */
 
 .app-container {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #0f172a;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #0f172a;
 }
 
 .scene-panel {
-  flex: 1;
-  position: relative;
-  min-width: 0;
-  background: #1e293b;
+    flex: 1;
+    position: relative;
+    min-width: 0;
+    background: #1e293b;
 }
 
 .feed-panel {
-  width: 380px;
-  display: flex;
-  flex-direction: column;
-  background: #1e293b;
-  border-left: 1px solid #334155;
+    width: 380px;
+    display: flex;
+    flex-direction: column;
+    background: #1e293b;
+    border-left: 1px solid #334155;
 }
 
 /* ============================================================================
@@ -113,105 +128,105 @@
 .feed-session-start,
 .feed-session-end,
 .feed-generic {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  padding: 8px 12px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 8px 12px;
 }
 
 .feed-icon {
-  flex-shrink: 0;
-  font-size: 16px;
+    flex-shrink: 0;
+    font-size: 16px;
 }
 
 .feed-content {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
 .feed-tool-name {
-  font-weight: 600;
-  color: #f1f5f9;
+    font-weight: 600;
+    color: #f1f5f9;
 }
 
 .feed-tool-detail {
-  font-size: 12px;
-  color: #94a3b8;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 12px;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .feed-time {
-  flex-shrink: 0;
-  font-size: 11px;
-  color: #64748b;
-  font-family: monospace;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #64748b;
+    font-family: monospace;
 }
 
 .feed-status-icon {
-  flex-shrink: 0;
-  width: 20px;
-  text-align: center;
+    flex-shrink: 0;
+    width: 20px;
+    text-align: center;
 }
 
 .feed-status-icon.success {
-  color: #22c55e;
+    color: #22c55e;
 }
 
 .feed-status-icon.error {
-  color: #ef4444;
+    color: #ef4444;
 }
 
 .feed-duration {
-  font-size: 11px;
-  color: #64748b;
+    font-size: 11px;
+    color: #64748b;
 }
 
 .feed-label {
-  font-weight: 500;
-  color: #cbd5e1;
+    font-weight: 500;
+    color: #cbd5e1;
 }
 
 .feed-prompt-text,
 .feed-response,
 .feed-notification-text {
-  font-size: 13px;
-  color: #94a3b8;
-  line-height: 1.4;
-  word-break: break-word;
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.4;
+    word-break: break-word;
 }
 
 .feed-session-id {
-  font-size: 11px;
-  color: #64748b;
-  font-family: monospace;
+    font-size: 11px;
+    color: #64748b;
+    font-family: monospace;
 }
 
 /* Feed item types */
 .feed-item.feed-pre_tool_use {
-  border-left: 3px solid #3b82f6;
+    border-left: 3px solid #3b82f6;
 }
 
 .feed-item.feed-post_tool_use.success {
-  border-left: 3px solid #22c55e;
+    border-left: 3px solid #22c55e;
 }
 
 .feed-item.feed-post_tool_use.error {
-  border-left: 3px solid #ef4444;
+    border-left: 3px solid #ef4444;
 }
 
 .feed-item.feed-user_prompt_submit {
-  background: rgba(99, 102, 241, 0.1);
-  border-left: 3px solid #6366f1;
+    background: rgba(99, 102, 241, 0.1);
+    border-left: 3px solid #6366f1;
 }
 
 .feed-item.feed-stop {
-  background: rgba(34, 197, 94, 0.1);
-  border-left: 3px solid #22c55e;
+    background: rgba(34, 197, 94, 0.1);
+    border-left: 3px solid #22c55e;
 }
 
 /* ============================================================================
@@ -219,55 +234,64 @@
    ============================================================================ */
 
 .session-status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .session-status-dot.status-idle {
-  background: #22c55e;
+    background: #22c55e;
 }
 
 .session-status-dot.status-working {
-  background: #3b82f6;
-  animation: pulse-dot 1s ease-in-out infinite;
+    background: #3b82f6;
+    animation: pulse-dot 1s ease-in-out infinite;
 }
 
 .session-status-dot.status-waiting {
-  background: #f59e0b;
+    background: #f59e0b;
 }
 
 .session-status-dot.status-offline {
-  background: #64748b;
+    background: #64748b;
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.2); }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.6;
+        transform: scale(1.2);
+    }
 }
 
 .session-tool {
-  color: #3b82f6;
-  font-weight: 500;
+    color: #3b82f6;
+    font-weight: 500;
 }
 
 .session-status-text {
-  color: #94a3b8;
+    color: #94a3b8;
 }
 
 .session-cwd {
-  margin-left: 8px;
-  color: #64748b;
-  font-size: 11px;
-  font-family: monospace;
+    margin-left: 8px;
+    color: #64748b;
+    font-size: 11px;
+    font-family: monospace;
 }
 
 .session-tokens {
-  flex-shrink: 0;
-  font-size: 11px;
-  color: #64748b;
-  font-family: monospace;
+    flex-shrink: 0;
+    font-size: 11px;
+    color: #64748b;
+    font-family: monospace;
 }
 
 /* ============================================================================
@@ -275,13 +299,13 @@
    ============================================================================ */
 
 #status-dot.connected {
-  background: #22c55e;
-  box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
+    background: #22c55e;
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.5);
 }
 
 #status-dot.disconnected {
-  background: #ef4444;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+    background: #ef4444;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
 }
 
 /* ============================================================================
@@ -289,24 +313,24 @@
    ============================================================================ */
 
 @media (max-width: 1200px) {
-  .feed-panel {
-    width: 320px;
-  }
+    .feed-panel {
+        width: 320px;
+    }
 }
 
 @media (max-width: 900px) {
-  .app-container {
-    flex-direction: column;
-  }
+    .app-container {
+        flex-direction: column;
+    }
 
-  .scene-panel {
-    height: 50%;
-  }
+    .scene-panel {
+        height: 50%;
+    }
 
-  .feed-panel {
-    width: 100%;
-    height: 50%;
-    border-left: none;
-    border-top: 1px solid #334155;
-  }
+    .feed-panel {
+        width: 100%;
+        height: 50%;
+        border-left: none;
+        border-top: 1px solid #334155;
+    }
 }

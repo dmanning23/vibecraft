@@ -100,10 +100,9 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
             right: -3,
             bottom: -3,
             borderRadius: 6,
-            border: '2px solid rgba(255, 215, 0, 0.9)',
-            boxShadow: '0 0 8px rgba(255, 215, 0, 0.6)',
+            border: '2px solid rgba(255, 215, 0, 0.7)',
             pointerEvents: 'none',
-            animation: 'pulse 1.5s ease-in-out infinite',
+            animation: 'location-active 2s ease-in-out infinite',
           }}
         />
       )}
