@@ -14,6 +14,7 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs'
 import { join, resolve, dirname } from 'path'
 import { randomUUID } from 'crypto'
 import { fileURLToPath } from 'url'
+import { removeBackground } from '@imgly/background-removal-node'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -160,6 +161,18 @@ async function generateImage(
 }
 
 // ============================================================================
+// Background removal
+// ============================================================================
+
+async function stripBackground(imageBuffer: Buffer): Promise<Buffer> {
+  const blob = await removeBackground(imageBuffer, {
+    model: 'medium',
+    output: { format: 'image/png' },
+  })
+  return Buffer.from(await blob.arrayBuffer())
+}
+
+// ============================================================================
 // Image preset configs
 // ============================================================================
 
@@ -245,13 +258,14 @@ export async function generateScenario(
     for (let i = 0; i < plan.locations.length; i++) {
       const loc = plan.locations[i]
       broadcast(++step, TOTAL, `Generating location: ${loc.name}...`, 'generating')
-      const img = await generateImage(
+      const rawLoc = await generateImage(
         sdUrl,
         buildLocationPrompt(loc.prompt),
         768,
         512,
         { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
       )
+      const img = await stripBackground(rawLoc)
       writeFileSync(join(assetBase, 'locations', `${i}.png`), img)
       locationPaths.push(`${relBase}/locations/${i}.png`)
     }
@@ -264,13 +278,14 @@ export async function generateScenario(
       for (const stateName of AGENT_STATES) {
         const statePrompt = buildAgentPrompt(agent.physicalDescription, AGENT_STATE_SUFFIXES[stateName])
         broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
-        const img = await generateImage(
+        const rawAgent = await generateImage(
           sdUrl,
           statePrompt,
           768,
           1344,
           { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 40, cfgScale: 7 },
         )
+        const img = await stripBackground(rawAgent)
         const imgPath = join(assetBase, 'agents', String(i), `${stateName}.png`)
         writeFileSync(imgPath, img)
         states[stateName] = `${relBase}/agents/${i}/${stateName}.png`
