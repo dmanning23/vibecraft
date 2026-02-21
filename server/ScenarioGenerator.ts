@@ -49,7 +49,7 @@ interface ScenarioPlan {
   name: string
   backgroundPrompt: string
   locations: Array<{ name: string; prompt: string }>
-  agents: Array<{ name: string; prompt: string }>
+  agents: Array<{ name: string; physicalDescription: string }>
 }
 
 // ============================================================================
@@ -68,14 +68,17 @@ Given a scenario description, output a JSON object with this exact shape:
     ... exactly 6 locations
   ],
   "agents": [
-    { "name": "<Character Name>", "prompt": "<SD prompt for a character portrait icon>" },
+    {
+      "name": "<Character Name>",
+      "physicalDescription": "<detailed physical description of the character>"
+    },
     ... exactly 7 agents
   ]
 }
 SD prompts should be detailed and vivid, suited for the scenario theme.
 Background: wide establishing shot, landscape orientation.
 Locations: building exteriors, slightly stylized, game art style.
-Agents: character portrait, upper body, clear face, distinct look.
+Agent physicalDescription: write a thorough physical description of the character suitable for use as a Stable Diffusion prompt. Include hair style and color, eye color, skin tone, facial features, clothing style and colors, and any distinguishing accessories or characteristics. Be specific and consistent — this description will be reused across multiple images of the same character and must uniquely identify them.
 Respond with ONLY valid JSON, no markdown fences.`
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -255,7 +258,7 @@ export async function generateScenario(
       const agent = plan.agents[i]
       const states: Record<string, string> = {}
       for (const stateName of AGENT_STATES) {
-        const statePrompt = `${agent.prompt}, ${AGENT_STATE_SUFFIXES[stateName]}`
+        const statePrompt = `${agent.physicalDescription}, ${AGENT_STATE_SUFFIXES[stateName]}`
         broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
         const img = await generateImage(
           sdUrl,
