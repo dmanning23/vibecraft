@@ -31,8 +31,8 @@ export const VillageLocation: React.FC<VillageLocationProps> = ({
   y: yProp,
 }) => {
   // Image dimensions drive layout — all buildings render at this size
-  const width = 512 * gameSize.scale
-  const height = 341 * gameSize.scale
+  const width = 640 * gameSize.scale
+  const height = 427 * gameSize.scale
 
   // xProp/yProp from the layout algorithm are TOP-LEFT pixel coordinates.
   // Config percentage positions are CENTER percentages, so offset by half the image.

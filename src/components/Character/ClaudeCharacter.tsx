@@ -34,9 +34,9 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
     useEffect(() => {
         const pos = getComputedPosition(character.location, getAllLocations(), gameSize)
         if (pos) {
-            // pos is top-left of building (512×341 at scale). Center on the building.
-            const imgW = 512 * gameSize.scale
-            const imgH = 341 * gameSize.scale
+            // pos is top-left of building (640×427 at scale). Center on the building.
+            const imgW = 640 * gameSize.scale
+            const imgH = 427 * gameSize.scale
             setPosition({ x: pos.x + imgW / 2, y: pos.y + imgH / 2 })
         }
     }, [character.location, gameSize])
@@ -199,8 +199,8 @@ const SubagentCharacter: React.FC<SubagentCharacterProps> = ({ subagent, index, 
     if (!pos) return null
 
     // pos is top-left of building. Fan subagents around the bottom-center.
-    const imgW = 512 * gameSize.scale
-    const imgH = 341 * gameSize.scale
+    const imgW = 640 * gameSize.scale
+    const imgH = 427 * gameSize.scale
     const buildingCenterX = pos.x + imgW / 2
     const buildingBottom = pos.y + imgH
 

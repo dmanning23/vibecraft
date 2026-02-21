@@ -19,8 +19,8 @@ export function computeVillageLayout(
   locations: VillageLocation[],
   gameSize: GameWindowSize
 ): PositionedLocation[] {
-  const locationWidth = gameSize.width / 4.5
-  const locationHeight = gameSize.height / 4.5
+  const locationWidth = gameSize.width / 3.5
+  const locationHeight = gameSize.height / 3.5
   const positioned: PositionedLocation[] = []
 
   if (locations.length >= 9) {
@@ -28,7 +28,7 @@ export function computeVillageLayout(
       gameSize.width / 2 - locationWidth / 2 - ((3 * locationWidth) / 2 - locationWidth / 4)
 
     let currentX = locationStartX
-    let currentY = gameSize.height * 0.12
+    let currentY = gameSize.height * 0.06
 
     for (let i = 0; i < 3; i++) {
       positioned.push({ location: locations[i], x: currentX, y: currentY })
@@ -57,7 +57,7 @@ export function computeVillageLayout(
       locationWidth / 4
 
     let currentX = locationStartX
-    let currentY = gameSize.height * 0.2
+    let currentY = gameSize.height * 0.12
 
     for (let i = 0; i <= Math.floor(locations.length / 2); i++) {
       positioned.push({ location: locations[i], x: currentX, y: currentY })
@@ -79,7 +79,7 @@ export function computeVillageLayout(
       locationWidth / 4
 
     let currentX = locationStartX
-    let currentY = gameSize.height * 0.2
+    let currentY = gameSize.height * 0.12
 
     for (let i = 0; i < Math.floor(locations.length / 2); i++) {
       positioned.push({ location: locations[i], x: currentX, y: currentY })
