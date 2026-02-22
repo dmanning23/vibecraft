@@ -15,6 +15,10 @@ import { join, resolve, dirname } from 'path'
 import { randomUUID } from 'crypto'
 import { fileURLToPath } from 'url'
 import { removeBackground } from '@imgly/background-removal-node'
+import { fetch, Agent } from 'undici'
+
+// Long-lived agent with no headers/body timeout for slow SD generations
+const sdAgent = new Agent({ headersTimeout: 0, bodyTimeout: 0 })
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -145,25 +149,19 @@ async function generateImage(
     body.override_settings_restore_afterwards = true
   }
 
-  // SD can take a long time, especially when switching models
-  const controller = new AbortController()
-  const timeout = setTimeout(() => controller.abort(), 10 * 60 * 1000) // 10 min
-
-  let response: Response
+  let response: Awaited<ReturnType<typeof fetch>>
   try {
     response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
-      signal: controller.signal,
+      dispatcher: sdAgent,
     })
   } catch (err) {
     const cause = err instanceof Error && (err as NodeJS.ErrnoException).cause
       ? ` (cause: ${(err as NodeJS.ErrnoException).cause})`
       : ''
     throw new Error(`Cannot reach Stable Diffusion at ${baseUrl} — is it running? ${err instanceof Error ? err.message : err}${cause}`)
-  } finally {
-    clearTimeout(timeout)
   }
 
   if (!response.ok) {
