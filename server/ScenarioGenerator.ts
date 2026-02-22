@@ -145,15 +145,20 @@ async function generateImage(
     body.override_settings_restore_afterwards = true
   }
 
-  const response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
-  })
+  let response: Response
+  try {
+    response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+  } catch (err) {
+    throw new Error(`Cannot reach Stable Diffusion at ${baseUrl} — is it running? (${err instanceof Error ? err.message : err})`)
+  }
 
   if (!response.ok) {
     const err = await response.text()
-    throw new Error(`Stable Diffusion error ${response.status}: ${err}`)
+    throw new Error(`Stable Diffusion error ${response.status} at ${baseUrl}: ${err}`)
   }
 
   const data = await response.json() as { images: string[] }
