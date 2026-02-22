@@ -145,15 +145,25 @@ async function generateImage(
     body.override_settings_restore_afterwards = true
   }
 
+  // SD can take a long time, especially when switching models
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 10 * 60 * 1000) // 10 min
+
   let response: Response
   try {
     response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
+      signal: controller.signal,
     })
   } catch (err) {
-    throw new Error(`Cannot reach Stable Diffusion at ${baseUrl} — is it running? (${err instanceof Error ? err.message : err})`)
+    const cause = err instanceof Error && (err as NodeJS.ErrnoException).cause
+      ? ` (cause: ${(err as NodeJS.ErrnoException).cause})`
+      : ''
+    throw new Error(`Cannot reach Stable Diffusion at ${baseUrl} — is it running? ${err instanceof Error ? err.message : err}${cause}`)
+  } finally {
+    clearTimeout(timeout)
   }
 
   if (!response.ok) {
@@ -322,6 +332,10 @@ export async function generateScenario(
     broadcast(TOTAL, TOTAL, `"${plan.name}" is ready!`, 'complete')
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
-    broadcast(step, TOTAL, message, 'error', message)
+    const cause = err instanceof Error && (err as NodeJS.ErrnoException).cause
+      ? ` — cause: ${(err as NodeJS.ErrnoException).cause}`
+      : ''
+    console.error(`[ScenarioGenerator] Error at step ${step}:`, err)
+    broadcast(step, TOTAL, message + cause, 'error', message + cause)
   }
 }
