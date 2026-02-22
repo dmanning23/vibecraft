@@ -8,9 +8,6 @@
 
 import React, { useState } from 'react'
 
-// Port injected at build time
-declare const __VIBECRAFT_DEFAULT_PORT__: number
-
 interface CreateScenarioDialogProps {
   isOpen: boolean
   onClose: () => void
@@ -31,9 +28,7 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
     if (!canCreate) return
     setSubmitting(true)
     try {
-      const port = __VIBECRAFT_DEFAULT_PORT__ || 4003
-      const base = `${window.location.protocol}//${window.location.hostname}:${port}`
-      await fetch(`${base}/generate-scenario`, {
+      await fetch('/generate-scenario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ openaiKey, sdUrl, description }),

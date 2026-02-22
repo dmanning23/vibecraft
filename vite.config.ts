@@ -29,6 +29,12 @@ export default defineConfig({
         target: `http://localhost:${serverPort}`,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/generate-scenario': {
+        target: `http://localhost:${serverPort}`,
+      },
+      '/event': {
+        target: `http://localhost:${serverPort}`,
+      },
     },
   },
   build: {
