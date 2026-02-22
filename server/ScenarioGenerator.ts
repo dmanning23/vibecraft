@@ -229,7 +229,11 @@ async function generateImage(
 
 async function stripBackground(imageBuffer: Buffer): Promise<Buffer> {
   log(`stripBackground: input ${imageBuffer.length} bytes — running rembg...`)
-  const blob = await removeBackground(imageBuffer, {
+  // Wrap buffer in a typed Blob so the library can detect the MIME type.
+  // Without a type, Buffer (ArrayBuffer.isView) becomes Blob("") which throws
+  // "Unsupported format: " inside imageDecode.
+  const inputBlob = new Blob([imageBuffer], { type: 'image/png' })
+  const blob = await removeBackground(inputBlob, {
     model: 'medium',
     output: { format: 'image/png' },
   })
