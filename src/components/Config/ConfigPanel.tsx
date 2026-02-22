@@ -36,6 +36,7 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
       <CreateScenarioDialog
         isOpen={createOpen}
         onClose={() => setCreateOpen(false)}
+        onCreated={() => { setCreateOpen(false); onClose() }}
       />
 
       {/* Backdrop */}

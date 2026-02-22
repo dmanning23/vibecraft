@@ -11,11 +11,14 @@ import React, { useState } from 'react'
 interface CreateScenarioDialogProps {
   isOpen: boolean
   onClose: () => void
+  /** Called instead of onClose when generation is successfully kicked off */
+  onCreated?: () => void
 }
 
 export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
   isOpen,
   onClose,
+  onCreated,
 }) => {
   const [openaiKey, setOpenaiKey] = useState('')
   const [sdUrl, setSdUrl] = useState('')
@@ -34,7 +37,8 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
         body: JSON.stringify({ openaiKey, sdUrl, description }),
       })
       // Server responds 202 immediately; progress arrives via WebSocket
-      onClose()
+      if (onCreated) onCreated()
+      else onClose()
     } finally {
       setSubmitting(false)
     }
