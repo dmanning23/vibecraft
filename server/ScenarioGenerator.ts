@@ -23,16 +23,37 @@ const sdAgent = new Agent({ headersTimeout: 0, bodyTimeout: 0 })
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+// ============================================================================
+// Logging
+// ============================================================================
+
+function log(msg: string, ...args: unknown[]): void {
+  console.log(`[ScenarioGenerator] ${msg}`, ...args)
+}
+
+function logError(msg: string, err: unknown): void {
+  console.error(`[ScenarioGenerator] ERROR — ${msg}`)
+  if (err instanceof Error) {
+    console.error(`  message: ${err.message}`)
+    if ((err as NodeJS.ErrnoException).cause) {
+      console.error(`  cause:   ${(err as NodeJS.ErrnoException).cause}`)
+    }
+    console.error(`  stack:   ${err.stack}`)
+  } else {
+    console.error(`  value:   ${String(err)}`)
+  }
+}
+
 // Resolve the public/ folder relative to this file (server/ -> ../ -> public/)
 function getPublicDir(): string {
-  // Running as tsx server/index.ts → __dirname = <project>/server
-  // Running as dist/server/index.js → __dirname = <project>/dist/server
   const candidates = [
     resolve(__dirname, '../public'),
     resolve(__dirname, '../../public'),
     resolve(process.cwd(), 'public'),
   ]
-  return candidates.find(existsSync) ?? resolve(process.cwd(), 'public')
+  const found = candidates.find(existsSync) ?? resolve(process.cwd(), 'public')
+  log(`public dir resolved to: ${found}`)
+  return found
 }
 
 // ============================================================================
@@ -62,6 +83,8 @@ interface ScenarioPlan {
 // ============================================================================
 
 async function planScenario(openaiKey: string, description: string): Promise<ScenarioPlan> {
+  log(`Calling OpenAI to plan scenario for: "${description}"`)
+
   const systemPrompt = `You are a creative director for a 2D village game.
 Given a scenario description, output a JSON object with this exact shape:
 {
@@ -110,7 +133,16 @@ Respond with ONLY valid JSON, no markdown fences.`
 
   const data = await response.json() as { choices: Array<{ message: { content: string } }> }
   const content = data.choices[0].message.content
-  return JSON.parse(content) as ScenarioPlan
+  const plan = JSON.parse(content) as ScenarioPlan
+
+  log(`Plan received — id: "${plan.id}", name: "${plan.name}"`)
+  log(`  backgroundPrompt: ${plan.backgroundPrompt}`)
+  log(`  locations (${plan.locations.length}):`)
+  plan.locations.forEach((l, i) => log(`    [${i}] ${l.name}: ${l.prompt}`))
+  log(`  agents (${plan.agents.length}):`)
+  plan.agents.forEach((a, i) => log(`    [${i}] ${a.name}: ${a.physicalDescription}`))
+
+  return plan
 }
 
 // ============================================================================
@@ -149,6 +181,13 @@ async function generateImage(
     body.override_settings_restore_afterwards = true
   }
 
+  log(`SD request → ${baseUrl}/sdapi/v1/txt2img`)
+  log(`  model:    ${options.model ?? '(default)'}`)
+  log(`  size:     ${width}×${height}`)
+  log(`  steps:    ${options.steps ?? 25}  cfg: ${options.cfgScale ?? 7}`)
+  log(`  prompt:   ${prompt}`)
+  log(`  negative: ${options.negativePrompt ?? 'blurry, low quality, distorted, text, watermark'}`)
+
   let response: Awaited<ReturnType<typeof fetch>>
   try {
     response = await fetch(`${baseUrl}/sdapi/v1/txt2img`, {
@@ -164,13 +203,24 @@ async function generateImage(
     throw new Error(`Cannot reach Stable Diffusion at ${baseUrl} — is it running? ${err instanceof Error ? err.message : err}${cause}`)
   }
 
+  log(`SD response status: ${response.status}`)
+
   if (!response.ok) {
     const err = await response.text()
     throw new Error(`Stable Diffusion error ${response.status} at ${baseUrl}: ${err}`)
   }
 
   const data = await response.json() as { images: string[] }
-  return Buffer.from(data.images[0], 'base64')
+  const imageCount = data.images?.length ?? 0
+  log(`SD returned ${imageCount} image(s)`)
+
+  if (!imageCount || !data.images[0]) {
+    throw new Error(`Stable Diffusion returned no images (images array was empty or missing)`)
+  }
+
+  const imgBuffer = Buffer.from(data.images[0], 'base64')
+  log(`SD image decoded: ${imgBuffer.length} bytes`)
+  return imgBuffer
 }
 
 // ============================================================================
@@ -178,11 +228,14 @@ async function generateImage(
 // ============================================================================
 
 async function stripBackground(imageBuffer: Buffer): Promise<Buffer> {
+  log(`stripBackground: input ${imageBuffer.length} bytes — running rembg...`)
   const blob = await removeBackground(imageBuffer, {
     model: 'medium',
     output: { format: 'image/png' },
   })
-  return Buffer.from(await blob.arrayBuffer())
+  const result = Buffer.from(await blob.arrayBuffer())
+  log(`stripBackground: output ${result.length} bytes`)
+  return result
 }
 
 // ============================================================================
@@ -237,14 +290,22 @@ export async function generateScenario(
   const TOTAL = 44
   let step = 0
 
+  log(`=== Starting scenario generation ===`)
+  log(`  sdUrl:       ${sdUrl}`)
+  log(`  description: ${description}`)
+  log(`  publicDir:   ${publicDir}`)
+
   try {
     // ── Step 1: Plan ──────────────────────────────────────────────────────────
+    log(`\n── Step ${step + 1}/${TOTAL}: Planning ──`)
     broadcast(++step, TOTAL, 'Planning scenario with OpenAI...', 'planning')
     const plan = await planScenario(openaiKey, description)
 
     // Ensure unique ID
     const id = `${plan.id}_${randomUUID().slice(0, 8)}`
     const assetBase = join(publicDir, 'assets', 'generated', id)
+    log(`Scenario id: ${id}`)
+    log(`Asset base:  ${assetBase}`)
 
     mkdirSync(join(assetBase, 'scenario'), { recursive: true })
     mkdirSync(join(assetBase, 'locations'), { recursive: true })
@@ -255,6 +316,7 @@ export async function generateScenario(
     const relBase = `assets/generated/${id}`
 
     // ── Step 2: Background ────────────────────────────────────────────────────
+    log(`\n── Step ${step + 1}/${TOTAL}: Background ──`)
     broadcast(++step, TOTAL, 'Generating background...', 'generating')
     const bgImage = await generateImage(
       sdUrl,
@@ -263,13 +325,16 @@ export async function generateScenario(
       1024,
       { negativePrompt: BACKGROUND_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
     )
-    writeFileSync(join(assetBase, 'scenario', 'background.png'), bgImage)
+    const bgPath = join(assetBase, 'scenario', 'background.png')
+    writeFileSync(bgPath, bgImage)
+    log(`Background saved: ${bgPath}`)
     const backgroundRel = `${relBase}/scenario/background.png`
 
     // ── Steps 3–8: Locations ──────────────────────────────────────────────────
     const locationPaths: string[] = []
     for (let i = 0; i < plan.locations.length; i++) {
       const loc = plan.locations[i]
+      log(`\n── Step ${step + 1}/${TOTAL}: Location ${i + 1}/${plan.locations.length} — "${loc.name}" ──`)
       broadcast(++step, TOTAL, `Generating location: ${loc.name}...`, 'generating')
       const rawLoc = await generateImage(
         sdUrl,
@@ -279,7 +344,9 @@ export async function generateScenario(
         { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
       )
       const img = await stripBackground(rawLoc)
-      writeFileSync(join(assetBase, 'locations', `${i}.png`), img)
+      const imgPath = join(assetBase, 'locations', `${i}.png`)
+      writeFileSync(imgPath, img)
+      log(`Location saved: ${imgPath}`)
       locationPaths.push(`${relBase}/locations/${i}.png`)
     }
 
@@ -287,9 +354,12 @@ export async function generateScenario(
     const agentConfigs: Array<{ states: Record<string, string> }> = []
     for (let i = 0; i < plan.agents.length; i++) {
       const agent = plan.agents[i]
+      log(`\n── Agent ${i + 1}/${plan.agents.length}: "${agent.name}" ──`)
+      log(`  physicalDescription: ${agent.physicalDescription}`)
       const states: Record<string, string> = {}
       for (const stateName of AGENT_STATES) {
         const statePrompt = buildAgentPrompt(agent.physicalDescription, AGENT_STATE_SUFFIXES[stateName])
+        log(`\n── Step ${step + 1}/${TOTAL}: Agent "${agent.name}" — state: ${stateName} ──`)
         broadcast(++step, TOTAL, `Generating ${agent.name} (${stateName})...`, 'generating')
         const rawAgent = await generateImage(
           sdUrl,
@@ -301,12 +371,14 @@ export async function generateScenario(
         const img = await stripBackground(rawAgent)
         const imgPath = join(assetBase, 'agents', String(i), `${stateName}.png`)
         writeFileSync(imgPath, img)
+        log(`Agent image saved: ${imgPath}`)
         states[stateName] = `${relBase}/agents/${i}/${stateName}.png`
       }
       agentConfigs.push({ states })
     }
 
     // ── Step 44: Save ─────────────────────────────────────────────────────────
+    log(`\n── Step ${step + 1}/${TOTAL}: Saving scenarios.json ──`)
     broadcast(++step, TOTAL, 'Saving scenario...', 'saving')
 
     const newScenario = {
@@ -326,14 +398,16 @@ export async function generateScenario(
     }
     scenariosData.scenarios.push(newScenario)
     writeFileSync(scenariosFile, JSON.stringify(scenariosData, null, 2))
+    log(`scenarios.json updated: ${scenariosFile}`)
 
+    log(`\n=== Generation complete: "${plan.name}" ===`)
     broadcast(TOTAL, TOTAL, `"${plan.name}" is ready!`, 'complete')
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err)
     const cause = err instanceof Error && (err as NodeJS.ErrnoException).cause
       ? ` — cause: ${(err as NodeJS.ErrnoException).cause}`
       : ''
-    console.error(`[ScenarioGenerator] Error at step ${step}:`, err)
+    logError(`at step ${step}/${TOTAL}`, err)
     broadcast(step, TOTAL, message + cause, 'error', message + cause)
   }
 }
