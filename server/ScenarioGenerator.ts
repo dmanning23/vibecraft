@@ -202,9 +202,9 @@ function buildAgentPrompt(physicalDescription: string, stateSuffix: string): str
 const AGENT_STATE_SUFFIXES: Record<string, string> = {
     idle: 'standing natural',
     walking: 'running',
-    working: 'focused, working hard',
-    thinking: 'contemplative expression, lost in thought',
-    finished: 'happy and triumphant',
+    working: 'focused, staring at hands, scowling',
+    thinking: 'head in hands, confused',
+    finished: 'triumphant, fist pump, cheering',
 }
 
 const AGENT_STATES = Object.keys(AGENT_STATE_SUFFIXES) as Array<keyof typeof AGENT_STATE_SUFFIXES>
