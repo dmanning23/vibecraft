@@ -71,6 +71,17 @@ export interface ProgressBroadcast {
     (step: number, total: number, message: string, status?: 'planning' | 'generating' | 'saving' | 'complete' | 'error', error?: string): void
 }
 
+export interface RegenerateRequest {
+    sdUrl: string
+    scenarioId: string
+    /** 'background' | 'location-{i}' | 'agent-{i}-{state}' */
+    assetKey: string
+}
+
+export interface RegenBroadcast {
+    (status: 'started' | 'complete' | 'error', message: string, error?: string): void
+}
+
 // ============================================================================
 // Stable Diffusion — generate one image
 // ============================================================================
@@ -325,7 +336,24 @@ export async function generateScenario(
             name: meta.name,
             background: backgroundRel,
             locations: locationPaths,
-            agents: agentConfigs,
+            agents: agents.map((agent, i) => ({
+                name: agent.name,
+                states: agentConfigs[i].states,
+            })),
+            generationData: {
+                sdUrl,
+                description,
+                backgroundPrompt: meta.backgroundPrompt,
+                locations: locations.map(loc => ({
+                    stationType: loc.stationType,
+                    name: loc.name,
+                    sdPrompt: loc.prompt,
+                })),
+                agents: agents.map(agent => ({
+                    name: agent.name,
+                    physicalDescription: agent.physicalDescription,
+                })),
+            },
         }
 
         let scenariosData: { defaultScenarioId: string; scenarios: unknown[] } = {
@@ -349,4 +377,90 @@ export async function generateScenario(
         logError(`at step ${step}/${TOTAL}`, err)
         broadcast(step, TOTAL, message + cause, 'error', message + cause)
     }
+}
+
+// ============================================================================
+// Single-asset regeneration
+// ============================================================================
+
+export async function regenerateAsset(
+    publicDir: string,
+    scenariosFile: string,
+    request: RegenerateRequest,
+    broadcast: RegenBroadcast,
+): Promise<void> {
+    const { sdUrl, scenarioId, assetKey } = request
+
+    const scenariosData = JSON.parse(readFileSync(scenariosFile, 'utf-8')) as {
+        scenarios: Array<{
+            id: string
+            background: string
+            locations: string[]
+            agents: Array<{ states: Record<string, string> }>
+            generationData?: {
+                backgroundPrompt: string
+                locations: Array<{ sdPrompt: string }>
+                agents: Array<{ physicalDescription: string }>
+            }
+        }>
+    }
+
+    const scenario = scenariosData.scenarios.find(s => s.id === scenarioId)
+    if (!scenario) throw new Error(`Scenario not found: ${scenarioId}`)
+    const gen = scenario.generationData
+    if (!gen) throw new Error(`Scenario "${scenarioId}" has no generation data — cannot regenerate`)
+
+    log(`Regenerating asset "${assetKey}" for scenario "${scenarioId}"`)
+    broadcast('started', `Regenerating ${assetKey}...`)
+
+    let rawImage: Buffer
+    let imagePath: string
+    let needsBgRemoval = true
+
+    if (assetKey === 'background') {
+        rawImage = await generateImage(
+            sdUrl,
+            buildBackgroundPrompt(gen.backgroundPrompt),
+            2048, 1024,
+            { negativePrompt: BACKGROUND_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
+        )
+        imagePath = join(publicDir, scenario.background)
+        needsBgRemoval = false
+
+    } else if (assetKey.startsWith('location-')) {
+        const locIndex = parseInt(assetKey.split('-')[1])
+        const locData = gen.locations[locIndex]
+        if (!locData) throw new Error(`No location data at index ${locIndex}`)
+        rawImage = await generateImage(
+            sdUrl,
+            buildLocationPrompt(locData.sdPrompt),
+            768, 512,
+            { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
+        )
+        imagePath = join(publicDir, scenario.locations[locIndex])
+
+    } else if (assetKey.startsWith('agent-')) {
+        const parts = assetKey.split('-')
+        const agentIndex = parseInt(parts[1])
+        const stateName = parts[2]
+        const agentData = gen.agents[agentIndex]
+        if (!agentData) throw new Error(`No agent data at index ${agentIndex}`)
+        const stateSuffix = AGENT_STATE_SUFFIXES[stateName]
+        if (!stateSuffix) throw new Error(`Unknown agent state: ${stateName}`)
+        rawImage = await generateImage(
+            sdUrl,
+            buildAgentPrompt(agentData.physicalDescription, stateSuffix),
+            832, 1344,
+            { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 50, cfgScale: 7 },
+        )
+        imagePath = join(publicDir, scenario.agents[agentIndex].states[stateName])
+
+    } else {
+        throw new Error(`Unknown asset key: ${assetKey}`)
+    }
+
+    const finalImage = needsBgRemoval ? await stripBackground(rawImage) : rawImage
+    writeFileSync(imagePath, finalImage)
+    log(`Regenerated: ${imagePath}`)
+    broadcast('complete', `Done — ${assetKey}`)
 }

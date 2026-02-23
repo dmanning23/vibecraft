@@ -8,6 +8,8 @@
 
 /** Per-state image paths for a single agent */
 export interface AgentConfig {
+  /** Character name — present in generated scenarios */
+  name?: string
   states: {
     idle: string
     walking: string
@@ -15,6 +17,30 @@ export interface AgentConfig {
     thinking: string
     finished: string
   }
+}
+
+/**
+ * OpenAI planning data saved alongside generated scenarios.
+ * Used to regenerate individual assets without re-running OpenAI.
+ */
+export interface GenerationData {
+  /** Stable Diffusion URL used during generation */
+  sdUrl: string
+  /** Original user description */
+  description: string
+  /** SD prompt for the background image */
+  backgroundPrompt: string
+  /** One entry per location (9 total, in STATION_ROLES order) */
+  locations: Array<{
+    stationType: string
+    name: string
+    sdPrompt: string
+  }>
+  /** One entry per agent (7 total) */
+  agents: Array<{
+    name: string
+    physicalDescription: string
+  }>
 }
 
 export interface ScenarioConfig {
@@ -26,4 +52,6 @@ export interface ScenarioConfig {
   locations: string[]
   /** Agent configs — index 0 = main character, rest = subagents (cycled) */
   agents: AgentConfig[]
+  /** Present only on generated scenarios — enables per-asset regeneration */
+  generationData?: GenerationData
 }

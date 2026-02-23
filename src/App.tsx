@@ -16,7 +16,7 @@ import { EventClient } from './events/EventClient'
 import { eventBus } from './events/EventBus'
 import { soundManager } from './audio/SoundManager'
 import { reloadScenarios } from './hooks/useScenario'
-import type { ClaudeEvent, ManagedSession, ScenarioGenerationUpdate } from '@shared/types'
+import type { ClaudeEvent, ManagedSession, ScenarioGenerationUpdate, AssetRegenerationUpdate } from '@shared/types'
 
 // Port injected at build time
 declare const __VIBECRAFT_DEFAULT_PORT__: number
@@ -29,6 +29,8 @@ export const App: React.FC = () => {
   const [soundEnabled, setSoundEnabled] = useState(true)
   const [generationUpdate, setGenerationUpdate] = useState<ScenarioGenerationUpdate | null>(null)
   const generationTimerRef = useRef<number | null>(null)
+  const [regenStatus, setRegenStatus] = useState<Record<string, 'loading' | 'done' | 'error'>>({})
+  const [regenTimestamps, setRegenTimestamps] = useState<Record<string, number>>({})
 
   // Initialize event client
   useEffect(() => {
@@ -70,32 +72,50 @@ export const App: React.FC = () => {
       setSessions(managedSessions)
     })
 
-    // Scenario generation progress
+    // Scenario generation + asset regeneration progress
     const unsubRaw = client.onRawMessage((msg) => {
-      if (msg.type !== 'scenario_generation') return
-      const update = msg.payload as ScenarioGenerationUpdate
-      setGenerationUpdate(update)
+      if (msg.type === 'scenario_generation') {
+        const update = msg.payload as ScenarioGenerationUpdate
+        setGenerationUpdate(update)
 
-      // Clear any pending auto-hide timer
-      if (generationTimerRef.current !== null) {
-        window.clearTimeout(generationTimerRef.current)
-        generationTimerRef.current = null
+        if (generationTimerRef.current !== null) {
+          window.clearTimeout(generationTimerRef.current)
+          generationTimerRef.current = null
+        }
+
+        if (update.status === 'complete') {
+          reloadScenarios()
+          generationTimerRef.current = window.setTimeout(() => {
+            setGenerationUpdate(null)
+            generationTimerRef.current = null
+          }, 4000)
+        } else if (update.status === 'error') {
+          generationTimerRef.current = window.setTimeout(() => {
+            setGenerationUpdate(null)
+            generationTimerRef.current = null
+          }, 8000)
+        }
       }
 
-      if (update.status === 'complete') {
-        // Reload the scenario list so the new scenario appears in the picker
-        reloadScenarios()
-        // Auto-hide after 4 seconds
-        generationTimerRef.current = window.setTimeout(() => {
-          setGenerationUpdate(null)
-          generationTimerRef.current = null
-        }, 4000)
-      } else if (update.status === 'error') {
-        // Auto-hide after 8 seconds on error
-        generationTimerRef.current = window.setTimeout(() => {
-          setGenerationUpdate(null)
-          generationTimerRef.current = null
-        }, 8000)
+      if (msg.type === 'asset_regeneration') {
+        const update = msg.payload as AssetRegenerationUpdate
+        const key = `${update.scenarioId}::${update.assetKey}`
+        if (update.status === 'started') {
+          setRegenStatus(prev => ({ ...prev, [key]: 'loading' }))
+        } else if (update.status === 'complete') {
+          setRegenStatus(prev => ({ ...prev, [key]: 'done' }))
+          setRegenTimestamps(prev => ({ ...prev, [key]: Date.now() }))
+          // Clear 'done' badge after 3 seconds
+          window.setTimeout(() => {
+            setRegenStatus(prev => {
+              const next = { ...prev }
+              if (next[key] === 'done') delete next[key]
+              return next
+            })
+          }, 3000)
+        } else if (update.status === 'error') {
+          setRegenStatus(prev => ({ ...prev, [key]: 'error' }))
+        }
       }
     })
 
@@ -130,6 +150,27 @@ export const App: React.FC = () => {
     setSelectedSessionId(sessionId)
   }, [])
 
+  // Trigger single-asset regeneration
+  const handleRegenerate = useCallback((scenarioId: string, assetKey: string) => {
+    // sdUrl comes from the scenario's generationData — no re-entry needed
+    fetch('/scenarios.json')
+      .then(r => r.json())
+      .then((data: { scenarios: Array<{ id: string; generationData?: { sdUrl: string } }> }) => {
+        const scenario = data.scenarios.find(s => s.id === scenarioId)
+        const sdUrl = scenario?.generationData?.sdUrl
+        if (!sdUrl) {
+          console.error(`No sdUrl found for scenario ${scenarioId}`)
+          return
+        }
+        fetch('/regenerate-asset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sdUrl, scenarioId, assetKey }),
+        })
+      })
+      .catch(err => console.error('Failed to start regeneration:', err))
+  }, [])
+
   return (
     <VillageProvider>
       <div className="app-container">
@@ -142,6 +183,9 @@ export const App: React.FC = () => {
             onSessionSelect={handleSessionSelect}
             soundEnabled={soundEnabled}
             onSoundToggle={() => setSoundEnabled(!soundEnabled)}
+            regenStatus={regenStatus}
+            regenTimestamps={regenTimestamps}
+            onRegenerate={handleRegenerate}
           />
 
           {/* Scenario generation progress banner */}

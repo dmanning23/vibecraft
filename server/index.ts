@@ -37,7 +37,7 @@ import type {
 import { DEFAULTS } from '../shared/defaults.js'
 import { GitStatusManager } from './GitStatusManager.js'
 import { ProjectsManager } from './ProjectsManager.js'
-import { generateScenario } from './ScenarioGenerator.js'
+import { generateScenario, regenerateAsset } from './ScenarioGenerator.js'
 import { fileURLToPath } from 'url'
 
 // ============================================================================
@@ -2153,6 +2153,52 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
           broadcast({
             type: 'scenario_generation',
             payload: { status, step, total, message, error },
+          })
+        })
+      } catch {
+        res.writeHead(400, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ ok: false, error: 'Invalid JSON' }))
+      }
+    })
+    return
+  }
+
+  // POST /regenerate-asset — regenerate a single image for an existing scenario
+  if (req.method === 'POST' && req.url === '/regenerate-asset') {
+    collectRequestBody(req).then(body => {
+      try {
+        const { sdUrl, scenarioId, assetKey } = JSON.parse(body)
+        if (!sdUrl || !scenarioId || !assetKey) {
+          res.writeHead(400, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ ok: false, error: 'Missing required fields: sdUrl, scenarioId, assetKey' }))
+          return
+        }
+
+        res.writeHead(202, { 'Content-Type': 'application/json' })
+        res.end(JSON.stringify({ ok: true, message: 'Regeneration started' }))
+
+        const publicDir = (() => {
+          const candidates = [
+            resolve(__dirname, '../public'),
+            resolve(__dirname, '../../public'),
+            resolve(process.cwd(), 'public'),
+          ]
+          return candidates.find(existsSync) ?? resolve(process.cwd(), 'public')
+        })()
+        const scenariosFile = join(publicDir, 'scenarios.json')
+
+        regenerateAsset(publicDir, scenariosFile, { sdUrl, scenarioId, assetKey }, (status, message, error) => {
+          log(`Asset regen [${scenarioId}::${assetKey}] ${status}: ${message}`)
+          broadcast({
+            type: 'asset_regeneration',
+            payload: { status, scenarioId, assetKey, message, error },
+          })
+        }).catch((err: Error) => {
+          const msg = err.message ?? String(err)
+          log(`Asset regen error [${scenarioId}::${assetKey}]: ${msg}`)
+          broadcast({
+            type: 'asset_regeneration',
+            payload: { status: 'error', scenarioId, assetKey, message: msg, error: msg },
           })
         })
       } catch {

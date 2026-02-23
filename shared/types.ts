@@ -163,6 +163,16 @@ export interface ScenarioGenerationUpdate {
   error?: string
 }
 
+/** Single asset regeneration update */
+export interface AssetRegenerationUpdate {
+  status: 'started' | 'complete' | 'error'
+  scenarioId: string
+  /** 'background' | 'location-{i}' | 'agent-{i}-{state}' */
+  assetKey: string
+  message: string
+  error?: string
+}
+
 /** Server -> Client messages */
 export type ServerMessage =
   | { type: 'event'; payload: ClaudeEvent }
@@ -176,6 +186,7 @@ export type ServerMessage =
   | { type: 'permission_resolved'; payload: { sessionId: string } }
   | { type: 'text_tiles'; payload: TextTile[] }
   | { type: 'scenario_generation'; payload: ScenarioGenerationUpdate }
+  | { type: 'asset_regeneration'; payload: AssetRegenerationUpdate }
 
 /** Client -> Server messages */
 export type ClientMessage =

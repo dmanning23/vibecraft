@@ -8,6 +8,7 @@
 import React, { useState } from 'react'
 import type { ScenarioConfig } from '../../config/scenarios'
 import { CreateScenarioDialog } from './CreateScenarioDialog'
+import { RegeneratePanel } from './RegeneratePanel'
 
 interface ConfigPanelProps {
   isOpen: boolean
@@ -17,6 +18,9 @@ interface ConfigPanelProps {
   onScenarioChange: (id: string) => void
   soundEnabled: boolean
   onSoundToggle: () => void
+  regenStatus: Record<string, 'loading' | 'done' | 'error'>
+  regenTimestamps: Record<string, number>
+  onRegenerate: (scenarioId: string, assetKey: string) => void
 }
 
 export const ConfigPanel: React.FC<ConfigPanelProps> = ({
@@ -27,8 +31,12 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
   onScenarioChange,
   soundEnabled,
   onSoundToggle,
+  regenStatus,
+  regenTimestamps,
+  onRegenerate,
 }) => {
   const [createOpen, setCreateOpen] = useState(false)
+  const currentScenario = scenarios.find(s => s.id === scenarioId)
 
   return (
     <>
@@ -84,6 +92,19 @@ export const ConfigPanel: React.FC<ConfigPanelProps> = ({
               </button>
             </div>
           </section>
+
+          {/* Asset regeneration — only for generated scenarios */}
+          {currentScenario?.generationData && (
+            <section className="config-section">
+              <div className="config-section-title">Regenerate Assets</div>
+              <RegeneratePanel
+                scenario={currentScenario}
+                regenStatus={regenStatus}
+                regenTimestamps={regenTimestamps}
+                onRegenerate={(assetKey) => onRegenerate(scenarioId, assetKey)}
+              />
+            </section>
+          )}
 
           {/* Audio */}
           <section className="config-section">

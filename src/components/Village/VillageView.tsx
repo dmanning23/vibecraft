@@ -23,6 +23,9 @@ interface VillageViewProps {
   onSessionSelect: (sessionId: string | null) => void
   soundEnabled: boolean
   onSoundToggle: () => void
+  regenStatus: Record<string, 'loading' | 'done' | 'error'>
+  regenTimestamps: Record<string, number>
+  onRegenerate: (scenarioId: string, assetKey: string) => void
 }
 
 export const VillageView: React.FC<VillageViewProps> = ({
@@ -32,6 +35,9 @@ export const VillageView: React.FC<VillageViewProps> = ({
   onSessionSelect,
   soundEnabled,
   onSoundToggle,
+  regenStatus,
+  regenTimestamps,
+  onRegenerate,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [configOpen, setConfigOpen] = useState(false)
@@ -75,6 +81,9 @@ export const VillageView: React.FC<VillageViewProps> = ({
         onScenarioChange={(id) => { setScenario(id); setConfigOpen(false) }}
         soundEnabled={soundEnabled}
         onSoundToggle={onSoundToggle}
+        regenStatus={regenStatus}
+        regenTimestamps={regenTimestamps}
+        onRegenerate={onRegenerate}
       />
 
       {scenario && (
