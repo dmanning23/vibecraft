@@ -32,6 +32,9 @@ export default defineConfig({
       '/generate-scenario': {
         target: `http://localhost:${serverPort}`,
       },
+      '/regenerate-asset': {
+        target: `http://localhost:${serverPort}`,
+      },
       '/event': {
         target: `http://localhost:${serverPort}`,
       },
