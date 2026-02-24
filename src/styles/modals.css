@@ -2348,6 +2348,11 @@
   padding: 8px 0;
 }
 
+/* Agent images are portrait (832×1344 ≈ 5:8) */
+.regen-grid-5 .regen-thumb {
+  aspect-ratio: 5 / 8;
+}
+
 .regen-thumb {
   position: relative;
   border-radius: 4px;
