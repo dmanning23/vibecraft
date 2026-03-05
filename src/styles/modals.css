@@ -2213,6 +2213,16 @@
   cursor: not-allowed;
 }
 
+.create-scenario-error {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(220, 60, 60, 0.15);
+  border: 1px solid rgba(220, 60, 60, 0.4);
+  border-radius: 4px;
+  color: #ff7070;
+  font-size: 12px;
+}
+
 /* ============================================================
    Generation Progress Banner
    ============================================================ */

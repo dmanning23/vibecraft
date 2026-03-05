@@ -1,9 +1,8 @@
 /**
  * CreateScenarioDialog
  *
- * Modal for generating a new scenario. Requires an OpenAI key,
- * a Stable Diffusion URL, and a text description before the
- * Create button becomes active.
+ * Modal for generating a new scenario. Only requires a description —
+ * OPENAI_API_KEY and SD_URL are read from the server's environment.
  */
 
 import React, { useState } from 'react'
@@ -20,25 +19,32 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
   onClose,
   onCreated,
 }) => {
-  const [openaiKey, setOpenaiKey] = useState('')
-  const [sdUrl, setSdUrl] = useState('')
   const [description, setDescription] = useState('')
   const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const canCreate = !submitting && openaiKey.trim() !== '' && sdUrl.trim() !== '' && description.trim() !== ''
+  const canCreate = !submitting && description.trim() !== ''
 
   const handleCreate = async () => {
     if (!canCreate) return
     setSubmitting(true)
+    setError(null)
     try {
-      await fetch('/generate-scenario', {
+      const res = await fetch('/generate-scenario', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ openaiKey, sdUrl, description }),
+        body: JSON.stringify({ description }),
       })
+      if (!res.ok) {
+        const data = await res.json() as { error?: string }
+        setError(data.error ?? `Server error ${res.status}`)
+        return
+      }
       // Server responds 202 immediately; progress arrives via WebSocket
       if (onCreated) onCreated()
       else onClose()
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Request failed')
     } finally {
       setSubmitting(false)
     }
@@ -64,29 +70,6 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
         <div className="create-scenario-body">
 
           <div className="create-scenario-field">
-            <label className="create-scenario-label">OpenAI API Key</label>
-            <input
-              type="password"
-              className="create-scenario-input"
-              placeholder="sk-..."
-              value={openaiKey}
-              onChange={(e) => setOpenaiKey(e.target.value)}
-              autoComplete="off"
-            />
-          </div>
-
-          <div className="create-scenario-field">
-            <label className="create-scenario-label">Stable Diffusion URL</label>
-            <input
-              type="text"
-              className="create-scenario-input"
-              placeholder="http://localhost:7860"
-              value={sdUrl}
-              onChange={(e) => setSdUrl(e.target.value)}
-            />
-          </div>
-
-          <div className="create-scenario-field">
             <label className="create-scenario-label">Scenario Description</label>
             <textarea
               className="create-scenario-textarea"
@@ -96,6 +79,10 @@ export const CreateScenarioDialog: React.FC<CreateScenarioDialogProps> = ({
               rows={4}
             />
           </div>
+
+          {error && (
+            <div className="create-scenario-error">{error}</div>
+          )}
 
         </div>
 

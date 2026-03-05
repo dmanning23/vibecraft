@@ -2137,10 +2137,23 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
   if (req.method === 'POST' && req.url === '/generate-scenario') {
     collectRequestBody(req).then(body => {
       try {
-        const { openaiKey, sdUrl, description } = JSON.parse(body)
-        if (!openaiKey || !sdUrl || !description) {
+        const { description } = JSON.parse(body)
+        if (!description) {
           res.writeHead(400, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify({ ok: false, error: 'Missing required fields' }))
+          res.end(JSON.stringify({ ok: false, error: 'Missing required field: description' }))
+          return
+        }
+
+        const openaiKey = process.env.OPENAI_API_KEY
+        const sdUrl = process.env.SD_URL
+        if (!openaiKey) {
+          res.writeHead(503, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ ok: false, error: 'OPENAI_API_KEY is not set on the server' }))
+          return
+        }
+        if (!sdUrl) {
+          res.writeHead(503, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ ok: false, error: 'SD_URL is not set on the server' }))
           return
         }
 
@@ -2167,10 +2180,17 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
   if (req.method === 'POST' && req.url === '/regenerate-asset') {
     collectRequestBody(req).then(body => {
       try {
-        const { sdUrl, scenarioId, assetKey } = JSON.parse(body)
-        if (!sdUrl || !scenarioId || !assetKey) {
+        const { scenarioId, assetKey } = JSON.parse(body)
+        if (!scenarioId || !assetKey) {
           res.writeHead(400, { 'Content-Type': 'application/json' })
-          res.end(JSON.stringify({ ok: false, error: 'Missing required fields: sdUrl, scenarioId, assetKey' }))
+          res.end(JSON.stringify({ ok: false, error: 'Missing required fields: scenarioId, assetKey' }))
+          return
+        }
+
+        const sdUrl = process.env.SD_URL
+        if (!sdUrl) {
+          res.writeHead(503, { 'Content-Type': 'application/json' })
+          res.end(JSON.stringify({ ok: false, error: 'SD_URL is not set on the server' }))
           return
         }
 
@@ -2187,7 +2207,6 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         })()
         const scenariosFile = join(publicDir, 'scenarios.json')
 
-        // Use OPENAI_API_KEY env var so regeneration gets a fresh prompt variation
         const openaiKey = process.env.OPENAI_API_KEY || undefined
 
         regenerateAsset(publicDir, scenariosFile, { sdUrl, scenarioId, assetKey, openaiKey }, (status, message, error) => {

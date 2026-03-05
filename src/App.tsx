@@ -152,23 +152,11 @@ export const App: React.FC = () => {
 
   // Trigger single-asset regeneration
   const handleRegenerate = useCallback((scenarioId: string, assetKey: string) => {
-    // sdUrl comes from the scenario's generationData — no re-entry needed
-    fetch('/scenarios.json')
-      .then(r => r.json())
-      .then((data: { scenarios: Array<{ id: string; generationData?: { sdUrl: string } }> }) => {
-        const scenario = data.scenarios.find(s => s.id === scenarioId)
-        const sdUrl = scenario?.generationData?.sdUrl
-        if (!sdUrl) {
-          console.error(`No sdUrl found for scenario ${scenarioId}`)
-          return
-        }
-        fetch('/regenerate-asset', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sdUrl, scenarioId, assetKey }),
-        })
-      })
-      .catch(err => console.error('Failed to start regeneration:', err))
+    fetch('/regenerate-asset', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scenarioId, assetKey }),
+    }).catch(err => console.error('Failed to start regeneration:', err))
   }, [])
 
   return (
