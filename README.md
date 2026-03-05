@@ -111,6 +111,39 @@ Characters move between 9 locations based on the active tool:
 
 Vibecraft can generate entirely new visual themes — different art styles, settings, and characters — using OpenAI and Stable Diffusion.
 
+### Stable Diffusion Setup
+
+Vibecraft uses **AUTOMATIC1111 (A1111)** with the `--api` flag enabled.
+
+**1. Install A1111** if you haven't already — follow the [AUTOMATIC1111 installation guide](https://github.com/AUTOMATIC1111/stable-diffusion-webui).
+
+**2. Enable the API.** Add `--api` to your launch arguments:
+
+- **macOS/Linux:** edit `webui-user.sh` and add to `COMMANDLINE_ARGS`:
+  ```bash
+  export COMMANDLINE_ARGS="--api"
+  ```
+- **Windows:** edit `webui-user.bat`:
+  ```bat
+  set COMMANDLINE_ARGS=--api
+  ```
+
+Then launch A1111 normally. The API will be available at `http://localhost:7860` by default.
+
+**3. Install required models and LoRAs** into your A1111 models folder:
+
+> **TODO:** paste model and LoRA download links here
+
+**4. Set `SD_URL`** in your `.env` to point at your A1111 instance:
+
+```
+SD_URL=http://localhost:7860
+```
+
+If A1111 is running on a different machine or port, update the URL accordingly.
+
+---
+
 **Setup (one time):** add to your `.env`:
 ```
 OPENAI_API_KEY=sk-...
