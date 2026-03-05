@@ -124,6 +124,47 @@ async function callOpenAI(apiKey: string, systemPrompt: string, userPrompt: stri
 // Planning calls
 // ============================================================================
 
+// ============================================================================
+// Prompt variation for regeneration
+// ============================================================================
+
+export type PromptAssetType = 'background' | 'location' | 'agent'
+
+/**
+ * Given an original SD prompt and asset type, asks OpenAI to produce a
+ * fresh variation with different phrasing and details. The visual concept
+ * is preserved so the subject/character remains consistent, but the new
+ * wording gives Stable Diffusion a fresh chance to trigger LoRAs and avoid
+ * getting stuck in the same generation failure mode.
+ */
+export async function rephrasePrompt(
+    apiKey: string,
+    assetType: PromptAssetType,
+    originalPrompt: string,
+): Promise<string> {
+    const typeGuidance: Record<PromptAssetType, string> = {
+        background: 'wide landscape / environment shot for a game background',
+        location: 'isometric building exterior for a game location',
+        agent: 'full body character portrait for a game sprite',
+    }
+
+    const system = `You are a Stable Diffusion prompt engineer specialising in ${typeGuidance[assetType]}.
+You will be given an existing SD prompt that was used to generate an image. The result was unsatisfactory
+(e.g. a LoRA did not trigger, the composition was wrong, or quality was poor). Your job is to write a
+fresh variation that:
+- Preserves the core subject, character, and visual concept exactly
+- Rephrases descriptions using different words and word order
+- Varies incidental details (lighting, atmosphere, angle, artistic style modifiers) to give SD a fresh sample
+- Keeps any LoRA trigger tokens and model-specific syntax that appear in the original (e.g. <lora:...>)
+
+Respond with a JSON object: { "prompt": "<new SD prompt>" }`
+
+    const raw = await callOpenAI(apiKey, system, `Original prompt:\n${originalPrompt}`)
+    const parsed = JSON.parse(raw) as { prompt: string }
+    console.log(`[ScenarioPlanner] rephrasePrompt: ${parsed.prompt}`)
+    return parsed.prompt.trim()
+}
+
 /** Plan scenario name, id, and background image prompt. */
 export async function planMeta(apiKey: string, description: string): Promise<ScenarioMeta> {
     const system = `You are a creative director for a village life simulation game.

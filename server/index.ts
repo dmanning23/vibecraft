@@ -2187,7 +2187,10 @@ function handleHttpRequest(req: IncomingMessage, res: ServerResponse) {
         })()
         const scenariosFile = join(publicDir, 'scenarios.json')
 
-        regenerateAsset(publicDir, scenariosFile, { sdUrl, scenarioId, assetKey }, (status, message, error) => {
+        // Use OPENAI_API_KEY env var so regeneration gets a fresh prompt variation
+        const openaiKey = process.env.OPENAI_API_KEY || undefined
+
+        regenerateAsset(publicDir, scenariosFile, { sdUrl, scenarioId, assetKey, openaiKey }, (status, message, error) => {
           log(`Asset regen [${scenarioId}::${assetKey}] ${status}: ${message}`)
           broadcast({
             type: 'asset_regeneration',

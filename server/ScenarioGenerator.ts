@@ -16,7 +16,7 @@ import { randomUUID } from 'crypto'
 import { fileURLToPath } from 'url'
 import { removeBackground } from '@imgly/background-removal-node'
 import { fetch, Agent } from 'undici'
-import { planMeta, planLocations, planAgents } from './ScenarioPlanner.js'
+import { planMeta, planLocations, planAgents, rephrasePrompt } from './ScenarioPlanner.js'
 
 // Long-lived agent with no headers/body timeout for slow SD generations
 const sdAgent = new Agent({ headersTimeout: 0, bodyTimeout: 0 })
@@ -76,6 +76,8 @@ export interface RegenerateRequest {
     scenarioId: string
     /** 'background' | 'location-{i}' | 'agent-{i}-{state}' */
     assetKey: string
+    /** If provided, OpenAI will rephrase the stored prompt before sending to SD */
+    openaiKey?: string
 }
 
 export interface RegenBroadcast {
@@ -411,16 +413,29 @@ export async function regenerateAsset(
     if (!gen) throw new Error(`Scenario "${scenarioId}" has no generation data — cannot regenerate`)
 
     log(`Regenerating asset "${assetKey}" for scenario "${scenarioId}"`)
+    log(`  openaiKey: ${request.openaiKey ? 'provided (will rephrase prompt)' : 'not provided (reusing stored prompt)'}`)
     broadcast('started', `Regenerating ${assetKey}...`)
+
+    /** Optionally rephrase a raw SD prompt string via OpenAI */
+    async function vary(assetType: 'background' | 'location' | 'agent', storedPrompt: string): Promise<string> {
+        if (!request.openaiKey) return storedPrompt
+        try {
+            return await rephrasePrompt(request.openaiKey, assetType, storedPrompt)
+        } catch (err) {
+            log(`rephrasePrompt failed, falling back to stored prompt: ${err instanceof Error ? err.message : err}`)
+            return storedPrompt
+        }
+    }
 
     let rawImage: Buffer
     let imagePath: string
     let needsBgRemoval = true
 
     if (assetKey === 'background') {
+        const basePrompt = await vary('background', gen.backgroundPrompt)
         rawImage = await generateImage(
             sdUrl,
-            buildBackgroundPrompt(gen.backgroundPrompt),
+            buildBackgroundPrompt(basePrompt),
             2048, 1024,
             { negativePrompt: BACKGROUND_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
         )
@@ -431,9 +446,10 @@ export async function regenerateAsset(
         const locIndex = parseInt(assetKey.split('-')[1])
         const locData = gen.locations[locIndex]
         if (!locData) throw new Error(`No location data at index ${locIndex}`)
+        const basePrompt = await vary('location', locData.sdPrompt)
         rawImage = await generateImage(
             sdUrl,
-            buildLocationPrompt(locData.sdPrompt),
+            buildLocationPrompt(basePrompt),
             768, 512,
             { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
         )
@@ -447,9 +463,10 @@ export async function regenerateAsset(
         if (!agentData) throw new Error(`No agent data at index ${agentIndex}`)
         const stateSuffix = AGENT_STATE_SUFFIXES[stateName]
         if (!stateSuffix) throw new Error(`Unknown agent state: ${stateName}`)
+        const basePrompt = await vary('agent', agentData.physicalDescription)
         rawImage = await generateImage(
             sdUrl,
-            buildAgentPrompt(agentData.physicalDescription, stateSuffix),
+            buildAgentPrompt(basePrompt, stateSuffix),
             832, 1344,
             { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 50, cfgScale: 7 },
         )
