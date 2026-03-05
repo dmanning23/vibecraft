@@ -11,7 +11,7 @@
  */
 
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs'
-import { join, resolve, dirname } from 'path'
+import { join, resolve, dirname, normalize } from 'path'
 import { randomUUID } from 'crypto'
 import { fileURLToPath } from 'url'
 import { removeBackground } from '@imgly/background-removal-node'
@@ -43,6 +43,18 @@ function logError(msg: string, err: unknown): void {
     } else {
         console.error(`  value:   ${String(err)}`)
     }
+}
+
+/**
+ * Join a path and verify it stays within the allowed root (prevents path traversal).
+ * Throws if the resolved path would escape the root directory.
+ */
+function safeJoin(root: string, ...parts: string[]): string {
+    const resolved = resolve(join(root, ...parts))
+    if (!resolved.startsWith(normalize(root) + '/') && resolved !== normalize(root)) {
+        throw new Error(`Path traversal detected: "${parts.join('/')}" escapes root "${root}"`)
+    }
+    return resolved
 }
 
 // Resolve the public/ folder relative to this file (server/ -> ../ -> public/)
@@ -439,7 +451,7 @@ export async function regenerateAsset(
             2048, 1024,
             { negativePrompt: BACKGROUND_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
         )
-        imagePath = join(publicDir, scenario.background)
+        imagePath = safeJoin(publicDir, scenario.background)
         needsBgRemoval = false
 
     } else if (assetKey.startsWith('location-')) {
@@ -453,7 +465,7 @@ export async function regenerateAsset(
             768, 512,
             { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
         )
-        imagePath = join(publicDir, scenario.locations[locIndex])
+        imagePath = safeJoin(publicDir, scenario.locations[locIndex])
 
     } else if (assetKey.startsWith('agent-')) {
         const parts = assetKey.split('-')
@@ -470,7 +482,7 @@ export async function regenerateAsset(
             832, 1344,
             { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 50, cfgScale: 7 },
         )
-        imagePath = join(publicDir, scenario.agents[agentIndex].states[stateName])
+        imagePath = safeJoin(publicDir, scenario.agents[agentIndex].states[stateName])
 
     } else {
         throw new Error(`Unknown asset key: ${assetKey}`)

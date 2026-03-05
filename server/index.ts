@@ -2420,8 +2420,8 @@ function main() {
     })
   })
 
-  httpServer.listen(PORT, () => {
-    log(`Server running on port ${PORT}`)
+  httpServer.listen(PORT, '127.0.0.1', () => {
+    log(`Server running on 127.0.0.1:${PORT}`)
     log(``)
     log(`Open https://vibecraft.sh to view your workshop`)
     log(``)
