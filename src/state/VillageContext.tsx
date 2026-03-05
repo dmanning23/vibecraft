@@ -28,7 +28,9 @@ export interface CharacterState {
   /** Current tool being used (if any) */
   currentTool: string | null
   /** Session ID this character belongs to */
-  sessionId: string | null
+  sessionId: string
+  /** Index into scenario.agents array for sprite selection */
+  agentIndex: number
 }
 
 export interface SubagentState {
@@ -40,8 +42,8 @@ export interface SubagentState {
 }
 
 export interface VillageState {
-  /** Main Claude character */
-  character: CharacterState
+  /** Per-session Claude characters, keyed by sessionId */
+  characters: Record<string, CharacterState>
   /** Active subagents */
   subagents: SubagentState[]
   /** Currently highlighted location */
@@ -59,10 +61,11 @@ export interface VillageState {
 // ============================================================================
 
 type VillageAction =
-  | { type: 'MOVE_TO_LOCATION'; payload: { location: VillageLocationType } }
-  | { type: 'SET_CHARACTER_STATE'; payload: { state: ClaudeState; tool?: string } }
-  | { type: 'FINISH_MOVING' }
-  | { type: 'SET_SESSION'; payload: { sessionId: string } }
+  | { type: 'ENSURE_CHARACTER'; payload: { sessionId: string } }
+  | { type: 'MOVE_CHARACTER'; payload: { sessionId: string; location: VillageLocationType } }
+  | { type: 'SET_CHARACTER_STATE'; payload: { sessionId: string; state: ClaudeState; tool?: string } }
+  | { type: 'FINISH_MOVING'; payload: { sessionId: string } }
+  | { type: 'REMOVE_CHARACTER'; payload: { sessionId: string } }
   | { type: 'SPAWN_SUBAGENT'; payload: SubagentState }
   | { type: 'REMOVE_SUBAGENT'; payload: { toolUseId: string } }
   | { type: 'SET_ACTIVE_LOCATION'; payload: { location: VillageLocationType | null } }
@@ -76,14 +79,7 @@ type VillageAction =
 // ============================================================================
 
 const initialState: VillageState = {
-  character: {
-    location: 'square',
-    previousLocation: null,
-    state: 'idle',
-    isMoving: false,
-    currentTool: null,
-    sessionId: null,
-  },
+  characters: {},
   subagents: [],
   activeLocation: null,
   soundEnabled: true,
@@ -97,53 +93,83 @@ const initialState: VillageState = {
 
 function villageReducer(state: VillageState, action: VillageAction): VillageState {
   switch (action.type) {
-    case 'MOVE_TO_LOCATION': {
-      const { location } = action.payload
-      if (location === state.character.location) {
-        return state
-      }
+    case 'ENSURE_CHARACTER': {
+      const { sessionId } = action.payload
+      if (state.characters[sessionId]) return state
+      const agentIndex = Object.keys(state.characters).length
       return {
         ...state,
-        character: {
-          ...state.character,
-          previousLocation: state.character.location,
-          location,
-          isMoving: true,
+        characters: {
+          ...state.characters,
+          [sessionId]: {
+            location: 'square',
+            previousLocation: null,
+            state: 'idle',
+            isMoving: false,
+            currentTool: null,
+            sessionId,
+            agentIndex,
+          },
+        },
+      }
+    }
+
+    case 'MOVE_CHARACTER': {
+      const { sessionId, location } = action.payload
+      const char = state.characters[sessionId]
+      if (!char || location === char.location) return state
+      return {
+        ...state,
+        characters: {
+          ...state.characters,
+          [sessionId]: {
+            ...char,
+            previousLocation: char.location,
+            location,
+            isMoving: true,
+          },
         },
         activeLocation: location,
       }
     }
 
     case 'SET_CHARACTER_STATE': {
-      const { state: newState, tool } = action.payload
+      const { sessionId, state: newState, tool } = action.payload
+      const char = state.characters[sessionId]
+      if (!char) return state
       return {
         ...state,
-        character: {
-          ...state.character,
-          state: newState,
-          currentTool: tool ?? state.character.currentTool,
+        characters: {
+          ...state.characters,
+          [sessionId]: {
+            ...char,
+            state: newState,
+            currentTool: tool ?? char.currentTool,
+          },
         },
       }
     }
 
     case 'FINISH_MOVING': {
+      const { sessionId } = action.payload
+      const char = state.characters[sessionId]
+      if (!char) return state
       return {
         ...state,
-        character: {
-          ...state.character,
-          isMoving: false,
+        characters: {
+          ...state.characters,
+          [sessionId]: {
+            ...char,
+            isMoving: false,
+          },
         },
       }
     }
 
-    case 'SET_SESSION': {
-      return {
-        ...state,
-        character: {
-          ...state.character,
-          sessionId: action.payload.sessionId,
-        },
-      }
+    case 'REMOVE_CHARACTER': {
+      const next = { ...state.characters }
+      delete next[action.payload.sessionId]
+      return { ...state, characters: next }
     }
 
     case 'SPAWN_SUBAGENT': {
@@ -247,22 +273,28 @@ export function useVillage() {
 // ============================================================================
 
 export const villageActions = {
-  moveToLocation: (location: VillageLocationType) => ({
-    type: 'MOVE_TO_LOCATION' as const,
-    payload: { location },
+  ensureCharacter: (sessionId: string) => ({
+    type: 'ENSURE_CHARACTER' as const,
+    payload: { sessionId },
   }),
 
-  setCharacterState: (state: ClaudeState, tool?: string) => ({
+  moveCharacter: (sessionId: string, location: VillageLocationType) => ({
+    type: 'MOVE_CHARACTER' as const,
+    payload: { sessionId, location },
+  }),
+
+  setCharacterState: (sessionId: string, state: ClaudeState, tool?: string) => ({
     type: 'SET_CHARACTER_STATE' as const,
-    payload: { state, tool },
+    payload: { sessionId, state, tool },
   }),
 
-  finishMoving: () => ({
+  finishMoving: (sessionId: string) => ({
     type: 'FINISH_MOVING' as const,
+    payload: { sessionId },
   }),
 
-  setSession: (sessionId: string) => ({
-    type: 'SET_SESSION' as const,
+  removeCharacter: (sessionId: string) => ({
+    type: 'REMOVE_CHARACTER' as const,
     payload: { sessionId },
   }),
 

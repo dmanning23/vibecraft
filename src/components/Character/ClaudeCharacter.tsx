@@ -16,38 +16,37 @@ import './ClaudeCharacter.css'
 
 interface ClaudeCharacterProps {
     gameSize: GameWindowSize
-    character: CharacterState
+    characters: Record<string, CharacterState>
     subagents: SubagentState[]
     scenario: ScenarioConfig
 }
 
 export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
     gameSize,
-    character,
+    characters,
     subagents,
     scenario,
 }) => {
-    const { dispatch } = useVillage()
-    const [position, setPosition] = useState({ x: 0, y: 0 })
+    const characterEntries = Object.values(characters)
 
-    // Calculate character position based on current location
-    useEffect(() => {
-        const pos = getComputedPosition(character.location, getAllLocations(), gameSize)
-        if (pos) {
-            // pos is top-left of building (640×427 at scale). Center on the building.
-            const imgW = 640 * gameSize.scale
-            const imgH = 427 * gameSize.scale
-            setPosition({ x: pos.x + imgW / 2, y: pos.y + imgH / 2 })
-        }
-    }, [character.location, gameSize])
+    // Spread characters that share a location so they don't overlap.
+    // Group by target location (use previousLocation while moving so the
+    // spread is computed against where they're heading).
+    const locationGroups: Record<string, string[]> = {}
+    for (const c of characterEntries) {
+        const loc = c.location
+        if (!locationGroups[loc]) locationGroups[loc] = []
+        locationGroups[loc].push(c.sessionId)
+    }
 
-    const handleTransitionEnd = useCallback(() => {
-        if (character.isMoving) {
-            dispatch(villageActions.finishMoving())
-        }
-    }, [character.isMoving, dispatch])
+    const SPREAD = 56 * gameSize.scale  // px between characters in a group
 
-    const characterSize = 96 * gameSize.scale
+    const getOffset = (character: CharacterState): number => {
+        const group = locationGroups[character.location] ?? []
+        const idx = group.indexOf(character.sessionId)
+        const n = group.length
+        return (idx - (n - 1) / 2) * SPREAD
+    }
 
     return (
         <div
@@ -62,49 +61,16 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
                 pointerEvents: 'none',
             }}
         >
-            {/* Main Claude character */}
-            <div
-                className={`claude-character ${character.state} ${character.isMoving ? 'moving' : ''}`}
-                style={{
-                    position: 'absolute',
-                    left: position.x - characterSize,  // sprite is 192*scale wide; characterSize=96*scale is half
-                    top: position.y - characterSize,
-                    width: characterSize,
-                    height: characterSize * 1.5,
-                    transition: character.isMoving ? 'left 0.8s ease-in-out, top 0.8s ease-in-out' : 'none',
-                }}
-                onTransitionEnd={handleTransitionEnd}
-            >
-                <CharacterSprite
-                    state={character.state}
-                    isMoving={character.isMoving}
-                    size={characterSize}
-                    scale={gameSize.scale}
-                    agent={scenario.agents[0]}
+            {/* One character per active session */}
+            {characterEntries.map((character) => (
+                <SingleCharacter
+                    key={character.sessionId}
+                    character={character}
+                    gameSize={gameSize}
+                    agent={scenario.agents[character.agentIndex % scenario.agents.length]}
+                    xOffset={getOffset(character)}
                 />
-
-                <StateIndicator state={character.state} scale={gameSize.scale} />
-
-                {character.currentTool && character.state === 'working' && (
-                    <div
-                        className="tool-indicator"
-                        style={{
-                            position: 'absolute',
-                            top: -30 * gameSize.scale,
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            padding: '2px 6px',
-                            background: 'rgba(0, 0, 0, 0.8)',
-                            color: '#fff',
-                            borderRadius: 4,
-                            fontSize: 10 * gameSize.scale,
-                            whiteSpace: 'nowrap',
-                        }}
-                    >
-                        {character.currentTool}
-                    </div>
-                )}
-            </div>
+            ))}
 
             {/* Subagents */}
             {subagents.map((subagent, index) => (
@@ -121,13 +87,89 @@ export const ClaudeCharacter: React.FC<ClaudeCharacterProps> = ({
 }
 
 // ---------------------------------------------------------------------------
+// SingleCharacter - one character per session
+// ---------------------------------------------------------------------------
+
+interface SingleCharacterProps {
+    character: CharacterState
+    gameSize: GameWindowSize
+    agent: AgentConfig
+    xOffset: number
+}
+
+const SingleCharacter: React.FC<SingleCharacterProps> = ({ character, gameSize, agent, xOffset }) => {
+    const { dispatch } = useVillage()
+    const [position, setPosition] = useState({ x: 0, y: 0 })
+
+    useEffect(() => {
+        const pos = getComputedPosition(character.location, getAllLocations(), gameSize)
+        if (pos) {
+            const imgW = 640 * gameSize.scale
+            const imgH = 427 * gameSize.scale
+            setPosition({ x: pos.x + imgW / 2, y: pos.y + imgH / 2 })
+        }
+    }, [character.location, gameSize])
+
+    const handleTransitionEnd = useCallback(() => {
+        if (character.isMoving) {
+            dispatch(villageActions.finishMoving(character.sessionId))
+        }
+    }, [character.isMoving, character.sessionId, dispatch])
+
+    const characterSize = 96 * gameSize.scale
+
+    return (
+        <div
+            className={`claude-character ${character.state} ${character.isMoving ? 'moving' : ''}`}
+            style={{
+                position: 'absolute',
+                left: position.x - characterSize + xOffset,
+                top: position.y - characterSize,
+                width: characterSize,
+                height: characterSize * 1.5,
+                transition: character.isMoving ? 'left 0.8s ease-in-out, top 0.8s ease-in-out' : 'none',
+            }}
+            onTransitionEnd={handleTransitionEnd}
+        >
+            <CharacterSprite
+                state={character.state}
+                isMoving={character.isMoving}
+                scale={gameSize.scale}
+                agent={agent}
+            />
+
+            <StateIndicator state={character.state} scale={gameSize.scale} />
+
+            {character.currentTool && character.state === 'working' && (
+                <div
+                    className="tool-indicator"
+                    style={{
+                        position: 'absolute',
+                        top: -30 * gameSize.scale,
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        padding: '2px 6px',
+                        background: 'rgba(0, 0, 0, 0.8)',
+                        color: '#fff',
+                        borderRadius: 4,
+                        fontSize: 10 * gameSize.scale,
+                        whiteSpace: 'nowrap',
+                    }}
+                >
+                    {character.currentTool}
+                </div>
+            )}
+        </div>
+    )
+}
+
+// ---------------------------------------------------------------------------
 // CharacterSprite
 // ---------------------------------------------------------------------------
 
 interface CharacterSpriteProps {
     state: CharacterState['state']
     isMoving: boolean
-    size: number
     scale: number
     agent: AgentConfig
 }

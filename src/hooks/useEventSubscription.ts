@@ -18,14 +18,13 @@ export function useEventSubscription() {
   const { dispatch } = useVillage()
 
   useEffect(() => {
-    // Handle pre_tool_use - move character to location
+    // Handle pre_tool_use - move the session's character to the tool location
     const unsubPreTool = eventBus.on('pre_tool_use', (event: PreToolUseEvent) => {
       const location = getLocationForTool(event.tool)
 
-      // Move character to the tool's location
-      dispatch(villageActions.moveToLocation(location))
-      dispatch(villageActions.setCharacterState('working', event.tool))
-      dispatch(villageActions.setSession(event.sessionId))
+      dispatch(villageActions.ensureCharacter(event.sessionId))
+      dispatch(villageActions.moveCharacter(event.sessionId, location))
+      dispatch(villageActions.setCharacterState(event.sessionId, 'working', event.tool))
 
       // Handle Task tool - spawn subagent
       if (event.tool === 'Task') {
@@ -41,10 +40,9 @@ export function useEventSubscription() {
       }
     })
 
-    // Handle post_tool_use - update state after tool completes
+    // Handle post_tool_use - set session's character to thinking
     const unsubPostTool = eventBus.on('post_tool_use', (event: PostToolUseEvent) => {
-      // Clear working state (but don't move to idle yet)
-      dispatch(villageActions.setCharacterState('thinking'))
+      dispatch(villageActions.setCharacterState(event.sessionId, 'thinking'))
 
       // Handle Task tool completion - remove subagent
       if (event.tool === 'Task') {
@@ -52,15 +50,19 @@ export function useEventSubscription() {
       }
     })
 
-    // Handle stop - return to village square
+    // Handle stop - return session's character to village square
     const unsubStop = eventBus.on('stop', (event: StopEvent) => {
-      dispatch(villageActions.moveToLocation('square'))
-      dispatch(villageActions.setCharacterState('idle'))
+      dispatch(villageActions.ensureCharacter(event.sessionId))
+      dispatch(villageActions.moveCharacter(event.sessionId, 'square'))
+      dispatch(villageActions.setCharacterState(event.sessionId, 'idle'))
     })
 
-    // Handle user prompt - set thinking state
-    const unsubPrompt = eventBus.on('user_prompt_submit', () => {
-      dispatch(villageActions.setCharacterState('thinking'))
+    // Handle user prompt - set session's character to thinking
+    const unsubPrompt = eventBus.on('user_prompt_submit', (event: ClaudeEvent) => {
+      if (event.sessionId) {
+        dispatch(villageActions.ensureCharacter(event.sessionId))
+        dispatch(villageActions.setCharacterState(event.sessionId, 'thinking'))
+      }
     })
 
     return () => {

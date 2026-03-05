@@ -5,8 +5,8 @@
  * Orchestrates background, locations, and character.
  */
 
-import React, { useRef, useState } from 'react'
-import { useVillage } from '../../state/VillageContext'
+import React, { useRef, useState, useEffect } from 'react'
+import { useVillage, villageActions } from '../../state/VillageContext'
 import { useGameWindowSize } from '../../hooks/useGameWindowSize'
 import { useEventSubscription } from '../../hooks/useEventSubscription'
 import { useScenario } from '../../hooks/useScenario'
@@ -41,7 +41,15 @@ export const VillageView: React.FC<VillageViewProps> = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const [configOpen, setConfigOpen] = useState(false)
-  const { state } = useVillage()
+  const { state, dispatch } = useVillage()
+
+  // Create a character for each known session (so they appear even when idle)
+  useEffect(() => {
+    sessions.forEach(session => {
+      const sessionId = session.claudeSessionId ?? session.id
+      dispatch(villageActions.ensureCharacter(sessionId))
+    })
+  }, [sessions, dispatch])
   const gameSize = useGameWindowSize({
     defaultWidth: 2048,
     defaultHeight: 1024,
@@ -102,7 +110,7 @@ export const VillageView: React.FC<VillageViewProps> = ({
           {/* Character layer - z-index: 30 */}
           <ClaudeCharacter
             gameSize={gameSize}
-            character={state.character}
+            characters={state.characters}
             subagents={state.subagents}
             scenario={scenario}
           />
@@ -122,11 +130,14 @@ export const VillageView: React.FC<VillageViewProps> = ({
               zIndex: 50,
             }}
           >
-            {state.character.state === 'idle' && !state.character.isMoving && 'Idle in Village Square'}
-            {state.character.isMoving && `Walking to ${state.character.location}...`}
-            {state.character.state === 'working' && !state.character.isMoving && `Working at ${state.character.location}`}
-            {state.character.state === 'thinking' && !state.character.isMoving && 'Thinking...'}
-            {state.subagents.length > 0 && ` (${state.subagents.length} subagent${state.subagents.length > 1 ? 's' : ''})`}
+            {(() => {
+              const chars = Object.values(state.characters)
+              if (chars.length === 0) return 'No active sessions'
+              const working = chars.filter(c => c.state === 'working' || c.isMoving)
+              if (working.length > 0) return `${working.length} session${working.length > 1 ? 's' : ''} working`
+              return `${chars.length} session${chars.length > 1 ? 's' : ''} idle`
+            })()}
+            {state.subagents.length > 0 && ` · ${state.subagents.length} subagent${state.subagents.length > 1 ? 's' : ''}`}
           </div>
         </>
       )}
