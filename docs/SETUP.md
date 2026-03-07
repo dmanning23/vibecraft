@@ -4,11 +4,11 @@ Complete installation and troubleshooting guide for Vibecraft.
 
 ## What is Vibecraft?
 
-Vibecraft visualizes Claude Code's activity in real-time as a 3D workshop. When Claude uses tools (Read, Edit, Bash, etc.), a character moves to corresponding workstations.
+Vibecraft visualizes Claude Code's activity in real-time as a 2D village. When Claude uses tools (Read, Edit, Bash, etc.), a character sprite walks to the corresponding building in the village.
 
 **Two parts:**
 1. **Hooks** - Capture events from Claude Code
-2. **Server** - WebSocket server + 3D browser visualization
+2. **Server** - WebSocket server + 2D browser visualization (React)
 
 ```
 ┌─────────────────┐      hooks       ┌─────────────────┐
@@ -19,7 +19,7 @@ Vibecraft visualizes Claude Code's activity in real-time as a 3D workshop. When 
                                               ↓ WebSocket
                                      ┌─────────────────┐
                                      │  Browser        │
-                                     │  (3D Scene)     │
+                                     │  (2D Village)   │
                                      └─────────────────┘
 ```
 
@@ -60,7 +60,7 @@ claude
 
 Open http://localhost:4003 in your browser.
 
-**That's it!** Every time Claude uses a tool, you'll see it in the 3D visualization.
+**That's it!** Every time Claude uses a tool, you'll see its character move to the matching village building.
 
 ---
 
@@ -283,11 +283,18 @@ For speech-to-text prompts:
 
 ## Environment Variables
 
+Copy `.env.example` to `.env` and fill in values as needed.
+
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `VIBECRAFT_PORT` | `4003` | Server port |
-| `VIBECRAFT_TMUX_SESSION` | `claude` | tmux session for prompts |
-| `VIBECRAFT_DEBUG` | `false` | Verbose logging |
+| `VIBECRAFT_PORT` | `4003` | WebSocket/API server port |
+| `VIBECRAFT_CLIENT_PORT` | `4002` | Vite dev server port (dev only) |
+| `VIBECRAFT_TMUX_SESSION` | `claude` | tmux session name for prompt injection |
+| `VIBECRAFT_EVENTS_FILE` | `~/.vibecraft/data/events.jsonl` | Event log path |
+| `VIBECRAFT_SESSIONS_FILE` | `~/.vibecraft/data/sessions.json` | Session persistence file |
+| `VIBECRAFT_DEBUG` | `false` | Verbose server logging |
+| `OPENAI_API_KEY` | (none) | Required for scenario generation |
+| `SD_URL` | (none) | Stable Diffusion server URL (e.g. `http://localhost:7860`) |
 | `DEEPGRAM_API_KEY` | (none) | Deepgram API key for voice input |
 
 Example:

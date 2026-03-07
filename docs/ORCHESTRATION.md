@@ -168,7 +168,7 @@ For managed sessions to report events back to vibecraft, Claude Code hooks must 
 
 1. Updates the session's `status` and `currentTool`
 2. Broadcasts the update to all connected UI clients
-3. Shows the activity in the 3D visualization
+3. Moves the session's character sprite in the 2D village visualization
 
 ## Future Ideas
 

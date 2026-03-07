@@ -26,6 +26,7 @@ Play synthesized sound
 |------|---------|
 | `src/audio/SoundManager.ts` | Sound definitions, playback, spatial integration |
 | `src/audio/SpatialAudioContext.ts` | Listener tracking, distance/pan calculations |
+| `src/audio/VoiceInput.ts` | Deepgram voice input integration |
 | `src/audio/index.ts` | Barrel exports |
 | `src/events/handlers/soundHandlers.ts` | Event-to-sound mapping |
 
@@ -62,12 +63,14 @@ Play synthesized sound
 | `thinking` | Claude thinking state | Ambient two-tone (D4, F4) |
 | `notification` | notification event | Double ping (A4, A4) |
 
-### Zones (2)
+### Zones (2, legacy)
 
-| Sound | Trigger | Description |
-|-------|---------|-------------|
-| `zone_create` | New zone created | Rising staggered chord (C4→E4→G4→C5) |
-| `zone_delete` | Zone removed | Descending minor (G4→Eb4→C4→G3) |
+These sounds exist in the codebase but are not currently triggered by the 2D village UI.
+
+| Sound | Description |
+|-------|-------------|
+| `zone_create` | Rising staggered chord (C4→E4→G4→C5) |
+| `zone_delete` | Descending minor (G4→Eb4→C4→G3) |
 
 ### Subagents (2)
 
@@ -86,12 +89,12 @@ Play synthesized sound
 
 | Sound | Trigger | Description |
 |-------|---------|-------------|
-| `click` | Floor click | Soft pop/tap |
+| `click` | UI click | Soft pop/tap |
 | `modal_open` | Modal appears | Soft whoosh up |
 | `modal_cancel` | Modal dismissed | Descending tone |
 | `modal_confirm` | Modal confirmed | Ascending triad |
-| `hover` | Hex grid hover | Distance-based pitch tick |
-| `focus` | Camera transition | Quick whoosh/zoom |
+| `hover` | Hover interaction | Distance-based pitch tick |
+| `focus` | Focus transition | Quick whoosh/zoom |
 
 ### Special (4)
 
@@ -110,24 +113,14 @@ Play synthesized sound
 
 ## Spatial Audio
 
-Sounds can be positioned in 3D space based on their source zone's location relative to the camera.
-
-### Spatial Modes
-
-Each sound has a spatial mode:
-
-| Mode | Behavior | When to Use |
-|------|----------|-------------|
-| `positional` | Volume/pan affected by distance from camera | Zone-specific events (tools, results) |
-| `global` | Always centered, full volume | Celebrations, UI, system events |
+The audio system supports two modes per sound — `positional` (volume/pan based on source location) and `global` (always centered, full volume). The infrastructure exists in `SpatialAudioContext.ts` but positional audio is not actively wired up in the current 2D village UI; all sounds effectively play as global.
 
 ### Mode Assignments
 
-**Positional sounds** (affected by distance/pan):
+**Positional sounds** (intended to be zone-aware):
 - All tool sounds: `read`, `write`, `edit`, `bash`, `grep`, `glob`, `webfetch`, `websearch`, `task`, `todo`
 - Tool results: `success`, `error`
 - Session events: `prompt`, `stop`, `thinking`
-- Zone events: `zone_create`, `zone_delete`
 - Subagents: `spawn`, `despawn`
 - Character: `walking`
 
@@ -137,61 +130,6 @@ Each sound has a spatial mode:
 - UI: `click`, `modal_open`, `modal_cancel`, `modal_confirm`, `hover`, `focus`
 - Voice: `voice_start`, `voice_stop`
 - Draw: `clear`
-
-### How Spatial Positioning Works
-
-```
-1. Sound triggered with { zoneId: 'session-123' }
-2. Resolve zone position via scene.getZoneWorldPosition(zoneId)
-3. Calculate distance from camera/listener
-4. Calculate angle relative to camera facing direction
-5. Apply volume attenuation and stereo panning
-6. Play through Tone.Panner node
-```
-
-### Volume Calculation
-
-```javascript
-volume = 1 / (1 + distance × 0.025)
-volume = max(0.3, volume)  // Never below 30%
-
-// Focused zone gets a boost
-if (isFocusedZone) volume × 1.25
-```
-
-| Distance | Volume |
-|----------|--------|
-| 0 | 100% |
-| 20 | ~67% |
-| 40 | ~50% |
-| 100 | ~33% |
-| 200+ | ~30% (minimum) |
-
-### Pan Calculation
-
-```javascript
-angle = atan2(dx, dz) - cameraRotation
-pan = sin(angle)
-pan = clamp(pan, -0.7, 0.7)  // Not hard left/right
-```
-
-### Listener Updates
-
-The listener (camera) position is updated every 100ms:
-
-```typescript
-// In main.ts
-setInterval(() => {
-  soundManager.updateListener(camera.position.x, camera.position.z, camera.rotation.y)
-}, 100)
-```
-
-### Settings
-
-- **Toggle**: Settings modal checkbox "Spatial Audio"
-- **Storage**: `localStorage.getItem('vibecraft-spatial-audio')`
-- **Default**: Enabled
-- **When disabled**: All sounds play centered at full volume
 
 ## Usage
 
@@ -289,19 +227,8 @@ private sounds: Record<SoundName, () => void> = {
 }
 ```
 
-## Testing
-
-A test page is available at `/test-spatial.html` when running the dev server. It provides:
-
-- Init button for audio context
-- Spatial toggle
-- Position grid for testing directional audio
-- Global vs positional sound comparison
-
 ## Design Philosophy
 
 - **Digital theme**: Clean synth tones, quick response
 - **Non-intrusive**: Sounds complement, don't distract
-- **Always audible**: Distant sounds are quiet (30% min), never silent
-- **Subtle panning**: ±0.7 max, no jarring hard left/right
 - **User control**: Toggle in settings, volume slider
