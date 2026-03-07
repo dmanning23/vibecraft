@@ -2,238 +2,854 @@
   "defaultScenarioId": "neo_tokyo",
   "scenarios": [
     {
-      "id": "neo_tokyo",
-      "name": "Neo Tokyo",
-      "background": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/scenario/e87c184b-9253-499d-8521-2bd92c5be22a.png",
+      "id": "neo_tokyo_dystopia_14b50e09",
+      "name": "Neo Tokyo: Cyberpunk Realm",
+      "background": "assets/generated/neo_tokyo_dystopia_14b50e09/scenario/background.png",
       "locations": [
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Cyber_Ninja_Dojo/image/e3b0db9d-31b8-4472-b8f6-f7d3d6c9337d.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Genesis_Tower/image/cac4f9ff-8e98-4a00-8c40-06b8937dea22.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Nexus_Arcade/image/70914736-12a2-4229-8199-40f9511bf266.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Sakura_Gardens/image/74e8385c-8703-423e-ba47-1ab29cdab641.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Tech_Syndicate_Headquarters/image/219bb24e-9517-47a1-860d-5d406027b8e2.png",
-        "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/locations/Zenith_Plaza/image/0e22b393-d113-40bb-b9c7-bdae2d185c3c.png"
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/0.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/1.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/2.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/3.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/4.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/5.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/6.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/7.png",
+        "assets/generated/neo_tokyo_dystopia_14b50e09/locations/8.png"
       ],
       "agents": [
         {
+          "name": "Kairo Kage",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Aiko_Takahashi/icon/388339b0-8656-40cc-a3b2-6b725a1df44e.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/0/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/0/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/0/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/0/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/0/finished.png"
           }
         },
         {
+          "name": "Juna Sky",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Akira_Sato/icon/695a1d67-e399-4602-9377-84dc6e324490.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/1/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/1/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/1/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/1/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/1/finished.png"
           }
         },
         {
+          "name": "Satoshi Pulse",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Hiroto_Watanabe/icon/459611f6-ea70-4516-899c-fbb41d1f5cf3.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/2/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/2/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/2/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/2/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/2/finished.png"
           }
         },
         {
+          "name": "Rin Zero",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Kenji_Tanaka/icon/9b33b085-7329-4cd4-b18d-2baa798847b5.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/3/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/3/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/3/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/3/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/3/finished.png"
           }
         },
         {
+          "name": "Hiro Neon",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Mai_Yamamoto/icon/50fe2968-7c54-48ee-b950-acd418ad810f.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/4/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/4/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/4/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/4/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/4/finished.png"
           }
         },
         {
+          "name": "Aiko Ghost",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Ryuji_Nakamura/icon/ccc77bfd-89a1-4774-becb-5df317e1d47a.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/5/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/5/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/5/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/5/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/5/finished.png"
           }
         },
         {
+          "name": "Taro Wave",
           "states": {
-            "idle": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
-            "walking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
-            "working": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
-            "thinking": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png",
-            "finished": "assets/downloaded_assets/Neo_Tokyo_65ff27fb6e43ac4559f147fc/agents/Yumi_Saito/icon/970d0366-38e7-41f3-a803-8c8570d7ea3d.png"
+            "idle": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/6/idle.png",
+            "walking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/6/walking.png",
+            "working": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/6/working.png",
+            "thinking": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/6/thinking.png",
+            "finished": "assets/generated/neo_tokyo_dystopia_14b50e09/agents/6/finished.png"
           }
         }
-      ]
+      ],
+      "generationData": {
+        "sdUrl": "http://localhost:7860/",
+        "description": "Neo Tokyo: a cyberpunk dystopia of street samurai, cyborgs, androids, and hackers",
+        "backgroundPrompt": "A sprawling futuristic cityscape under a neon-drenched night sky, filled with towering skyscrapers, flickering holographic advertisements, and bustling streets. Shadowy figures roam the alleys—street samurai with glowing katanas, hooded hackers peering into digital interfaces, and sleek cybernetic androids integrated into the crowd. Hovering vehicles zip by above, casting vibrant reflections on rain-soaked streets. The atmosphere is dense with smoke and intrigue, evoking a sense of high-tech, low-life tension.",
+        "locations": [
+          {
+            "stationType": "center",
+            "name": "Neon Nexus Plaza",
+            "sdPrompt": "A bustling central plaza in a cyberpunk city, filled with neon signs, holograms, and diverse characters idling and socializing beneath towering skyscrapers. Stylized game art, vivid colors, and a futuristic atmosphere."
+          },
+          {
+            "stationType": "bookshelf",
+            "name": "Neuro Arcana",
+            "sdPrompt": "A library with a futuristic design, glowing shelves filled with digital books and holographic displays. The structure is adorned with cybernetic motifs and neon-lit pathways. Stylized game art, cyberpunk aesthetic, vibrant colors."
+          },
+          {
+            "stationType": "desk",
+            "name": "Scribe's Sanctum",
+            "sdPrompt": "A high-tech writing studio with sleek digital surfaces and interfaces, where data is transformed into creative works. The exterior features cyber-graffiti and a neon glow, suggesting a place of innovation. Stylized game art, bright colors."
+          },
+          {
+            "stationType": "workbench",
+            "name": "Cyber Forge",
+            "sdPrompt": "A workshop with a rugged look, filled with gears, mechanical arms, and neon sparks flying. The facade is industrial with digital elements integrated into its structure. Stylized game art, robust and functional design."
+          },
+          {
+            "stationType": "terminal",
+            "name": "Command Citadel",
+            "sdPrompt": "A command center with a fortress-like appearance, surrounded by towering antennas and holographic displays. The building emits a glow from numerous screens, depicting a hub of control. Stylized game art, authoritative and futuristic."
+          },
+          {
+            "stationType": "scanner",
+            "name": "Data Watchtower",
+            "sdPrompt": "An observatory perched high above the city, with rotating radar dishes and a panoramic window offering views of the digital skyline. The exterior is covered in digital patterns, signifying constant vigilance. Stylized game art, sleek and modern."
+          },
+          {
+            "stationType": "antenna",
+            "name": "Signal Spire",
+            "sdPrompt": "A communications tower adorned with antenna arrays and pulsating neon lights. The structure reaches skyward, symbolizing a connection to the broader world. Stylized game art, bright and dynamic with a sense of outreach."
+          },
+          {
+            "stationType": "portal",
+            "name": "Arcane Gateway",
+            "sdPrompt": "A mystic gateway with swirling digital runes and a portal emitting an ethereal glow. The structure looks both ancient and advanced, hinting at its power to create and dismiss agents. Stylized game art, magical and otherworldly."
+          },
+          {
+            "stationType": "taskboard",
+            "name": "Mission Nexus",
+            "sdPrompt": "A mission board room with an interactive digital wall displaying complex task lists and strategic plans. The facade is covered in neon patterns, representing a place of organization and purpose. Stylized game art, vibrant and strategic."
+          }
+        ],
+        "agents": [
+          {
+            "name": "Kairo Kage",
+            "physicalDescription": "spiky black hair with red streaks, piercing green eyes, pale skin tone, black leather trench coat with glowing blue lines, cybernetic right arm, red bandana, fingerless gloves, combat boots"
+          },
+          {
+            "name": "Juna Sky",
+            "physicalDescription": "long silver hair with neon purple highlights, reflective cybernetic eyes, metallic skin tone, trench coat with shifting holographic patterns, high-tech visor, utility belt with tools, sleek boots"
+          },
+          {
+            "name": "Satoshi Pulse",
+            "physicalDescription": "buzz cut platinum blonde hair, vibrant blue eyes, dark tan skin, tactical vest with digital camouflage overlays, cargo pants, augmented reality goggles, data gloves, neon green sneakers"
+          },
+          {
+            "name": "Rin Zero",
+            "physicalDescription": "asymmetrical bob dark blue hair, golden cybernetic eyes, porcelain skin, flowy kimono-style robe with digital floral patterns, neon pink sash, cyber-enhanced sandals, holo bracelets"
+          },
+          {
+            "name": "Hiro Neon",
+            "physicalDescription": "wavy teal hair tied in a topknot, glowing amber eyes, olive skin, armored jacket with luminescent circuit designs, cybernetic left leg, layered necklaces, sleek urban sneakers"
+          },
+          {
+            "name": "Aiko Ghost",
+            "physicalDescription": "short spiky white hair, violet LED-lit eyes, alabaster skin, sleeveless leather vest with neon tribal patterns, facial tattoos with glowing ink, cybernetic ear piercings, slender combat boots"
+          },
+          {
+            "name": "Taro Wave",
+            "physicalDescription": "shoulder-length black dreadlocks, emerald green cybernetic eyes, bronze skin, hooded cloak with iridescent scales, mechanical belt, leather bracers, high-tech sneakers with light-up soles"
+          }
+        ]
+      }
     },
     {
-      "id": "pemberley",
-      "name": "Pemberley",
-      "background": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/scenario/ac38d3ae-2241-4fc2-becc-6e9df52ef7c0.png",
+      "id": "pirate_island_refuge_f0366f5a",
+      "name": "Tortuga Isle",
+      "background": "assets/generated/pirate_island_refuge_f0366f5a/scenario/background.png",
       "locations": [
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Longbourn_Manor/image/35f0a846-995f-4eb1-b36d-5b0d2a421a30.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Lucas_Lodge/image/be92de8d-caae-4e67-8bd9-26ce7e2f0135.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Meryton_Assembly_Rooms/image/ed0dff8c-cf61-4734-8a8c-69b7e450b79e.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Netherfield_Park/image/516ff1b5-336a-472b-a7c1-2e26bc372af9.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Pemberley_Estate/image/acaed013-2fe4-4cfe-88aa-41b5762fa524.png",
-        "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/locations/Rosings_Park/image/d5ae6ad3-7765-4c67-89cf-f9b29391717a.png"
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/0.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/1.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/2.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/3.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/4.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/5.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/6.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/7.png",
+        "assets/generated/pirate_island_refuge_f0366f5a/locations/8.png"
       ],
       "agents": [
         {
+          "name": "Crimson Jolly",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Charles_Bingley/icon/de6e31af-1d01-4da2-8d15-16a0101e4d92.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/0/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/0/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/0/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/0/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/0/finished.png"
           }
         },
         {
+          "name": "Salty Vane",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Elizabeth_Bennet/icon/0ae2491f-1a8c-4ec7-8016-2b8dfe4626d5.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/1/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/1/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/1/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/1/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/1/finished.png"
           }
         },
         {
+          "name": "Pearl Bonnet",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Fitzwilliam_Darcy/icon/ad8c7acf-b35a-43c6-b032-a84e6d90f74e.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/2/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/2/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/2/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/2/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/2/finished.png"
           }
         },
         {
+          "name": "Rusty Hook",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Georgiana_Darcy/icon/926f8a4c-b00e-4037-9c3b-6c9f240dccc8.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/3/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/3/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/3/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/3/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/3/finished.png"
           }
         },
         {
+          "name": "Seawitch Sybil",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lady_Catherine_de_Bourgh/icon/45c88701-338e-46f5-9cf6-712994b15481.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/4/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/4/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/4/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/4/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/4/finished.png"
           }
         },
         {
+          "name": "Scallywag Spike",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Lydia_Bennet/icon/0eda0111-595c-441d-848a-fa1968756a1d.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/5/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/5/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/5/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/5/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/5/finished.png"
           }
         },
         {
+          "name": "Buccaneer Bruno",
           "states": {
-            "idle": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
-            "walking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
-            "working": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
-            "thinking": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png",
-            "finished": "assets/downloaded_assets/Pemberley_66004b13006cd24fff3ea55a/agents/Mr__Bennet/icon/bc7592f1-88c3-48d2-bb38-6ca74d03247a.png"
+            "idle": "assets/generated/pirate_island_refuge_f0366f5a/agents/6/idle.png",
+            "walking": "assets/generated/pirate_island_refuge_f0366f5a/agents/6/walking.png",
+            "working": "assets/generated/pirate_island_refuge_f0366f5a/agents/6/working.png",
+            "thinking": "assets/generated/pirate_island_refuge_f0366f5a/agents/6/thinking.png",
+            "finished": "assets/generated/pirate_island_refuge_f0366f5a/agents/6/finished.png"
           }
         }
-      ]
+      ],
+      "generationData": {
+        "sdUrl": "http://localhost:7860/",
+        "description": "Tortuga: An island refuge built by pirates, for pirates",
+        "backgroundPrompt": "a tropical pirate haven nestled on a lush island, bustling with and surrounded by azure waters and anchored ships, vibrant pirate flags fluttering in the breeze, palm trees lining the shore, and wooden huts peeking from dense jungle, evoking adventure and camaraderie under a golden sunset sky",
+        "locations": [
+          {
+            "stationType": "center",
+            "name": "Buccaneers' Haven",
+            "sdPrompt": "A bustling pirate plaza surrounded by rustic shanties, with a large anchor sculpture at the center, colorful flags waving, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "bookshelf",
+            "name": "Corsair's Codex",
+            "sdPrompt": "A grand pirate library with dusty tomes, wooden walls, and old maps pinned around, a ship's wheel as the door, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "desk",
+            "name": "Captain's Quill",
+            "sdPrompt": "A cozy pirate writing studio with parchments and quills, walls adorned with sea charts, a parrot perched on a desk, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "workbench",
+            "name": "The Tinker's Forge",
+            "sdPrompt": "A rugged pirate workshop with anvils and glowing forges, tools scattered around, a figure hammering a sword under a pirate flag, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "terminal",
+            "name": "Navigator's Helm",
+            "sdPrompt": "A high-tech pirate command center with glowing consoles and a large steering wheel, radar screens on the walls, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "scanner",
+            "name": "Lookout's Perch",
+            "sdPrompt": "A towering pirate watchtower with a telescope peeking over the horizon, pirate flags fluttering, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "antenna",
+            "name": "Signal Mast",
+            "sdPrompt": "A pirate communications tower with a crow's nest and tattered sails catching the wind, radio equipment hanging around, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "portal",
+            "name": "Rift Wharf",
+            "sdPrompt": "A mystical pirate gateway with swirling energies, a portal shaped like a ship's porthole, symbols etched around, stylized game art style, vivid and thematic"
+          },
+          {
+            "stationType": "taskboard",
+            "name": "Buccaneer's Bounty",
+            "sdPrompt": "A grand pirate mission board with pinned quests and a skull-headed map, pirates pointing and strategizing, stylized game art style, vivid and thematic"
+          }
+        ],
+        "agents": [
+          {
+            "name": "Crimson Jolly",
+            "physicalDescription": "long curly red hair, emerald green eyes, sun-kissed tan skin, rugged pirate attire with crimson and black stripes, leather boots, tri-cornered hat with a skull emblem, gold hoop earrings, eye patch on left eye"
+          },
+          {
+            "name": "Salty Vane",
+            "physicalDescription": "short scruffy gray hair, stormy blue eyes, weathered pale skin, sailor's garb with a tattered blue coat, striped pants, a wooden leg, sea-blue bandana around neck, a compass hanging from the belt"
+          },
+          {
+            "name": "Pearl Bonnet",
+            "physicalDescription": "long flowing black hair, piercing silver eyes, olive-toned skin, elegant pirate dress with pearlescent accents, high-heeled leather boots, wide-brimmed hat adorned with feathers, pearl necklace and bracelets"
+          },
+          {
+            "name": "Rusty Hook",
+            "physicalDescription": "bald with sun spots, sharp amber eyes, deeply tanned skin, sleeveless pirate vest with rusty brown hues, leather pants, steel hook for a right hand, gold tooth, large belt with a sheathed cutlass"
+          },
+          {
+            "name": "Seawitch Sybil",
+            "physicalDescription": "wild silver hair, haunting violet eyes, pale skin with a mysterious aura, long flowing robes in shades of midnight blue, adorned with seashells, coral jewelry, staff shaped like a twisting wave"
+          },
+          {
+            "name": "Scallywag Spike",
+            "physicalDescription": "short spiky orange hair, mischievous green eyes, freckled light skin, patchwork clothing in vibrant colors, mismatched boots, countless rings on fingers, slingshot tucked into a belt"
+          },
+          {
+            "name": "Buccaneer Bruno",
+            "physicalDescription": "shoulder-length thick brown hair, intense hazel eyes, bronze skin, muscular build, bare chest with a leather harness, pirate trousers with sashes, bandolier of pistols, scar across left cheek"
+          }
+        ]
+      }
     },
     {
-      "id": "tortuga",
-      "name": "Tortuga",
-      "background": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/scenario/3fd57a0e-58cb-4655-bce3-e10c6368c736.png",
+      "id": "pemberley_village_a0de269f",
+      "name": "Pemberley Village",
+      "background": "assets/generated/pemberley_village_a0de269f/scenario/background.png",
       "locations": [
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/Captain_s_Quarters/image/23b5d6ed-e931-4462-bc46-9b2405aa75db.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/Jolly_Roger_Shipyard/image/c162ea47-4cf7-4449-a43e-aabcb14e23b8.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/Rum_Runner_s_Tavern/image/7c86a333-f09f-4cd3-a28b-b4377bab36ed.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/Smuggler_s_Den/image/734c9805-5e1f-460b-9759-cd426c613c9c.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/The_Black_Market/image/d595b77b-0814-447a-b307-c1fc05f616a1.png",
-        "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/locations/The_Pirate_s_Cove/image/f4e5b106-b69f-4926-9277-83f4b980ca86.png"
+        "assets/generated/pemberley_village_a0de269f/locations/0.png",
+        "assets/generated/pemberley_village_a0de269f/locations/1.png",
+        "assets/generated/pemberley_village_a0de269f/locations/2.png",
+        "assets/generated/pemberley_village_a0de269f/locations/3.png",
+        "assets/generated/pemberley_village_a0de269f/locations/4.png",
+        "assets/generated/pemberley_village_a0de269f/locations/5.png",
+        "assets/generated/pemberley_village_a0de269f/locations/6.png",
+        "assets/generated/pemberley_village_a0de269f/locations/7.png",
+        "assets/generated/pemberley_village_a0de269f/locations/8.png"
       ],
       "agents": [
         {
+          "name": "Lady Eleanor Beaufort",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Calico_Mary/icon/9cb77e81-82e1-4142-aa50-addeee574c6f.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/0/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/0/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/0/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/0/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/0/finished.png"
           }
         },
         {
+          "name": "Mr. Theodore Hargrove",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Captain_Blackbeard/icon/c716acb1-7954-4a53-91ae-5133f33b1327.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/1/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/1/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/1/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/1/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/1/finished.png"
           }
         },
         {
+          "name": "Miss Lily Fairchild",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/One-Eyed_Jack/icon/9e48014a-eba5-4c13-9a4e-7cf0ae3de619.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/2/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/2/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/2/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/2/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/2/finished.png"
           }
         },
         {
+          "name": "Reverend Samuel Green",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Rumplestiltskin/icon/ec21d2db-be09-4091-a474-15376202e927.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/3/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/3/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/3/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/3/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/3/finished.png"
           }
         },
         {
+          "name": "Mrs. Matilda Cartwright",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Salty_Dog/icon/9b5be231-85b5-41d4-8ea7-b44e445da265.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/4/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/4/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/4/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/4/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/4/finished.png"
           }
         },
         {
+          "name": "Captain Henry Stanton",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Scarlet_Rose/icon/e767e377-ea90-4c67-90ef-003968419b77.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/5/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/5/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/5/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/5/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/5/finished.png"
           }
         },
         {
+          "name": "Miss Penelope Bright",
           "states": {
-            "idle": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
-            "walking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
-            "working": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
-            "thinking": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png",
-            "finished": "assets/downloaded_assets/Tortuga_662555b4a6e2b73baeb97e5e/agents/Silent_Raven/icon/5a5ff240-f1bc-4695-93fb-8b4329e44fc7.png"
+            "idle": "assets/generated/pemberley_village_a0de269f/agents/6/idle.png",
+            "walking": "assets/generated/pemberley_village_a0de269f/agents/6/walking.png",
+            "working": "assets/generated/pemberley_village_a0de269f/agents/6/working.png",
+            "thinking": "assets/generated/pemberley_village_a0de269f/agents/6/thinking.png",
+            "finished": "assets/generated/pemberley_village_a0de269f/agents/6/finished.png"
           }
         }
-      ]
+      ],
+      "generationData": {
+        "sdUrl": "http://localhost:7860/",
+        "description": "Pemberley: A Pride & Prejudice Village",
+        "backgroundPrompt": "A picturesque English countryside village, reflecting the Regency era. Rolling green hills, a grand manor house in the distance surrounded by manicured gardens, quaint stone cottages with ivy, cobblestone paths lined with willow trees, a serene lake reflecting the clear blue sky, soft afternoon sunlight casting gentle shadows",
+        "locations": [
+          {
+            "stationType": "center",
+            "name": "The Darcy Square",
+            "sdPrompt": "A charming, cobblestone central plaza with a grand fountain, surrounded by quaint Georgian-style buildings and vibrant flower beds, stylized game art"
+          },
+          {
+            "stationType": "bookshelf",
+            "name": "Austen's Alcove",
+            "sdPrompt": "An elegant Georgian library with towering columns and large, arched windows, ivy climbing the walls, stylized game art"
+          },
+          {
+            "stationType": "desk",
+            "name": "Bennet's Study",
+            "sdPrompt": "A cozy writing studio adorned with quill pens and stacks of parchment, quaint Georgian architecture with warm, inviting lighting, stylized game art"
+          },
+          {
+            "stationType": "workbench",
+            "name": "The Craftsman's Forge",
+            "sdPrompt": "A rustic workshop with exposed brick and wooden beams, glowing from a crackling forge inside, stylized game art"
+          },
+          {
+            "stationType": "terminal",
+            "name": "Pemberley Command Post",
+            "sdPrompt": "A stately Georgian building with large bay windows, featuring intricate woodwork and a prominent clock tower, stylized game art"
+          },
+          {
+            "stationType": "scanner",
+            "name": "Eagle's Lookout",
+            "sdPrompt": "An observatory built atop a hill, with a large telescope protruding from its dome and stone walls entwined with vines, stylized game art"
+          },
+          {
+            "stationType": "antenna",
+            "name": "Whispering Tower",
+            "sdPrompt": "A tall, slender communications tower with ornate ironwork, standing in a lush field, its spire reaching towards the sky, stylized game art"
+          },
+          {
+            "stationType": "portal",
+            "name": "The Portal Archway",
+            "sdPrompt": "An ancient stone archway, covered in mystical runes and surrounded by ethereal light, situated in a secluded grove, stylized game art"
+          },
+          {
+            "stationType": "taskboard",
+            "name": "The Oak Assembly",
+            "sdPrompt": "A grand mission board located within a majestic oak tree, branches full of colorful leaves, with intricate carvings and hanging lanterns, stylized game art"
+          }
+        ],
+        "agents": [
+          {
+            "name": "Lady Eleanor Beaufort",
+            "physicalDescription": "elegant hairstyle with brown curls, piercing blue eyes, fair skin, victorian gown in lavender and lace, pearl necklace, delicate gloves"
+          },
+          {
+            "name": "Mr. Theodore Hargrove",
+            "physicalDescription": "short black hair, hazel eyes, medium skin tone, tailored waistcoat with a cravat, dark trousers, polished boots, pocket watch"
+          },
+          {
+            "name": "Miss Lily Fairchild",
+            "physicalDescription": "long blonde braids, green eyes, rosy skin, floral patterned dress in pastel pink, woven straw hat with ribbons, lace parasol"
+          },
+          {
+            "name": "Reverend Samuel Green",
+            "physicalDescription": "balding gray hair, gentle brown eyes, light skin, clerical robe with white collar, simple loafers, reading spectacles"
+          },
+          {
+            "name": "Mrs. Matilda Cartwright",
+            "physicalDescription": "short red hair in a bun, warm amber eyes, freckled skin, practical linen dress in earthy tones, apron, basket of herbs"
+          },
+          {
+            "name": "Captain Henry Stanton",
+            "physicalDescription": "wavy dark brown hair, sharp blue eyes, tanned skin, naval officer's uniform with gold embellishments, polished epaulettes, sword at side"
+          },
+          {
+            "name": "Miss Penelope Bright",
+            "physicalDescription": "medium-length auburn hair, bright blue eyes, fair skin, elegant empire waist dress in emerald green, intricate silver tiara, silk gloves"
+          }
+        ]
+      }
+    },
+    {
+      "id": "lunar_colony_outpost_c998c4de",
+      "name": "Lunar Colony Outpost",
+      "background": "assets/generated/lunar_colony_outpost_c998c4de/scenario/background.png",
+      "locations": [
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/0.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/1.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/2.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/3.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/4.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/5.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/6.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/7.png",
+        "assets/generated/lunar_colony_outpost_c998c4de/locations/8.png"
+      ],
+      "agents": [
+        {
+          "name": "Selene Thorne",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/0/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/0/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/0/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/0/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/0/finished.png"
+          }
+        },
+        {
+          "name": "Orion Vega",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/1/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/1/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/1/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/1/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/1/finished.png"
+          }
+        },
+        {
+          "name": "Luna Faraday",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/2/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/2/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/2/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/2/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/2/finished.png"
+          }
+        },
+        {
+          "name": "Kai Nakamura",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/3/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/3/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/3/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/3/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/3/finished.png"
+          }
+        },
+        {
+          "name": "Zara Winters",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/4/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/4/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/4/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/4/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/4/finished.png"
+          }
+        },
+        {
+          "name": "Eli Draken",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/5/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/5/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/5/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/5/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/5/finished.png"
+          }
+        },
+        {
+          "name": "Nova Bellamy",
+          "states": {
+            "idle": "assets/generated/lunar_colony_outpost_c998c4de/agents/6/idle.png",
+            "walking": "assets/generated/lunar_colony_outpost_c998c4de/agents/6/walking.png",
+            "working": "assets/generated/lunar_colony_outpost_c998c4de/agents/6/working.png",
+            "thinking": "assets/generated/lunar_colony_outpost_c998c4de/agents/6/thinking.png",
+            "finished": "assets/generated/lunar_colony_outpost_c998c4de/agents/6/finished.png"
+          }
+        }
+      ],
+      "generationData": {
+        "sdUrl": "http://localhost:7860",
+        "description": "Moon Base",
+        "backgroundPrompt": "A futuristic lunar base under the Earth-lit sky, sprawling across a barren gray moonscape with domed habitats and solar arrays, astronauts in sleek suits exploring the terrain, Earth visible large and bright in the black sky",
+        "locations": [
+          {
+            "stationType": "center",
+            "name": "Lunar Nexus",
+            "sdPrompt": "A central plaza on a moon base, bustling with agents, a futuristic hub of activity beneath a transparent geodesic dome, stylized game art, vivid"
+          },
+          {
+            "stationType": "bookshelf",
+            "name": "Celestial Archives",
+            "sdPrompt": "A library on the moon, with towering shelves filled with glowing data crystals, an ethereal glow emanates from the structure, stylized game art, vivid"
+          },
+          {
+            "stationType": "desk",
+            "name": "Scribe's Quarters",
+            "sdPrompt": "A writing studio on the moon, featuring a large window overlooking the lunar landscape, papers and digital tablets scattered on elegant desks, stylized game art, vivid"
+          },
+          {
+            "stationType": "workbench",
+            "name": "Repair Bay",
+            "sdPrompt": "A workshop on the moon, advanced tools and holographic interfaces inside a sturdy dome, agents fixing and upgrading equipment, stylized game art, vivid"
+          },
+          {
+            "stationType": "terminal",
+            "name": "Control Room Luna",
+            "sdPrompt": "A command center on the moon, with large screens and a holographic lunar map, agents inputting commands in a sleek and modern environment, stylized game art, vivid"
+          },
+          {
+            "stationType": "scanner",
+            "name": "Starwatch Observatory",
+            "sdPrompt": "An observatory on the moon, with a powerful telescope atop a sleek dome, agents scanning the universe for patterns, stylized game art, vivid"
+          },
+          {
+            "stationType": "antenna",
+            "name": "Orbital Relay Station",
+            "sdPrompt": "A communications tower on the moon, tall and slender with glowing antennae reaching skyward, agents coordinating data retrieval, stylized game art, vivid"
+          },
+          {
+            "stationType": "portal",
+            "name": "Quantum Gateway",
+            "sdPrompt": "A gateway on the moon, a gleaming portal ring surrounded by intricate symbols, pulsing with energy as new agents emerge, stylized game art, vivid"
+          },
+          {
+            "stationType": "taskboard",
+            "name": "Mission Command Pavilion",
+            "sdPrompt": "A mission board on the moon, featuring large interactive displays and planning tables, agents strategizing under a high-tech canopy, stylized game art, vivid"
+          }
+        ],
+        "agents": [
+          {
+            "name": "Selene Thorne",
+            "physicalDescription": "long silver hair tied into a braid, piercing blue eyes, fair skin, sleek silver space suit with neon blue accents, black utility belt, transparent helmet, moon boots"
+          },
+          {
+            "name": "Orion Vega",
+            "physicalDescription": "short curly brown hair, warm brown eyes, olive skin, orange and gray space jumpsuit, black gloves, futuristic wrist communicator, athletic build"
+          },
+          {
+            "name": "Luna Faraday",
+            "physicalDescription": "bob cut turquoise hair, bright green eyes, pale complexion, white and purple space overalls, large round glasses, tool belt with gadgets, lunar boots"
+          },
+          {
+            "name": "Kai Nakamura",
+            "physicalDescription": "shaved head, dark brown eyes, tan skin, navy blue space suit with gold trims, fingerless gloves, tech visor, slim build"
+          },
+          {
+            "name": "Zara Winters",
+            "physicalDescription": "waist-length jet black hair, icy gray eyes, light skin, metallic silver bodysuit, black and white striped scarf, utility backpack, moon boots"
+          },
+          {
+            "name": "Eli Draken",
+            "physicalDescription": "spiky red hair, hazel eyes, medium skin tone, green and silver armored suit, mechanical arm, utility belt with tools, rugged look"
+          },
+          {
+            "name": "Nova Bellamy",
+            "physicalDescription": "wavy blonde hair, bright blue eyes, sun-kissed skin, pink and white space dress, holographic badge, floating earbuds, elegant posture"
+          }
+        ]
+      }
+    },
+    {
+      "id": "atlantis_mermaid_village_02e3980d",
+      "name": "Atlantis Mermaid Village",
+      "background": "assets/generated/atlantis_mermaid_village_02e3980d/scenario/background.png",
+      "locations": [
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/0.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/1.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/2.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/3.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/4.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/5.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/6.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/7.png",
+        "assets/generated/atlantis_mermaid_village_02e3980d/locations/8.png"
+      ],
+      "agents": [
+        {
+          "name": "Coralina Waves",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/0/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/0/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/0/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/0/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/0/finished.png"
+          }
+        },
+        {
+          "name": "Finnian Tide",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/1/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/1/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/1/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/1/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/1/finished.png"
+          }
+        },
+        {
+          "name": "Pearlina Glow",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/2/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/2/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/2/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/2/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/2/finished.png"
+          }
+        },
+        {
+          "name": "Maris Storm",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/3/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/3/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/3/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/3/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/3/finished.png"
+          }
+        },
+        {
+          "name": "Luna Current",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/4/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/4/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/4/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/4/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/4/finished.png"
+          }
+        },
+        {
+          "name": "Reef Sand",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/5/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/5/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/5/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/5/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/5/finished.png"
+          }
+        },
+        {
+          "name": "Nerissa Stream",
+          "states": {
+            "idle": "assets/generated/atlantis_mermaid_village_02e3980d/agents/6/idle.png",
+            "walking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/6/walking.png",
+            "working": "assets/generated/atlantis_mermaid_village_02e3980d/agents/6/working.png",
+            "thinking": "assets/generated/atlantis_mermaid_village_02e3980d/agents/6/thinking.png",
+            "finished": "assets/generated/atlantis_mermaid_village_02e3980d/agents/6/finished.png"
+          }
+        }
+      ],
+      "generationData": {
+        "sdUrl": "http://localhost:7860",
+        "description": "Atlantis Mermaid Village",
+        "backgroundPrompt": "A breathtaking underwater village in Atlantis, filled with vibrant coral reefs, shimmering schools of fish, and majestic mermaids gracefully swimming through the crystal-clear blue waters; ancient, ornate stone structures adorned with seashells and pearls; ethereal sunlight filtering through the water, casting an enchanting glow over the peaceful aquatic landscape",
+        "locations": [
+          {
+            "stationType": "center",
+            "name": "Coral Heart Square",
+            "sdPrompt": "A vibrant central plaza surrounded by coral structures, with mermaids idling and chatting, decorative seashells and aquatic plants adorning the space, stylized game art style, vivid colors"
+          },
+          {
+            "stationType": "bookshelf",
+            "name": "Pearl Archive",
+            "sdPrompt": "An underwater library with shelves made of giant clams, filled with glowing tomes, mermaids reading, bioluminescent seaweed providing soft lighting, stylized game art style, serene and mystical"
+          },
+          {
+            "stationType": "desk",
+            "name": "Inkflow Scriptorium",
+            "sdPrompt": "A writing studio with desks made of driftwood, mermaids crafting scrolls with ink and quills, jellyfish lanterns hanging above, stylized game art style, creative and enchanting"
+          },
+          {
+            "stationType": "workbench",
+            "name": "Seashell Workshop",
+            "sdPrompt": "A workshop with tools made from shark teeth and coral, mermaids repairing objects, whirring sea-inspired contraptions, stylized game art style, industrious and imaginative"
+          },
+          {
+            "stationType": "terminal",
+            "name": "Nautilus Command Center",
+            "sdPrompt": "A command center resembling a giant nautilus shell, with control panels and glowing sea maps, mermaids operating and strategizing, stylized game art style, futuristic and organized"
+          },
+          {
+            "stationType": "scanner",
+            "name": "Starlit Observatory",
+            "sdPrompt": "An observatory atop a high coral tower, mermaids scanning the stars and sea currents, telescopes made of sea glass, stylized game art style, exploratory and celestial"
+          },
+          {
+            "stationType": "antenna",
+            "name": "Trident Communication Tower",
+            "sdPrompt": "A towering communications hub shaped like a trident, glowing with arcane signals, mermaids connecting to the outside world, stylized game art style, dynamic and interactive"
+          },
+          {
+            "stationType": "portal",
+            "name": "Mystic Tide Gateway",
+            "sdPrompt": "A mystical gateway adorned with glowing runes, where mermaids perform rituals to summon sub-agents, swirling water portals, stylized game art style, magical and inviting"
+          },
+          {
+            "stationType": "taskboard",
+            "name": "Ocean's Directive Hall",
+            "sdPrompt": "A grand mission hall with walls made of mother-of-pearl, task lists engraved on coral tablets, mermaids planning and coordinating, stylized game art style, strategic and collaborative"
+          }
+        ],
+        "agents": [
+          {
+            "name": "Coralina Waves",
+            "physicalDescription": "long flowing turquoise hair, sparkling sea-green eyes, pearlescent skin, wearing a vibrant coral reef dress, adorned with seashell necklaces, starfish hairpins, bioluminescent accents"
+          },
+          {
+            "name": "Finnian Tide",
+            "physicalDescription": "short wavy midnight-blue hair, deep oceanic blue eyes, sun-kissed tan skin, casual driftwood tunic, seaweed belt, shark tooth necklace, sand dollar bracelet"
+          },
+          {
+            "name": "Pearlina Glow",
+            "physicalDescription": "silvery white hair styled in a braided crown, iridescent violet eyes, pale luminescent skin, elegant pearl-studded gown, kelp shawl, jellyfish lamp earrings"
+          },
+          {
+            "name": "Maris Storm",
+            "physicalDescription": "spiky platinum blonde hair, stormy gray eyes, weathered bronze skin, rugged sea captain coat, worn leather belt, barnacle-encrusted trident, shell-embedded boots"
+          },
+          {
+            "name": "Luna Current",
+            "physicalDescription": "flowing aquamarine hair with silver streaks, bright aqua eyes, glowing pinkish hue skin, shimmery moonlit dress, lunar phase tiara, crystal anklet, seahorse charm"
+          },
+          {
+            "name": "Reef Sand",
+            "physicalDescription": "short sandy brown hair, warm amber eyes, golden tan skin, seafoam vest, fishnet gloves, coral reef crown, driftwood staff, shark skin boots"
+          },
+          {
+            "name": "Nerissa Stream",
+            "physicalDescription": "long lavender hair with soft waves, deep sea-green eyes, smooth olive skin, flowing ocean-blue dress with wave patterns, sea glass necklace, pearl anklet"
+          }
+        ]
+      }
     }
   ]
 }

@@ -141,6 +141,7 @@ export async function rephrasePrompt(
     apiKey: string,
     assetType: PromptAssetType,
     originalPrompt: string,
+    scenarioContext?: string,
 ): Promise<string> {
     const typeGuidance: Record<PromptAssetType, string> = {
         background: 'wide landscape / environment shot for a game background',
@@ -148,13 +149,18 @@ export async function rephrasePrompt(
         agent: 'full body character portrait for a game sprite',
     }
 
-    const system = `You are a Stable Diffusion prompt engineer specialising in ${typeGuidance[assetType]}.
+    const contextClause = scenarioContext
+        ? `\nThe image belongs to a scenario described as: "${scenarioContext}". The rephrased prompt MUST preserve the visual theme and aesthetic of this scenario.`
+        : ''
+
+    const system = `You are a Stable Diffusion prompt engineer specialising in ${typeGuidance[assetType]}.${contextClause}
 You will be given an existing SD prompt that was used to generate an image. The result was unsatisfactory
 (e.g. a LoRA did not trigger, the composition was wrong, or quality was poor). Your job is to write a
 fresh variation that:
 - Preserves the core subject, character, and visual concept exactly
+- Preserves the scenario's visual theme, setting, and aesthetic
 - Rephrases descriptions using different words and word order
-- Varies incidental details (lighting, atmosphere, angle, artistic style modifiers) to give SD a fresh sample
+- Varies incidental details (lighting, atmosphere, angle) to give SD a fresh sample
 - Keeps any LoRA trigger tokens and model-specific syntax that appear in the original (e.g. <lora:...>)
 
 Respond with a JSON object: { "prompt": "<new SD prompt>" }`

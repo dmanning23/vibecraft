@@ -412,6 +412,7 @@ export async function regenerateAsset(
             locations: string[]
             agents: Array<{ states: Record<string, string> }>
             generationData?: {
+                description?: string
                 backgroundPrompt: string
                 locations: Array<{ sdPrompt: string }>
                 agents: Array<{ physicalDescription: string }>
@@ -432,7 +433,7 @@ export async function regenerateAsset(
     async function vary(assetType: 'background' | 'location' | 'agent', storedPrompt: string): Promise<string> {
         if (!request.openaiKey) return storedPrompt
         try {
-            return await rephrasePrompt(request.openaiKey, assetType, storedPrompt)
+            return await rephrasePrompt(request.openaiKey, assetType, storedPrompt, gen.description)
         } catch (err) {
             log(`rephrasePrompt failed, falling back to stored prompt: ${err instanceof Error ? err.message : err}`)
             return storedPrompt
