@@ -34,6 +34,7 @@ npm-debug.log*
 !public/og-image.png
 !public/multiclaude.png
 !downloaded_assets/**/*.png
+!public/assets/generated/**/*.png
 bin/vibecraft
 scripts/test-*.sh
 todo.txt
