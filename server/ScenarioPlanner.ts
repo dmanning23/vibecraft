@@ -158,7 +158,7 @@ You will be given an existing SD prompt that was used to generate an image. The 
 (e.g. a LoRA did not trigger, the composition was wrong, or quality was poor). Your job is to write a
 fresh variation that:
 - Preserves the core subject, character, and visual concept exactly
-- Preserves the scenario's visual theme, setting, and aesthetic
+- VERY IMPORTANT: Preserves the scenario's visual theme, setting, and aesthetic
 - Rephrases descriptions using different words and word order
 - Varies incidental details (lighting, atmosphere, angle) to give SD a fresh sample
 - Keeps any LoRA trigger tokens and model-specific syntax that appear in the original (e.g. <lora:...>)
