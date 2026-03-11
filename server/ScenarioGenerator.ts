@@ -454,6 +454,7 @@ export async function regenerateAsset(
         )
         imagePath = safeJoin(publicDir, scenario.background)
         needsBgRemoval = false
+        gen.backgroundPrompt = basePrompt
 
     } else if (assetKey.startsWith('location-')) {
         const locIndex = parseInt(assetKey.split('-')[1])
@@ -467,6 +468,7 @@ export async function regenerateAsset(
             { negativePrompt: LOCATION_NEGATIVE, model: SHARED_MODEL, steps: 40, cfgScale: 7 },
         )
         imagePath = safeJoin(publicDir, scenario.locations[locIndex])
+        locData.sdPrompt = basePrompt
 
     } else if (assetKey.startsWith('agent-')) {
         const parts = assetKey.split('-')
@@ -484,6 +486,7 @@ export async function regenerateAsset(
             { negativePrompt: AGENT_NEGATIVE, model: AGENT_MODEL, steps: 50, cfgScale: 7 },
         )
         imagePath = safeJoin(publicDir, scenario.agents[agentIndex].states[stateName])
+        agentData.physicalDescription = basePrompt
 
     } else {
         throw new Error(`Unknown asset key: ${assetKey}`)
@@ -492,5 +495,9 @@ export async function regenerateAsset(
     const finalImage = needsBgRemoval ? await stripBackground(rawImage) : rawImage
     writeFileSync(imagePath, finalImage)
     log(`Regenerated: ${imagePath}`)
+
+    writeFileSync(scenariosFile, JSON.stringify(scenariosData, null, 2))
+    log(`scenarios.json updated with rephrased prompt for ${assetKey}`)
+
     broadcast('complete', `Done — ${assetKey}`)
 }

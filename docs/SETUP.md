@@ -325,6 +325,19 @@ open http://localhost:4002
 
 **Note:** In dev mode, frontend and API run on different ports. In production (`npx vibecraft`), everything runs on port 4003.
 
+### VS Code Debugging
+
+A `.vscode/launch.json` and `.vscode/tasks.json` are included. Press **F5** to:
+1. Start the Vite client dev server on port 4002 (via `tasks.json`)
+2. Launch the Node server (`server/index.ts`) under the VS Code debugger on port 4003
+
+You can set breakpoints directly in any `server/*.ts` file.
+
+To attach to an already-running server instead, use the **"Debug Server (attach)"** configuration, after starting the server manually with `--inspect`:
+```bash
+node --import tsx --inspect server/index.ts
+```
+
 ---
 
 ## Uninstalling

@@ -174,7 +174,7 @@ OpenAI calls for scenario planning:
 - `planMeta(apiKey, description)` → `{ id, name, backgroundPrompt }`
 - `planLocations(apiKey, description, scenarioName)` → 9 location plans with SD prompts
 - `planAgents(apiKey, description, scenarioName)` → 7 agent physical descriptions
-- `rephrasePrompt(apiKey, assetType, originalPrompt)` → varied SD prompt for regeneration
+- `rephrasePrompt(apiKey, assetType, originalPrompt, scenarioContext?)` → varied SD prompt for regeneration; `scenarioContext` (the original scenario description) is injected into the system prompt so the rephrase preserves the scenario's visual theme
 
 ### `src/audio/SoundManager.ts`
 Synthesized audio via Tone.js. No audio files — all sounds are Web Audio.
@@ -239,10 +239,11 @@ Scenarios define the visual theme of the village. Each has:
 **Regeneration:**
 - Each asset has a ↻ button in Config → Regenerate panel
 - Browser POSTs `{ scenarioId, assetKey }` to `/regenerate-asset`
-- Server calls `rephrasePrompt` (OpenAI) to vary the stored SD prompt, then re-runs SD
+- Server calls `rephrasePrompt` (OpenAI) to vary the stored SD prompt (passing the scenario description as context to preserve visual theme), then re-runs SD
+- After the image is saved, the rephrased prompt is written back to `generationData` in `scenarios.json` so subsequent regenerations build on the latest phrasing rather than always starting from the original
 - `assetKey` format: `'background'` | `'location-{i}'` | `'agent-{i}-{state}'`
 
-**Stored in `generationData`:** `sdUrl`, `description`, `backgroundPrompt`, per-location `sdPrompt`, per-agent `physicalDescription`. This data powers regeneration without re-running OpenAI planning.
+**Stored in `generationData`:** `sdUrl`, `description`, `backgroundPrompt`, per-location `sdPrompt`, per-agent `physicalDescription`. This data powers regeneration without re-running OpenAI planning. Prompts are updated in-place after each regeneration.
 
 ## Configuration
 

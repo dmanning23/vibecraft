@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      // Launch the server directly under the debugger.
+      // tsx handles TypeScript transpilation; VS Code injects --inspect automatically.
+      "name": "Debug Server",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "${workspaceFolder}/node_modules/.bin/tsx",
+      "args": ["server/index.ts"],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "Start Vite client",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "resolveSourceMapLocations": ["${workspaceFolder}/server/**"]
+    },
+    {
+      // Attach to a server already running with --inspect, e.g.:
+      //   node --import tsx --inspect server/index.ts
+      "name": "Debug Server (attach)",
+      "type": "node",
+      "request": "attach",
+      "port": 9229,
+      "cwd": "${workspaceFolder}",
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "resolveSourceMapLocations": ["${workspaceFolder}/server/**"]
+    }
+  ]
+}
