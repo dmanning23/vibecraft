@@ -96,7 +96,9 @@ function villageReducer(state: VillageState, action: VillageAction): VillageStat
     case 'ENSURE_CHARACTER': {
       const { sessionId } = action.payload
       if (state.characters[sessionId]) return state
-      const agentIndex = Math.floor(Math.random() * 1000)
+      const usedIndices = new Set(Object.values(state.characters).map(c => c.agentIndex))
+      let agentIndex = 0
+      while (usedIndices.has(agentIndex)) agentIndex++
       return {
         ...state,
         characters: {
